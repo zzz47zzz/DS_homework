@@ -25,7 +25,9 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 
+
 USING_NS_CC;
+using namespace cocos2d::ui;
 
 Scene* HelloWorld::createScene()
 {
@@ -80,8 +82,39 @@ bool HelloWorld::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
-    /////////////////////////////
+    ////////////////////////////
     // 3. add your codes below...
+
+    // 三个滑动条
+    auto slider1 = Slider::create();
+    slider1->loadBarTexture("Slider_Back.png"); // what the slider looks like
+    slider1->loadSlidBallTextures("SliderNode_Normal.png", "SliderNode_Press.png", "SliderNode_Disable.png");
+    slider1->loadProgressBarTexture("Slider_PressBar.png");
+    slider1->setPosition(Vec2(200, 40));
+    slider1->setPercent(50);
+    slider1->setSize(cocos2d::Size(300, 20));
+    slider1->addTouchEventListener(CC_CALLBACK_2(HelloWorld::sliderEvent1,this));
+    this->addChild(slider1, 1);
+
+    auto slider2 = Slider::create();
+    slider2->loadBarTexture("Slider_Back.png"); // what the slider looks like
+    slider2->loadSlidBallTextures("SliderNode_Normal.png", "SliderNode_Press.png", "SliderNode_Disable.png");
+    slider2->loadProgressBarTexture("Slider_PressBar.png");
+    slider2->setPosition(Vec2(200, 80));
+    slider2->setPercent(50);
+    slider1->setSize(cocos2d::Size(300, 20));
+    slider2->addTouchEventListener(CC_CALLBACK_2(HelloWorld::sliderEvent2, this));
+    this->addChild(slider2, 1);
+
+    auto slider3 = Slider::create();
+    slider3->loadBarTexture("Slider_Back.png"); // what the slider looks like
+    slider3->loadSlidBallTextures("SliderNode_Normal.png", "SliderNode_Press.png", "SliderNode_Disable.png");
+    slider3->loadProgressBarTexture("Slider_PressBar.png");
+    slider3->setPosition(Vec2(200, 120));
+    slider3->setPercent(50);
+    slider1->setSize(cocos2d::Size(300, 20));
+    slider3->addTouchEventListener(CC_CALLBACK_2(HelloWorld::sliderEvent3, this));
+    this->addChild(slider3, 1);
 
     // add a label shows "Hello World"
     // create and initialize a label
@@ -130,4 +163,46 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 
 
+}
+void HelloWorld::sliderEvent1(Ref* pSender, cocos2d::ui::Widget::TouchEventType type)
+{
+    switch (type)
+    {
+    case cocos2d::ui::Widget::TouchEventType::ENDED:
+        
+        cocos2d::ui::Slider* _slider = dynamic_cast<Slider*>(pSender);
+        int percent = _slider->getPercent();
+        
+        log("slider1 --> %d %%", percent);
+
+        break;
+    }
+}
+void HelloWorld::sliderEvent2(Ref* pSender, cocos2d::ui::Widget::TouchEventType type)
+{
+    switch (type)
+    {
+    case cocos2d::ui::Widget::TouchEventType::ENDED:
+
+        cocos2d::ui::Slider* _slider = dynamic_cast<Slider*>(pSender);
+        int percent = _slider->getPercent();
+
+        log("slider2 --> %d %%", percent);
+
+        break;
+    }
+}
+void HelloWorld::sliderEvent3(Ref* pSender, cocos2d::ui::Widget::TouchEventType type)
+{
+    switch (type)
+    {
+    case cocos2d::ui::Widget::TouchEventType::ENDED:
+
+        cocos2d::ui::Slider* _slider = dynamic_cast<Slider*>(pSender);
+        int percent = _slider->getPercent();
+
+        log("slider3 --> %d %%", percent);
+
+        break;
+    }
 }
