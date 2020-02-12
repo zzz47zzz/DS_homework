@@ -85,69 +85,68 @@ bool HelloWorld::init()
     ////////////////////////////
     // 3. add your codes below...
 
+    //加载地图
+    auto map = TMXTiledMap::create("backgroundmap.tmx");
+    map->setPosition(Vec2(0,150));
+    map->setAnchorPoint(Vec2(0, 0));
+    this->addChild(map, 0);
+
+    //三个标签
+    auto label1 = Label::createWithTTF("50%", "fonts/Marker Felt.ttf", 22);
+    label1->setName("label1");
+    label1->setPosition(370, 40);
+    label1->setTextColor(cocos2d::Color4B::WHITE);
+    this->addChild(label1,1);
+
+    auto label2 = Label::createWithTTF("50%", "fonts/Marker Felt.ttf", 22);
+    label2->setName("label2");
+    label2->setPosition(370, 80);
+    label2->setTextColor(cocos2d::Color4B::WHITE);
+    this->addChild(label2, 1);
+
+    auto label3 = Label::createWithTTF("50%", "fonts/Marker Felt.ttf", 22);
+    label3->setName("label3");
+    label3->setPosition(370, 120);
+    label3->setTextColor(cocos2d::Color4B::WHITE);
+    this->addChild(label3, 1);
+
     // 三个滑动条
     auto slider1 = Slider::create();
+    slider1->setName("slider1");
     slider1->loadBarTexture("Slider_Back.png"); // what the slider looks like
     slider1->loadSlidBallTextures("SliderNode_Normal.png", "SliderNode_Press.png", "SliderNode_Disable.png");
     slider1->loadProgressBarTexture("Slider_PressBar.png");
     slider1->setPosition(Vec2(200, 40));
     slider1->setPercent(50);
     slider1->setSize(cocos2d::Size(300, 20));
-    slider1->addTouchEventListener(CC_CALLBACK_2(HelloWorld::sliderEvent1,this));
+    slider1->addTouchEventListener(CC_CALLBACK_2(HelloWorld::sliderEvent,this));
     this->addChild(slider1, 1);
 
     auto slider2 = Slider::create();
+    slider2->setName("slider2");
     slider2->loadBarTexture("Slider_Back.png"); // what the slider looks like
     slider2->loadSlidBallTextures("SliderNode_Normal.png", "SliderNode_Press.png", "SliderNode_Disable.png");
     slider2->loadProgressBarTexture("Slider_PressBar.png");
     slider2->setPosition(Vec2(200, 80));
     slider2->setPercent(50);
     slider1->setSize(cocos2d::Size(300, 20));
-    slider2->addTouchEventListener(CC_CALLBACK_2(HelloWorld::sliderEvent2, this));
+    slider2->addTouchEventListener(CC_CALLBACK_2(HelloWorld::sliderEvent, this));
     this->addChild(slider2, 1);
 
     auto slider3 = Slider::create();
+    slider3->setName("slider3");
     slider3->loadBarTexture("Slider_Back.png"); // what the slider looks like
     slider3->loadSlidBallTextures("SliderNode_Normal.png", "SliderNode_Press.png", "SliderNode_Disable.png");
     slider3->loadProgressBarTexture("Slider_PressBar.png");
     slider3->setPosition(Vec2(200, 120));
     slider3->setPercent(50);
     slider1->setSize(cocos2d::Size(300, 20));
-    slider3->addTouchEventListener(CC_CALLBACK_2(HelloWorld::sliderEvent3, this));
+    slider3->addTouchEventListener(CC_CALLBACK_2(HelloWorld::sliderEvent, this));
     this->addChild(slider3, 1);
 
-    // add a label shows "Hello World"
-    // create and initialize a label
 
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-    if (label == nullptr)
-    {
-        problemLoading("'fonts/Marker Felt.ttf'");
-    }
-    else
-    {
-        // position the label on the center of the screen
-        label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                                origin.y + visibleSize.height - label->getContentSize().height));
 
-        // add the label as a child to this layer
-        this->addChild(label, 1);
-    }
-
-    // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
-    if (sprite == nullptr)
-    {
-        problemLoading("'HelloWorld.png'");
-    }
-    else
-    {
-        // position the sprite on the center of the screen
-        sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-        // add the sprite as a child to this layer
-        this->addChild(sprite, 0);
-    }
+    
     return true;
 }
 
@@ -164,44 +163,23 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
 
 }
-void HelloWorld::sliderEvent1(Ref* pSender, cocos2d::ui::Widget::TouchEventType type)
+
+void HelloWorld::sliderEvent(Ref* pSender, cocos2d::ui::Widget::TouchEventType type)
 {
     switch (type)
     {
     case cocos2d::ui::Widget::TouchEventType::ENDED:
+
+        cocos2d::ui::Slider* _slider = dynamic_cast<Slider*>(pSender);
+        int percent = _slider->getPercent();
+        std::string _sliderName = _slider->getName();
         
-        cocos2d::ui::Slider* _slider = dynamic_cast<Slider*>(pSender);
-        int percent = _slider->getPercent();
-        
-        log("slider1 --> %d %%", percent);
-
-        break;
-    }
-}
-void HelloWorld::sliderEvent2(Ref* pSender, cocos2d::ui::Widget::TouchEventType type)
-{
-    switch (type)
-    {
-    case cocos2d::ui::Widget::TouchEventType::ENDED:
-
-        cocos2d::ui::Slider* _slider = dynamic_cast<Slider*>(pSender);
-        int percent = _slider->getPercent();
-
-        log("slider2 --> %d %%", percent);
-
-        break;
-    }
-}
-void HelloWorld::sliderEvent3(Ref* pSender, cocos2d::ui::Widget::TouchEventType type)
-{
-    switch (type)
-    {
-    case cocos2d::ui::Widget::TouchEventType::ENDED:
-
-        cocos2d::ui::Slider* _slider = dynamic_cast<Slider*>(pSender);
-        int percent = _slider->getPercent();
-
-        log("slider3 --> %d %%", percent);
+        std::string LABEL = "label";
+        std::string num = _sliderName.substr(_sliderName.size()-1);//获取最后一位数字
+        auto _label = (Label*)this->getChildByName(LABEL.append(num));
+        _label->setString(std::to_string(percent).append("%"));
+   
+        log("%s --> %d %%", _sliderName.c_str(),percent);
 
         break;
     }

@@ -38,9 +38,8 @@ public:
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
-    void sliderEvent1(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType type);
-    void sliderEvent2(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType type);
-    void sliderEvent3(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType type);
+    void sliderEvent(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType type);
+
     
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);

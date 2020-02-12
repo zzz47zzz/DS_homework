@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="6" height="6" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="material" tilewidth="32" tileheight="32">
+  <image source="HelloWorld.png" width="195" height="270"/>
+ </tileset>
+ <layer name="bg" width="6" height="6">
+  <data encoding="base64" compression="zlib">
+   eJwNw1sWQlAAAMD7J5Qo8khJHsX+F2jmnIlCCCdjE1PPXsy8mlt4825p5cPaxtbOp70v3w5+HP06Obu4+vPv5u4BwtADcw==
+  </data>
+ </layer>
+</map>
