@@ -28,11 +28,13 @@
 
 USING_NS_CC;
 using namespace cocos2d::ui;
-
+//static
 Scene* HelloWorld::createScene()
 {
     return HelloWorld::create();
 }
+static double mapBasicX = 0;
+static double mapBasicY = 180;
 
 // Print useful error message instead of segfaulting when files are not there.
 static void problemLoading(const char* filename)
@@ -87,28 +89,18 @@ bool HelloWorld::init()
 
     //加载地图
     auto map = TMXTiledMap::create("backgroundmap.tmx");
-    map->setPosition(Vec2(0,150));
+    map->setName("bgmap");
+    map->setPosition(Vec2(mapBasicX,mapBasicY));
     map->setAnchorPoint(Vec2(0, 0));
     this->addChild(map, 0);
 
-    //三个标签
-    auto label1 = Label::createWithTTF("50%", "fonts/Marker Felt.ttf", 22);
-    label1->setName("label1");
-    label1->setPosition(370, 40);
-    label1->setTextColor(cocos2d::Color4B::WHITE);
-    this->addChild(label1,1);
-
-    auto label2 = Label::createWithTTF("50%", "fonts/Marker Felt.ttf", 22);
-    label2->setName("label2");
-    label2->setPosition(370, 80);
-    label2->setTextColor(cocos2d::Color4B::WHITE);
-    this->addChild(label2, 1);
-
-    auto label3 = Label::createWithTTF("50%", "fonts/Marker Felt.ttf", 22);
-    label3->setName("label3");
-    label3->setPosition(370, 120);
-    label3->setTextColor(cocos2d::Color4B::WHITE);
-    this->addChild(label3, 1);
+    //面板背景
+    auto panelbg = Sprite::create("panelbg.png");
+    panelbg->setName("panelbg");
+    panelbg->setContentSize(cocos2d::Size(visibleSize.width, mapBasicY));
+    panelbg->setAnchorPoint(Vec2(0, 0));
+    panelbg->setPosition(Vec2(0, 0));
+    this->addChild(panelbg, 1);
 
     // 三个滑动条
     auto slider1 = Slider::create();
@@ -116,37 +108,84 @@ bool HelloWorld::init()
     slider1->loadBarTexture("Slider_Back.png"); // what the slider looks like
     slider1->loadSlidBallTextures("SliderNode_Normal.png", "SliderNode_Press.png", "SliderNode_Disable.png");
     slider1->loadProgressBarTexture("Slider_PressBar.png");
-    slider1->setPosition(Vec2(200, 40));
+    slider1->setPosition(Vec2(200, 50));
     slider1->setPercent(50);
-    slider1->setSize(cocos2d::Size(300, 20));
+    slider1->setContentSize(cocos2d::Size(300, 20));
     slider1->addTouchEventListener(CC_CALLBACK_2(HelloWorld::sliderEvent,this));
-    this->addChild(slider1, 1);
+    panelbg->addChild(slider1, 1);
 
     auto slider2 = Slider::create();
     slider2->setName("slider2");
     slider2->loadBarTexture("Slider_Back.png"); // what the slider looks like
     slider2->loadSlidBallTextures("SliderNode_Normal.png", "SliderNode_Press.png", "SliderNode_Disable.png");
     slider2->loadProgressBarTexture("Slider_PressBar.png");
-    slider2->setPosition(Vec2(200, 80));
+    slider2->setPosition(Vec2(200, 90));
     slider2->setPercent(50);
-    slider1->setSize(cocos2d::Size(300, 20));
+    slider2->setContentSize(cocos2d::Size(300, 20));
     slider2->addTouchEventListener(CC_CALLBACK_2(HelloWorld::sliderEvent, this));
-    this->addChild(slider2, 1);
+    panelbg->addChild(slider2, 1);
 
     auto slider3 = Slider::create();
     slider3->setName("slider3");
     slider3->loadBarTexture("Slider_Back.png"); // what the slider looks like
     slider3->loadSlidBallTextures("SliderNode_Normal.png", "SliderNode_Press.png", "SliderNode_Disable.png");
     slider3->loadProgressBarTexture("Slider_PressBar.png");
-    slider3->setPosition(Vec2(200, 120));
+    slider3->setPosition(Vec2(200, 130));
     slider3->setPercent(50);
-    slider1->setSize(cocos2d::Size(300, 20));
+    slider3->setContentSize(cocos2d::Size(300, 20));
     slider3->addTouchEventListener(CC_CALLBACK_2(HelloWorld::sliderEvent, this));
-    this->addChild(slider3, 1);
+    panelbg->addChild(slider3, 1);
 
+    //三个标签
+    auto label1 = Label::createWithTTF("50%", "fonts/Marker Felt.ttf", 22);
+    label1->setName("label1");
+    label1->setPosition(370, 50);
+    label1->setTextColor(cocos2d::Color4B::WHITE);
+    panelbg->addChild(label1, 1);
 
+    auto label2 = Label::createWithTTF("50%", "fonts/Marker Felt.ttf", 22);
+    label2->setName("label2");
+    label2->setPosition(370, 90);
+    label2->setTextColor(cocos2d::Color4B::WHITE);
+    panelbg->addChild(label2, 1);
 
-    
+    auto label3 = Label::createWithTTF("50%", "fonts/Marker Felt.ttf", 22);
+    label3->setName("label3");
+    label3->setPosition(370, 130);
+    label3->setTextColor(cocos2d::Color4B::WHITE);
+    panelbg->addChild(label3, 1);
+
+    //小地图
+    double padding = 5;
+    //小地图背景
+    double smallMapWidth = 140;
+    double smallMapHeight = 140;
+    auto smallMapBase = Sprite::create("white.png");
+    smallMapBase->setName("smallMapBase");
+    smallMapBase->setContentSize(cocos2d::Size(smallMapWidth, smallMapHeight));
+    smallMapBase->setColor(cocos2d::Color3B::ORANGE);
+    smallMapBase->setAnchorPoint(Vec2(0, 0));
+    smallMapBase->setPosition(origin.x + visibleSize.width - padding - smallMapWidth, origin.y + visibleSize.height - padding - smallMapHeight);
+    smallMapBase->setOpacity(150);
+    this->addChild(smallMapBase, 1);
+    //小地图表示屏幕视野的矩形
+    double smallMapRectWidth = smallMapWidth / map->getContentSize().width * ( visibleSize.width - mapBasicX);
+    double smallMapRectHeight = smallMapHeight / map->getContentSize().height * (visibleSize.height - mapBasicY);
+    auto smallMapRect = Sprite::create("white.png");
+    smallMapRect->setName("smallMapRect");
+    smallMapRect->setContentSize(cocos2d::Size(smallMapRectWidth, smallMapRectHeight));
+    smallMapRect->setColor(cocos2d::Color3B::RED);
+    smallMapRect->setAnchorPoint(Vec2(0, 0));
+    smallMapRect->setPosition(Vec2::ZERO);
+    smallMapRect->setOpacity(200);
+    smallMapBase->addChild(smallMapRect, 1);
+
+    //4.keybroadListener
+    auto listener = EventListenerKeyboard::create();
+    listener->onKeyPressed = CC_CALLBACK_2(HelloWorld::onKeyPressed, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+
+   
     return true;
 }
 
@@ -171,12 +210,13 @@ void HelloWorld::sliderEvent(Ref* pSender, cocos2d::ui::Widget::TouchEventType t
     case cocos2d::ui::Widget::TouchEventType::ENDED:
 
         cocos2d::ui::Slider* _slider = dynamic_cast<Slider*>(pSender);
+        auto _panelbg = (Sprite*)this->getChildByName("panelbg");
+
         int percent = _slider->getPercent();
         std::string _sliderName = _slider->getName();
-        
         std::string LABEL = "label";
         std::string num = _sliderName.substr(_sliderName.size()-1);//获取最后一位数字
-        auto _label = (Label*)this->getChildByName(LABEL.append(num));
+        auto _label = (Label*)_panelbg->getChildByName(LABEL.append(num));
         _label->setString(std::to_string(percent).append("%"));
    
         log("%s --> %d %%", _sliderName.c_str(),percent);
@@ -184,3 +224,80 @@ void HelloWorld::sliderEvent(Ref* pSender, cocos2d::ui::Widget::TouchEventType t
         break;
     }
 }
+// Implementation of the keyboard event callback function prototype
+void HelloWorld::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
+{
+    auto _map = (TMXTiledMap*)getChildByName("bgmap");
+
+    double currentX = _map->getPosition().x;
+    double currentY = _map->getPosition().y;
+
+    double mapWidth = _map->getContentSize().width;
+    double mapHeight = _map->getContentSize().height;
+
+    double visibleWidth = Director::getInstance()->getVisibleSize().width;
+    double visibleHeight = Director::getInstance()->getVisibleSize().height;
+
+    double deltaX = _map->getTileSize().width*5;
+    double deltaY = _map->getTileSize().height*5;
+
+
+    if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW || keyCode == EventKeyboard::KeyCode::KEY_W)
+    {
+        //超出范围
+        if (currentY + mapHeight - deltaY < visibleHeight)
+        {
+            _map->setPosition(Vec2(currentX, visibleHeight-mapHeight));
+        }
+        else
+        {
+            _map->setPosition(Vec2( currentX , currentY - deltaY ));
+        }
+    }
+    else if (keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW || keyCode == EventKeyboard::KeyCode::KEY_S)
+    {
+        //超出范围
+        if (currentY + deltaY > mapBasicY)
+        {
+            _map->setPosition(Vec2(currentX, mapBasicY));
+        }
+        else
+        {
+            _map->setPosition(Vec2(currentX, currentY + deltaY));
+        }
+    }
+    else if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW || keyCode == EventKeyboard::KeyCode::KEY_A)
+    {
+        //超出范围
+        if (currentX + deltaX > mapBasicX)
+        {
+            _map->setPosition(Vec2(mapBasicX, currentY));
+        }
+        else
+        {
+            _map->setPosition(Vec2(currentX + deltaX, currentY));
+        }
+    }
+    else if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW || keyCode == EventKeyboard::KeyCode::KEY_D)
+    {
+        //超出范围
+        if (currentX + mapWidth - deltaX < visibleWidth)
+        {
+            _map->setPosition(Vec2(visibleWidth-mapWidth, currentY));
+        }
+        else
+        {
+            _map->setPosition(Vec2(currentX - deltaX, currentY));
+        }
+    }
+
+    //设置小地图
+    currentX = _map->getPosition().x;
+    currentY = _map->getPosition().y;
+    auto _smallMapBase = (Sprite*)getChildByName("smallMapBase");
+    auto _smallMapRect = (Sprite*)_smallMapBase->getChildByName("smallMapRect");
+    double baseWidth = _smallMapBase->getContentSize().width;
+    double baseHeight = _smallMapBase->getContentSize().height;
+    _smallMapRect->setPosition(Vec2( baseWidth *(mapBasicX-currentX)/mapWidth , baseHeight * (mapBasicY - currentY) / mapHeight ) );
+}
+

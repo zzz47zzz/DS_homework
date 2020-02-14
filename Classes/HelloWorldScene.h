@@ -31,7 +31,8 @@
 class HelloWorld : public cocos2d::Scene
 {
 public:
-
+    static double mapXasicX;
+    static double mapXasicY;
     static cocos2d::Scene* createScene();
 
     virtual bool init();
@@ -39,6 +40,7 @@ public:
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
     void sliderEvent(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType type);
+    void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 
     
     // implement the "static create()" method manually
