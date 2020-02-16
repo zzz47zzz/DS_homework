@@ -24,7 +24,7 @@
 
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
-
+#include "animals.h"    
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -186,7 +186,19 @@ bool HelloWorld::init()
     listener->onKeyPressed = CC_CALLBACK_2(HelloWorld::onKeyPressed, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
-   
+   // wolf test
+        // test 
+    srand(time(NULL));
+    Wolf* wolf1 = new Wolf(), * wolf2 = new Wolf();
+    this->addChild(wolf1->player);
+    this->addChild(wolf2->player);
+    Pos t;
+    t.x = wolf1->getPos().x - 150;
+    t.y = wolf1->getPos().y - 150;
+    wolf1->Move(t);
+    wolf2->RandomMove();
+    delete wolf1;
+    //end test
     return true;
 }
 
