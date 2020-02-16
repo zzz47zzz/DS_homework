@@ -88,12 +88,13 @@ bool HelloWorld::init()
     // 3. add your codes below...
 
     //¼ÓÔØµØÍ¼
+    
     auto map = TMXTiledMap::create("backgroundmap.tmx");
     map->setName("bgmap");
     map->setPosition(Vec2(mapBasicX,mapBasicY));
     map->setAnchorPoint(Vec2(0, 0));
     this->addChild(map, 0);
-
+    
     //Ãæ°å±³¾°
     auto panelbg = Sprite::create("panelbg.png");
     panelbg->setName("panelbg");
