@@ -68,4 +68,8 @@ private:
 	Sheep * prey; //当前锁定的猎物
 };
 
+class animals
+{
+};
+
 #endif 
