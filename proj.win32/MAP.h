@@ -6,7 +6,7 @@
 #include<vector>
 USING_NS_CC;
 using namespace cocos2d::ui;
-class MAP
+class MAP: Ref
 {
 public:
 	std::vector<std::vector<Land>> map_;
@@ -16,8 +16,8 @@ public:
 	TMXLayer* landLayer;
 	TMXLayer* grassLayer;
 	Size mapSize;
-	MAP(int mapBasicX, int mapBasicY, HelloWorld* PScene, int size_x, int size_y);
+	MAP(int mapBasicX, int mapBasicY, Scene* PScene, int size_x, int size_y);
 	void update(float t);
-
+	int getType(Vec2 pos);
 };
 

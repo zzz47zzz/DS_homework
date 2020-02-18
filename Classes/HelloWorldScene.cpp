@@ -25,6 +25,8 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "animals.h"    
+#include "MAP"
+#include <proj.win32\MAP.h>
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -88,12 +90,10 @@ bool HelloWorld::init()
     // 3. add your codes below...
 
     //¼ÓÔØµØÍ¼
-    
-    auto map = TMXTiledMap::create("backgroundmap.tmx");
-    map->setName("bgmap");
-    map->setPosition(Vec2(mapBasicX,mapBasicY));
-    map->setAnchorPoint(Vec2(0, 0));
-    this->addChild(map, 0);
+    MAP m = MAP(mapBasicX, mapBasicY, this, 100, 100);
+    auto map = m.map;
+
+
     
     //Ãæ°å±³¾°
     auto panelbg = Sprite::create("panelbg.png");

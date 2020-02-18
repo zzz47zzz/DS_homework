@@ -1,6 +1,6 @@
 #include "MAP.h"
 
-MAP::MAP(int mapBasicX, int mapBasicY, HelloWorld *PScene, int size_x, int size_y)
+MAP::MAP(int mapBasicX, int mapBasicY, Scene *PScene, int size_x, int size_y)
 {
     for (int i = 0; i < size_x; i++)
     {
@@ -38,9 +38,9 @@ MAP::MAP(int mapBasicX, int mapBasicY, HelloWorld *PScene, int size_x, int size_
             }
         }
     }
-    PScene->schedule(update, 1, -1, 0);
+    PScene->schedule(CC_SCHEDULE_SELECTOR(MAP::update), 1, -1, 0);
 
-
+    
 }
 
 void MAP::update(float t)
@@ -52,7 +52,7 @@ void MAP::update(float t)
             if (p->life == 0)
             {
                 // turn grass into invisible
-                landLayer->setTileGID(1, Vec2(p->pos.x, mapSize - p->pos.y - 1));
+                grassLayer->removeTileAt(Vec2(p->pos.x, mapSize.height - p->pos.y - 1));
                 p->gap = Land::GapOfBarrenGrass;
             }
             else
@@ -65,7 +65,7 @@ void MAP::update(float t)
             if (p->gap == 0)
             {
                 // turn grass into visible
-                landLayer->setTileGID(18, Vec2(p->pos.x, mapSize - p->pos.y - 1));
+                grassLayer->setTileGID(18, Vec2(p->pos.x, mapSize.height - p->pos.y - 1));
                 p->life = Land::lifeOfBarrenGrass;
             }
             else
@@ -83,7 +83,7 @@ void MAP::update(float t)
             if (p->life == 0)
             {
                 // turn grass into invisible
-                landLayer->setTileGID(10, Vec2(p->pos.x, mapSize - p->pos.y - 1));
+                grassLayer->removeTileAt(Vec2(p->pos.x, mapSize.height - p->pos.y - 1));
                 p->gap = Land::GapOfFertileGrass;
             }
             else
@@ -96,7 +96,7 @@ void MAP::update(float t)
             if (p->gap == 0)
             {
                 // turn grass into visible
-                landLayer->setTileGID(18, Vec2(p->pos.x, mapSize - p->pos.y - 1));
+                grassLayer->setTileGID(18, Vec2(p->pos.x, mapSize.height - p->pos.y - 1));
                 p->life = Land::lifeOfFertileGrass;
             }
             else
@@ -105,5 +105,40 @@ void MAP::update(float t)
             }
 
         }
+    }
+}
+
+int MAP::getType(Vec2 pos)
+{
+    int GID = landLayer->getTileGIDAt(Vec2(pos.x, mapSize.height - pos.y - 1));
+    switch (GID)
+    {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+        return Land::TYPE_BARREN;
+        break;
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+        return Land::TYPE_DESSERT;
+        break;
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+        return Land::TYPE_FERTILE;
+        break;
+    case 12:
+    case 13:
+    case 14:
+    case 15:
+        return Land::TYPE_RIVER;
+        break;
+    default:
+        return -1;
+        break;
     }
 }
