@@ -6,7 +6,7 @@ MAP::MAP(int mapBasicX, int mapBasicY, Scene *PScene, int size_x, int size_y)
     {
         map_.push_back(std::vector<Land>());
     }
-    map = TMXTiledMap::create("backgroundmap.tmx");
+    map = TMXTiledMap::create("newMap.tmx");
     map->setName("bgmap");
     map->setPosition(Vec2(mapBasicX, mapBasicY));
     map->setAnchorPoint(Vec2(0, 0));
