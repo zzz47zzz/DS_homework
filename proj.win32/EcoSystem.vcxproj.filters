@@ -21,9 +21,9 @@
     <ClCompile Include="..\Classes\HelloWorldScene.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="Land.cpp" />
-    <ClCompile Include="MAP.cpp" />
     <ClCompile Include="..\Classes\animals.cpp" />
+    <ClCompile Include="..\Classes\Land.cpp" />
+    <ClCompile Include="..\Classes\MAP.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -35,9 +35,9 @@
     <ClInclude Include="..\Classes\HelloWorldScene.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="Land.h" />
-    <ClInclude Include="MAP.h" />
     <ClInclude Include="..\Classes\animals.h" />
+    <ClInclude Include="..\Classes\Land.h" />
+    <ClInclude Include="..\Classes\MAP.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

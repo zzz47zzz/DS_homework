@@ -1,18 +1,18 @@
 /****************************************************************************
  Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,34 +24,28 @@
 
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
-#include "animals.h"    
-#include "MAP"
-#include <proj.win32\MAP.h>
+#include "animals.h"   
 
 USING_NS_CC;
 using namespace cocos2d::ui;
 //static
-Scene* HelloWorld::createScene()
-{
+Scene *HelloWorld::createScene() {
     return HelloWorld::create();
 }
 static double mapBasicX = 0;
 static double mapBasicY = 180;
 
 // Print useful error message instead of segfaulting when files are not there.
-static void problemLoading(const char* filename)
-{
+static void problemLoading(const char *filename) {
     printf("Error while loading: %s\n", filename);
     printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
 }
 
 // on "init" you need to initialize your instance
-bool HelloWorld::init()
-{
+bool HelloWorld::init() {
     //////////////////////////////
     // 1. super init first
-    if ( !Scene::init() )
-    {
+    if (!Scene::init()) {
         return false;
     }
 
@@ -64,21 +58,19 @@ bool HelloWorld::init()
 
     // add a "close" icon to exit the progress. it's an autorelease object
     auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+        "CloseNormal.png",
+        "CloseSelected.png",
+        CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
 
     if (closeItem == nullptr ||
         closeItem->getContentSize().width <= 0 ||
-        closeItem->getContentSize().height <= 0)
-    {
+        closeItem->getContentSize().height <= 0) {
         problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
     }
-    else
-    {
-        float x = origin.x + visibleSize.width - closeItem->getContentSize().width/2;
-        float y = origin.y + closeItem->getContentSize().height/2;
-        closeItem->setPosition(Vec2(x,y));
+    else {
+        float x = origin.x + visibleSize.width - closeItem->getContentSize().width / 2;
+        float y = origin.y + closeItem->getContentSize().height / 2;
+        closeItem->setPosition(Vec2(x, y));
     }
 
     // create menu, it's an autorelease object
@@ -90,11 +82,9 @@ bool HelloWorld::init()
     // 3. add your codes below...
 
     //加载地图
-    MAP m = MAP(mapBasicX, mapBasicY, this, 100, 100);
-    auto map = m.map;
+    m = new MAP(mapBasicX, mapBasicY, this, 100, 100);
+    auto map = m->map;
 
-
-    
     //面板背景
     auto panelbg = Sprite::create("panelbg.png");
     panelbg->setName("panelbg");
@@ -112,7 +102,7 @@ bool HelloWorld::init()
     slider1->setPosition(Vec2(200, 50));
     slider1->setPercent(50);
     slider1->setContentSize(cocos2d::Size(300, 20));
-    slider1->addTouchEventListener(CC_CALLBACK_2(HelloWorld::sliderEvent,this));
+    slider1->addTouchEventListener(CC_CALLBACK_2(HelloWorld::sliderEvent, this));
     panelbg->addChild(slider1, 1);
 
     auto slider2 = Slider::create();
@@ -170,7 +160,7 @@ bool HelloWorld::init()
     smallMapBase->setOpacity(150);
     this->addChild(smallMapBase, 1);
     //小地图表示屏幕视野的矩形
-    double smallMapRectWidth = smallMapWidth / map->getContentSize().width * ( visibleSize.width - mapBasicX);
+    double smallMapRectWidth = smallMapWidth / map->getContentSize().width * (visibleSize.width - mapBasicX);
     double smallMapRectHeight = smallMapHeight / map->getContentSize().height * (visibleSize.height - mapBasicY);
     auto smallMapRect = Sprite::create("white.png");
     smallMapRect->setName("smallMapRect");
@@ -189,7 +179,7 @@ bool HelloWorld::init()
    // wolf test
         // test 
     srand(time(NULL));
-    Wolf* wolf1 = new Wolf(), * wolf2 = new Wolf();
+    Wolf *wolf1 = new Wolf(), *wolf2 = new Wolf();
     this->addChild(wolf1->player);
     this->addChild(wolf2->player);
     Pos t;
@@ -203,8 +193,7 @@ bool HelloWorld::init()
 }
 
 
-void HelloWorld::menuCloseCallback(Ref* pSender)
-{
+void HelloWorld::menuCloseCallback(Ref *pSender) {
     //Close the cocos2d-x game scene and quit the application
     Director::getInstance()->end();
 
@@ -216,31 +205,28 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
 }
 
-void HelloWorld::sliderEvent(Ref* pSender, cocos2d::ui::Widget::TouchEventType type)
-{
-    switch (type)
-    {
-    case cocos2d::ui::Widget::TouchEventType::ENDED:
+void HelloWorld::sliderEvent(Ref *pSender, cocos2d::ui::Widget::TouchEventType type) {
+    switch (type) {
+        case cocos2d::ui::Widget::TouchEventType::ENDED:
 
-        cocos2d::ui::Slider* _slider = dynamic_cast<Slider*>(pSender);
-        auto _panelbg = (Sprite*)this->getChildByName("panelbg");
+            cocos2d::ui::Slider *_slider = dynamic_cast<Slider *>(pSender);
+            auto _panelbg = (Sprite *)this->getChildByName("panelbg");
 
-        int percent = _slider->getPercent();
-        std::string _sliderName = _slider->getName();
-        std::string LABEL = "label";
-        std::string num = _sliderName.substr(_sliderName.size()-1);//获取最后一位数字
-        auto _label = (Label*)_panelbg->getChildByName(LABEL.append(num));
-        _label->setString(std::to_string(percent).append("%"));
-   
-        log("%s --> %d %%", _sliderName.c_str(),percent);
+            int percent = _slider->getPercent();
+            std::string _sliderName = _slider->getName();
+            std::string LABEL = "label";
+            std::string num = _sliderName.substr(_sliderName.size() - 1);//获取最后一位数字
+            auto _label = (Label *)_panelbg->getChildByName(LABEL.append(num));
+            _label->setString(std::to_string(percent).append("%"));
 
-        break;
+            log("%s --> %d %%", _sliderName.c_str(), percent);
+
+            break;
     }
 }
 // Implementation of the keyboard event callback function prototype
-void HelloWorld::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
-{
-    auto _map = (TMXTiledMap*)getChildByName("bgmap");
+void HelloWorld::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
+    auto _map = (TMXTiledMap *)getChildByName("bgmap");
 
     double currentX = _map->getPosition().x;
     double currentY = _map->getPosition().y;
@@ -251,55 +237,43 @@ void HelloWorld::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
     double visibleWidth = Director::getInstance()->getVisibleSize().width;
     double visibleHeight = Director::getInstance()->getVisibleSize().height;
 
-    double deltaX = _map->getTileSize().width*5;
-    double deltaY = _map->getTileSize().height*5;
+    double deltaX = _map->getTileSize().width * 5;
+    double deltaY = _map->getTileSize().height * 5;
 
 
-    if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW || keyCode == EventKeyboard::KeyCode::KEY_W)
-    {
+    if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW || keyCode == EventKeyboard::KeyCode::KEY_W) {
         //超出范围
-        if (currentY + mapHeight - deltaY < visibleHeight)
-        {
-            _map->setPosition(Vec2(currentX, visibleHeight-mapHeight));
+        if (currentY + mapHeight - deltaY < visibleHeight) {
+            _map->setPosition(Vec2(currentX, visibleHeight - mapHeight));
         }
-        else
-        {
-            _map->setPosition(Vec2( currentX , currentY - deltaY ));
+        else {
+            _map->setPosition(Vec2(currentX, currentY - deltaY));
         }
     }
-    else if (keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW || keyCode == EventKeyboard::KeyCode::KEY_S)
-    {
+    else if (keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW || keyCode == EventKeyboard::KeyCode::KEY_S) {
         //超出范围
-        if (currentY + deltaY > mapBasicY)
-        {
+        if (currentY + deltaY > mapBasicY) {
             _map->setPosition(Vec2(currentX, mapBasicY));
         }
-        else
-        {
+        else {
             _map->setPosition(Vec2(currentX, currentY + deltaY));
         }
     }
-    else if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW || keyCode == EventKeyboard::KeyCode::KEY_A)
-    {
+    else if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW || keyCode == EventKeyboard::KeyCode::KEY_A) {
         //超出范围
-        if (currentX + deltaX > mapBasicX)
-        {
+        if (currentX + deltaX > mapBasicX) {
             _map->setPosition(Vec2(mapBasicX, currentY));
         }
-        else
-        {
+        else {
             _map->setPosition(Vec2(currentX + deltaX, currentY));
         }
     }
-    else if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW || keyCode == EventKeyboard::KeyCode::KEY_D)
-    {
+    else if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW || keyCode == EventKeyboard::KeyCode::KEY_D) {
         //超出范围
-        if (currentX + mapWidth - deltaX < visibleWidth)
-        {
-            _map->setPosition(Vec2(visibleWidth-mapWidth, currentY));
+        if (currentX + mapWidth - deltaX < visibleWidth) {
+            _map->setPosition(Vec2(visibleWidth - mapWidth, currentY));
         }
-        else
-        {
+        else {
             _map->setPosition(Vec2(currentX - deltaX, currentY));
         }
     }
@@ -307,10 +281,10 @@ void HelloWorld::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
     //设置小地图
     currentX = _map->getPosition().x;
     currentY = _map->getPosition().y;
-    auto _smallMapBase = (Sprite*)getChildByName("smallMapBase");
-    auto _smallMapRect = (Sprite*)_smallMapBase->getChildByName("smallMapRect");
+    auto _smallMapBase = (Sprite *)getChildByName("smallMapBase");
+    auto _smallMapRect = (Sprite *)_smallMapBase->getChildByName("smallMapRect");
     double baseWidth = _smallMapBase->getContentSize().width;
     double baseHeight = _smallMapBase->getContentSize().height;
-    _smallMapRect->setPosition(Vec2( baseWidth *(mapBasicX-currentX)/mapWidth , baseHeight * (mapBasicY - currentY) / mapHeight ) );
+    _smallMapRect->setPosition(Vec2(baseWidth * (mapBasicX - currentX) / mapWidth, baseHeight * (mapBasicY - currentY) / mapHeight));
 }
 
