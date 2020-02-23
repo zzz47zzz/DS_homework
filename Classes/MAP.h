@@ -9,8 +9,6 @@ using namespace cocos2d::ui;
 class MAP : Ref {
 public:
     MAP(int mapBasicX, int mapBasicY, Scene *PScene, int size_x, int size_y);
-
-    std::vector<std::vector<Land> > map_;
     std::vector<Barren> BarrenGroup;
     std::vector<Fertile> FertileGroup;
     TMXTiledMap *map = nullptr;

@@ -1,9 +1,7 @@
 #include "MAP.h"
+#include <iostream>
 
 MAP::MAP(int mapBasicX, int mapBasicY, Scene *PScene, int size_x, int size_y) {
-    for (int i = 0; i < size_x; ++i) {
-        map_.push_back(std::vector<Land>());
-    }
     map = TMXTiledMap::create("newMap.tmx");
     map->setName("bgmap");
     map->setPosition(Vec2(mapBasicX, mapBasicY));
@@ -20,13 +18,13 @@ MAP::MAP(int mapBasicX, int mapBasicY, Scene *PScene, int size_x, int size_y) {
                 case 1:
                 case 2:
                 case 3:
-                    BarrenGroup.push_back(Barren(Vec2(i, mapSize.height - j - 1)));
+                    BarrenGroup.push_back(Barren(Vec2(i, j)));
                     break;
                 case 8:
                 case 9:
                 case 10:
                 case 11:
-                    FertileGroup.push_back(Fertile(Vec2(i, mapSize.height - j - 1)));
+                    FertileGroup.push_back(Fertile(Vec2(i, j)));
                     break;
                 default:
                     break;
@@ -41,21 +39,23 @@ void MAP::update(float t) {
         if (p->currentStatus == Land::HAS_GRASS) {
             if (p->life == 0) {
                 // turn grass into invisible
-                grassLayer->removeTileAt(Vec2(p->pos.x, mapSize.height - p->pos.y - 1));
+                p->change();
+                landLayer->setTileGID(2, p->pos);
                 p->gap = Land::GapOfBarrenGrass;
             }
             else {
-                p->life--;
+                p->lifePass();
             }
         }
         else {
             if (p->gap == 0) {
                 // turn grass into visible
-                grassLayer->setTileGID(18, Vec2(p->pos.x, mapSize.height - p->pos.y - 1));
+                p->change();
+                landLayer->setTileGID(18, p->pos);
                 p->life = Land::lifeOfBarrenGrass;
             }
             else {
-                p->gap--;
+                p->gapPass();
             }
 
         }
@@ -65,21 +65,23 @@ void MAP::update(float t) {
         if (p->currentStatus == Land::HAS_GRASS) {
             if (p->life == 0) {
                 // turn grass into invisible
-                grassLayer->removeTileAt(Vec2(p->pos.x, mapSize.height - p->pos.y - 1));
+                p->change();
+                landLayer->setTileGID(10, p->pos);
                 p->gap = Land::GapOfFertileGrass;
             }
             else {
-                p->life--;
+                p->lifePass();
             }
         }
         else {
             if (p->gap == 0) {
                 // turn grass into visible
-                grassLayer->setTileGID(18, Vec2(p->pos.x, mapSize.height - p->pos.y - 1));
+                p->change();
+                landLayer->setTileGID(18, p->pos);
                 p->life = Land::lifeOfFertileGrass;
             }
             else {
-                p->gap--;
+                p->gapPass();
             }
 
         }
@@ -87,7 +89,7 @@ void MAP::update(float t) {
 }
 
 int MAP::getType(Vec2 pos) {
-    const int GID = landLayer->getTileGIDAt(Vec2(pos.x, mapSize.height - pos.y - 1));
+    const int GID = landLayer->getTileGIDAt(pos);
     switch (GID) {
         case 0:
         case 1:
