@@ -176,19 +176,27 @@ bool HelloWorld::init() {
     listener->onKeyPressed = CC_CALLBACK_2(HelloWorld::onKeyPressed, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
-   // wolf test
+   // wolf sheep test
         // test 
     srand(time(NULL));
     Wolf *wolf1 = new Wolf(), *wolf2 = new Wolf();
+    Sheep* sheep1 = new Sheep(),  *sheep2 = new Sheep(), *sheep3= new Sheep();
+
+    wolf1->li.push_back(sheep1);
+    wolf1->li.push_back(sheep2);
+    wolf1->li.push_back(sheep3);
+
     this->addChild(wolf1->player);
     this->addChild(wolf2->player);
-    Pos t;
-    t.x = wolf1->getPos().x - 150;
-    t.y = wolf1->getPos().y - 150;
-    wolf1->Move(t);
-    wolf2->RandomMove();
-    delete wolf1;
-    //end test
+    this->addChild(sheep1->player);
+    this->addChild(sheep2->player);
+    this->addChild(sheep3->player);
+
+    wolf1->funCallback();
+    wolf2->funCallback();
+    
+    //test end
+
     return true;
 }
 
