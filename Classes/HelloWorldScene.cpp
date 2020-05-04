@@ -194,7 +194,10 @@ bool HelloWorld::init() {
 
     wolf1->funCallback();
     wolf2->funCallback();
-    
+    sheep1->funCallback();
+    sheep2->funCallback();
+    sheep3->funCallback();
+
     //test end
 
     return true;

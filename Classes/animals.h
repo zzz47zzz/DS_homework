@@ -18,8 +18,6 @@ public:
 	{
 		return pos;
 	}
-	void RandomMove(); //未发现猎物前随机移动
-	void Move(Pos);//移动及显示
 	void DegreeIncrease(int t = 1)//饥饿度增加
 	{
 		degree += t;
@@ -51,13 +49,19 @@ protected:
 	double sight; //视野
 
 };
+class Wolf;
 
 class Sheep:public Animal
 {
 public:
-	Sheep(int ahp = 5, double asight =110, double aspeed = 25);//后两个单位：像素；像素/秒
+	Sheep(int ahp = 5, double asight =110, double aspeed = 15);//后两个单位：像素；像素/秒
+	void Move(Pos);//移动及显示
+	void RandomMove(); //未发现猎物前随机移动
 	~Sheep();
-
+	void funCallback();
+	Wolf* wolf;
+	bool eaten = false;
+	void disappear();
 };
 
 

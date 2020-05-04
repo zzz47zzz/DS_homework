@@ -25,13 +25,7 @@ void Wolf::funCallback()
 	}else
 		Move(prey->getPos());
 }
-void Animal::Move(Pos des)
-{
-	CCMoveTo* move = CCMoveTo::create((GetDistance(des) / speed), ccp(des.x, des.y));
-	player->runAction(move);
-	pos = des;
 
-}
 void Wolf::Move(Pos des)
 {
 	des2.x = des.x;
@@ -42,16 +36,6 @@ void Wolf::Move(Pos des)
 	player->runAction(sequence);
 	//pos = des;
 }
-void Animal::RandomMove()
-{
-	Pos des;
-	int temp, symbolx, symboly;
-	symbolx = rand() % 2 ? 1 : -1;
-	symboly = rand() % 2 ? 1 : -1;
-	des.x = pos.x + rand() % 100 * symbolx;
-	des.y = pos.y + rand() % 100 * symboly;
-	Move(des);
-}
 void Wolf::RandomMove()
 {
 	Pos des;
@@ -61,6 +45,43 @@ void Wolf::RandomMove()
 	des.x = pos.x + rand() % 150 * symbolx;
 	des.y = pos.y + rand() % 150 * symboly;
 	Move(des);
+}
+void Sheep::Move(Pos des)
+{
+	des2.x = des.x;
+	des2.y = des.y;
+	CCMoveTo* move = CCMoveTo::create((GetDistance(des) / speed), ccp(des.x, des.y));
+	CallFunc* func = CallFunc::create(CC_CALLBACK_0(Sheep::funCallback, this));
+	Sequence* sequence = Sequence::create(move, func, NULL);
+	if(!eaten)	player->runAction(sequence);
+	//pos = des;
+}
+void Sheep::RandomMove()
+{
+	Pos des;
+	int temp, symbolx, symboly;
+	symbolx = rand() % 2 ? 1 : -1;
+	symboly = rand() % 2 ? 1 : -1;
+	des.x = pos.x + rand() % 150 * symbolx;
+	des.y = pos.y + rand() % 150 * symboly;
+	Move(des);
+}
+void Sheep::funCallback()
+{
+	hp--;
+	pos.x = des2.x;
+	pos.y = des2.y;
+	if (hp <= 0) {
+		if (!eaten)
+		{
+			CCActionInterval* fadeout = CCFadeOut::create(1);
+		if (player == NULL) return;
+		if (player != NULL) player->runAction(fadeout);
+		return;
+		}
+	}
+	RandomMove();
+	return;
 }
 
 Wolf::Wolf(int ahp, double asight, double aspeed)
@@ -111,8 +132,10 @@ bool Wolf::Catch()
 	if (prey == NULL) return false;
 	if (GetDistance(prey->getPos()) <= 100) {
 		Sheep * temp = prey;
+		prey->eaten = true;
+		prey->disappear();
 		prey = NULL;
-		delete temp;
+		//delete temp;
 		degree = 0;
 		hp = hp + 3;
 		li[num] = NULL;
@@ -152,7 +175,8 @@ Sheep::Sheep(int ahp, double asight, double aspeed)
 	auto frameSize = glView->getFrameSize();
 	pos.x = abs(rand() % (int(frameSize.width-500)));
 	pos.y = 183+abs(rand() % (int(frameSize.height-500)));
-
+	des2.x = pos.x;
+	des2.y = pos.y;
 	player = CCSprite::create("sheep.png");
 	player->setPosition(ccp(pos.x, pos.y));
 
@@ -161,4 +185,12 @@ Sheep::~Sheep()
 {
 	CCActionInterval* fadeout = CCFadeOut::create(1);
 	player->runAction(fadeout);
+	player = NULL;
+
+}
+void Sheep::disappear()
+{
+	CCActionInterval* fadeout = CCFadeOut::create(1);
+	player->runAction(fadeout);
+	player = NULL;
 }
