@@ -28,12 +28,12 @@ void Barren::change()
 	if (currentStatus == HAS_GRASS)
 	{
 		currentStatus = NO_GRASS;
-		//²¹³ä´úÂë
+		
 	}
 	else
 	{
 		currentStatus = HAS_GRASS;
-		//²¹³ä´úÂë
+		
 	}
 	
 }
@@ -62,12 +62,12 @@ void Fertile::change()
 	if (currentStatus == HAS_GRASS)
 	{
 		currentStatus = NO_GRASS;
-		//²¹³ä´úÂë
+		
 	}
 	else
 	{
 		currentStatus = HAS_GRASS;
-		//²¹³ä´úÂë
+		
 	}
 }
 
