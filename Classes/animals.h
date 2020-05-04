@@ -44,6 +44,7 @@ public:
 
 protected:
 	Pos pos; //位置
+	Pos des2; //当前动作目标
 	int hp; //血条（距离死亡的时间等,待定义）
 	int degree; //饥饿值
 	double speed; //速度
@@ -53,23 +54,27 @@ protected:
 
 class Sheep:public Animal
 {
+public:
+	Sheep(int ahp = 5, double asight =110, double aspeed = 25);//后两个单位：像素；像素/秒
+	~Sheep();
+
 };
 
 
 class Wolf:public Animal
 {
 public:
-	Wolf(int ahp = 5, double asight = 150, double aspeed = 50);//后两个单位：像素；像素/秒
+	Wolf(int ahp = 15, double asight = 200, double aspeed = 50);//后两个单位：像素；像素/秒
 	~Wolf();
 	bool Catch(); //获取食物成功与否
 	bool Check(); //检查是否有追捕猎物及当前追捕的猎物是否仍在视野之内
 	Pos FindPrey(vector<Sheep *> li); //寻找猎物 当前使用stl，后续应采用列表或其他自己完成的数据结构
-private:
 	Sheep * prey; //当前锁定的猎物
-};
-
-class animals
-{
+	void Move(Pos);//移动及显示
+	void RandomMove(); //未发现猎物前随机移动
+	void funCallback();
+    static vector<Sheep*> li;
+	int num;
 };
 
 #endif 
