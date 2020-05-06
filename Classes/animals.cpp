@@ -1,7 +1,9 @@
 #include"animals.h"
 #include<iostream>
 
+
 vector<Sheep*> Wolf::li{};
+int Wolf::sum = 0;
 
 void Wolf::funCallback()
 {
@@ -14,6 +16,8 @@ void Wolf::funCallback()
 		player->runAction(fadeout);
 		//if (prey != NULL) delete prey;
 		prey = NULL;
+		sum--;
+		life = false;
 		return;
 	}
 	if (!Check()) {
@@ -30,7 +34,7 @@ void Wolf::Move(Pos des)
 {
 	des2.x = des.x;
 	des2.y = des.y;
-	CCMoveTo* move = CCMoveTo::create((GetDistance(des) / speed), ccp(des.x, des.y));
+	CCMoveTo* move = CCMoveTo::create((GetDistance(des) / speed), Vec2(des.x, des.y));
 	CallFunc* func = CallFunc::create(CC_CALLBACK_0(Wolf::funCallback, this));
 	Sequence* sequence = Sequence::create(move, func, NULL);
 	player->runAction(sequence);
@@ -50,7 +54,7 @@ void Sheep::Move(Pos des)
 {
 	des2.x = des.x;
 	des2.y = des.y;
-	CCMoveTo* move = CCMoveTo::create((GetDistance(des) / speed), ccp(des.x, des.y));
+	CCMoveTo* move = CCMoveTo::create((GetDistance(des) / speed), Vec2(des.x, des.y));
 	CallFunc* func = CallFunc::create(CC_CALLBACK_0(Sheep::funCallback, this));
 	Sequence* sequence = Sequence::create(move, func, NULL);
 	if(!eaten)	player->runAction(sequence);
@@ -77,6 +81,7 @@ void Sheep::funCallback()
 			CCActionInterval* fadeout = CCFadeOut::create(1);
 		if (player == NULL) return;
 		if (player != NULL) player->runAction(fadeout);
+		life = false;
 		return;
 		}
 	}
@@ -95,16 +100,16 @@ Wolf::Wolf(int ahp, double asight, double aspeed)
 
 	auto glView = Director::getInstance()->getOpenGLView();
 	auto frameSize = glView->getFrameSize();
-	pos.x = abs(rand() % (int(frameSize.width)-500));
-	pos.y = 183 + abs(rand() % (int(frameSize.height-500)));
+
+	pos.x = abs(rand() % 3000);
+	pos.y = abs(rand() % 3000);
 
 	des2.x = pos.x;
 	des2.y = pos.y;
 	player = CCSprite::create("wolf.png");
 //  player->setPosition(ccp(pos.x, pos.y));
-	player->setPosition(ccp(pos.x, pos.y));
-
-
+	player->setPosition(Vec2(pos.x, pos.y));
+	sum++;
 }
 Pos Wolf::FindPrey(vector<Sheep *> li)
 {
@@ -122,7 +127,6 @@ Pos Wolf::FindPrey(vector<Sheep *> li)
 			min = dis;
 			res = temp;
 			prey = li[i];
-			num = i;
 		}
 	}
 	return res;
@@ -131,14 +135,15 @@ bool Wolf::Catch()
 {
 	if (prey == NULL) return false;
 	if (GetDistance(prey->getPos()) <= 100) {
-		Sheep * temp = prey;
 		prey->eaten = true;
 		prey->disappear();
-		prey = NULL;
-		//delete temp;
-		degree = 0;
 		hp = hp + 3;
-		li[num] = NULL;
+		for (int i = 0; i < li.size(); i++)
+			if (li[i] == prey) {
+				li[i] == NULL;
+				li.erase(li.begin() + i);
+			}
+		prey = NULL;
 		return true;
 	}
 	else
@@ -155,13 +160,17 @@ bool Wolf::Check()
 	else
 		return true;
 }
+int Wolf::GetSheepSum() {
+	int ssum=0;
+	for (int i = 0; i < li.size(); i++)
+		if (li[i] != NULL) ssum++;
+	return ssum;
+}
 Wolf::~Wolf()
 {
 	CCActionInterval * fadeout = CCFadeOut::create(1);
 	player->runAction(fadeout);
-	if (prey != NULL) delete prey;
 	prey = NULL;
-
 }
 
 Sheep::Sheep(int ahp, double asight, double aspeed)
@@ -173,24 +182,22 @@ Sheep::Sheep(int ahp, double asight, double aspeed)
 	//prey = NULL;
 	auto glView = Director::getInstance()->getOpenGLView();
 	auto frameSize = glView->getFrameSize();
-	pos.x = abs(rand() % (int(frameSize.width-500)));
-	pos.y = 183+abs(rand() % (int(frameSize.height-500)));
+	pos.x = abs(rand() % 4000);
+	pos.y = abs(rand() % 4000);
 	des2.x = pos.x;
 	des2.y = pos.y;
 	player = CCSprite::create("sheep.png");
-	player->setPosition(ccp(pos.x, pos.y));
-
+	player->setPosition(Vec2(pos.x, pos.y));
 }
 Sheep::~Sheep()
 {
 	CCActionInterval* fadeout = CCFadeOut::create(1);
 	player->runAction(fadeout);
 	player = NULL;
-
 }
+
 void Sheep::disappear()
 {
 	CCActionInterval* fadeout = CCFadeOut::create(1);
 	player->runAction(fadeout);
-	player = NULL;
 }

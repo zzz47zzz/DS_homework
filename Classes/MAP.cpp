@@ -1,5 +1,6 @@
 #include "MAP.h"
 #include <iostream>
+#include "animals.h"
 
 MAP::MAP(int mapBasicX, int mapBasicY, Scene *PScene, int size_x, int size_y) {
     map = TMXTiledMap::create("newMap.tmx");
@@ -31,7 +32,11 @@ MAP::MAP(int mapBasicX, int mapBasicY, Scene *PScene, int size_x, int size_y) {
             }
         }
     }
+  
+    start();
     PScene->getScheduler()->schedule(CC_SCHEDULE_SELECTOR(MAP::update), this, 1.0f, false);
+    PScene->getScheduler()->schedule(CC_SCHEDULE_SELECTOR(MAP::update2), this, 5.0f, false);
+
 }
 
 void MAP::update(float t) {
@@ -86,6 +91,10 @@ void MAP::update(float t) {
 
         }
     }
+  //  for (int i = 0; i <= 50; i++) {
+  //     if (!a[i]->life) delete(a[i]);
+  //  }
+
 }
 
 int MAP::getType(Vec2 pos) {
@@ -118,5 +127,46 @@ int MAP::getType(Vec2 pos) {
         default:
             return -1;
             break;
+    }
+}
+
+void MAP::start() {
+    Wolf* a[1000];
+    Sheep* b[1000];
+    for (int i = 0; i <= 50; i++) {
+        a[i] = new Wolf();
+        map->addChild(a[i]->player);
+    }
+    for (int i = 0; i <= 100; i++) {
+        b[i] = new Sheep();
+        Wolf::li.push_back(b[i]);
+        map->addChild(b[i]->player);
+    }
+    for (int i = 0; i <= 50; i++) {
+        a[i]->funCallback();
+    }
+    for (int i = 0; i <= 100; i++) {
+        b[i]->funCallback();
+    }
+
+}
+
+void MAP::update2(float t) {
+    Wolf* a[1000];
+    Sheep* b[1000];
+    for (int i = 0; i <= 10; i++) {
+        a[i] = new Wolf();
+        map->addChild(a[i]->player);
+    }
+    for (int i = 0; i <= 50; i++) {
+        b[i] = new Sheep();
+        Wolf::li.push_back(b[i]);
+        map->addChild(b[i]->player);
+    }
+    for (int i = 0; i <= 10; i++) {
+        a[i]->funCallback();
+    }
+    for (int i = 0; i <= 50; i++) {
+        b[i]->funCallback();
     }
 }

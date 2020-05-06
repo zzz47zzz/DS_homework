@@ -4,6 +4,8 @@
 #include "ui/CocosGUI.h"
 
 #include <vector>
+
+
 USING_NS_CC;
 using namespace cocos2d::ui;
 class MAP : Ref {
@@ -14,7 +16,13 @@ public:
     TMXTiledMap *map = nullptr;
     TMXLayer *landLayer;
     TMXLayer *grassLayer;
+    
+
     Size mapSize;
     void update(float t);
     int getType(Vec2 pos);
+
+    void start();
+    void update2(float t);
+
 };

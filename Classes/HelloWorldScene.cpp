@@ -24,7 +24,7 @@
 
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
-#include "animals.h"   
+
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -176,30 +176,8 @@ bool HelloWorld::init() {
     listener->onKeyPressed = CC_CALLBACK_2(HelloWorld::onKeyPressed, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
-   // wolf sheep test
-        // test 
+
     srand(time(NULL));
-    Wolf *wolf1 = new Wolf(), *wolf2 = new Wolf();
-    Sheep* sheep1 = new Sheep(),  *sheep2 = new Sheep(), *sheep3= new Sheep();
-
-    wolf1->li.push_back(sheep1);
-    wolf1->li.push_back(sheep2);
-    wolf1->li.push_back(sheep3);
-
-    this->addChild(wolf1->player);
-    this->addChild(wolf2->player);
-    this->addChild(sheep1->player);
-    this->addChild(sheep2->player);
-    this->addChild(sheep3->player);
-
-    wolf1->funCallback();
-    wolf2->funCallback();
-    sheep1->funCallback();
-    sheep2->funCallback();
-    sheep3->funCallback();
-
-    //test end
-
     return true;
 }
 
@@ -298,4 +276,3 @@ void HelloWorld::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
     double baseHeight = _smallMapBase->getContentSize().height;
     _smallMapRect->setPosition(Vec2(baseWidth * (mapBasicX - currentX) / mapWidth, baseHeight * (mapBasicY - currentY) / mapHeight));
 }
-
