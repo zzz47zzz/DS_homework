@@ -10,7 +10,7 @@ USING_NS_CC;
 using namespace cocos2d::ui;
 class MAP : Ref {
 public:
-    MAP(int mapBasicX, int mapBasicY, Scene *PScene, int size_x, int size_y);
+    MAP(int mapBasicX, int mapBasicY, Scene *PScene, int size_x, int size_y, int nSheep, int nWolf);
     std::vector<Barren> BarrenGroup;
     std::vector<Fertile> FertileGroup;
     TMXTiledMap *map = nullptr;

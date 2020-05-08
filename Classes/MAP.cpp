@@ -2,7 +2,7 @@
 #include <iostream>
 #include "animals.h"
 
-MAP::MAP(int mapBasicX, int mapBasicY, Scene *PScene, int size_x, int size_y) {
+MAP::MAP(int mapBasicX, int mapBasicY, Scene *PScene, int size_x, int size_y, int nSheep, int nWolf) {
     map = TMXTiledMap::create("newMap.tmx");
     map->setName("bgmap");
     map->setPosition(Vec2(mapBasicX, mapBasicY));

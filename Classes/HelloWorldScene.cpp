@@ -144,34 +144,64 @@ bool HelloWorld::init() {
     label3->setTextColor(cocos2d::Color4B::WHITE);
     panelbg->addChild(label3, 1);
 
-    //三个名称标签
+    //五个名称标签
     auto label1_1 = Label::createWithTTF("grass growth rate", "fonts/Marker Felt.ttf", 22);
     label1_1->setName("label1_1");
     label1_1->setPosition(90, 50);
     label1_1->setTextColor(cocos2d::Color4B::WHITE);
     panelbg->addChild(label1_1, 1);
 
-    auto label2_1 = Label::createWithTTF("cow growth rate", "fonts/Marker Felt.ttf", 22);
+    auto label2_1 = Label::createWithTTF("wolf growth rate", "fonts/Marker Felt.ttf", 22);
     label2_1->setName("label2_1");
     label2_1->setPosition(90, 90);
     label2_1->setTextColor(cocos2d::Color4B::WHITE);
     panelbg->addChild(label2_1, 1);
 
-    auto label3_1 = Label::createWithTTF("wolf growth rate", "fonts/Marker Felt.ttf", 22);
+    auto label3_1 = Label::createWithTTF("sheep growth rate", "fonts/Marker Felt.ttf", 22);
     label3_1->setName("label3_1");
     label3_1->setPosition(90, 130);
     label3_1->setTextColor(cocos2d::Color4B::WHITE);
     panelbg->addChild(label3_1, 1);
 
+    auto label4 = Label::createWithTTF("inital wolf", "fonts/Marker Felt.ttf", 22);
+    label4->setName("label4");
+    label4->setPosition(550, 90);
+    label4->setTextColor(cocos2d::Color4B::WHITE);
+    panelbg->addChild(label4, 1);
+
+    auto label5 = Label::createWithTTF("inital sheep", "fonts/Marker Felt.ttf", 22);
+    label5->setName("label5");
+    label5->setPosition(550, 130);
+    label5->setTextColor(cocos2d::Color4B::WHITE);
+    panelbg->addChild(label5, 1);
+
     //开始按钮
     auto start_btn = Button::create("", "white.png", "white.png");
     start_btn->setName("start_btn");
     start_btn->setTitleText("start");
-    start_btn->setTitleFontSize(32);
+    start_btn->setTitleFontSize(30);
     start_btn->setTitleColor(cocos2d::Color3B::RED);
-    start_btn->setPosition(cocos2d::Vec2(1000, 150));
+    start_btn->setPosition(cocos2d::Vec2(900, 130));
     panelbg->addChild(start_btn, 1);
 
+    //输入文本框
+    auto textField1 = TextField::create("initial sheep number", "Arial", 25);
+    textField1->setName("textField1");
+    textField1->setPosition(cocos2d::Vec2(720, 130));
+    textField1->setColor(cocos2d::Color3B::WHITE);
+    textField1->setTextColor(cocos2d::Color4B::WHITE);
+    textField1->setSize(cocos2d::Size(100,80));
+    textField1->setMaxLength(6);
+    panelbg->addChild(textField1);
+
+    auto textField2 = TextField::create("initial sheep number", "Arial", 25);
+    textField2->setName("textField2");
+    textField2->setPosition(cocos2d::Vec2(720, 90));
+    textField2->setColor(cocos2d::Color3B::WHITE);
+    textField2->setTextColor(cocos2d::Color4B::WHITE);
+    textField2->setSize(cocos2d::Size(100, 80));
+    textField2->setMaxLength(6);
+    panelbg->addChild(textField2);
 
 
     //4.Listener
@@ -180,7 +210,21 @@ bool HelloWorld::init() {
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
     start_btn->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
-        cocos2d::ui::Button* _start_btn = dynamic_cast<Button*>(sender);
+
+        auto _start_btn = dynamic_cast<Button*>(sender);
+        auto _panelbg = (Sprite*)this->getChildByName("panelbg");
+        auto _textField1 = (TextField*)_panelbg->getChildByName("textField1");
+        auto _textField2 = (TextField*)_panelbg->getChildByName("textField2");
+        int nSheep=0, nWolf=0;
+        //log("%s", _textField1->getString().c_str());
+        //log("%s", _textField2->getString().c_str());
+        std::string input_sheep = _textField1->getString();
+        std::string input_wolf = _textField2->getString();
+        nSheep = atoi(input_sheep.c_str());
+        nWolf = atoi(input_wolf.c_str());
+        if (nSheep<=0||nSheep>100000||nWolf<=0||nWolf>100000) return;
+        //log("%d", nSheep);
+        //log("%d", nWolf);
 
         switch (type)
         {
@@ -190,35 +234,34 @@ bool HelloWorld::init() {
             if (_start_btn->isEnabled()) {
                 _start_btn->setEnabled(false);
                 //加载地图
-                MAP* m = new MAP(mapBasicX, mapBasicY, this, 100, 100);
+                MAP* m = new MAP(mapBasicX, mapBasicY, this, 100, 100, nSheep ,nWolf);
                 TMXTiledMap* map = m->map;
                 //小地图
                 double padding = 5;
+                Rect rect = Director::getInstance()->getOpenGLView()->getVisibleRect();
                 //小地图背景
                 auto smallMapBase = Sprite::create("white.png");
                 smallMapBase->setName("smallMapBase");
                 double smallMapWidth = 140;
                 double smallMapHeight = 140;
-                //auto smallMapBase = (Sprite*)this->getChildByName("smallMapBase");
                 smallMapBase->setContentSize(cocos2d::Size(smallMapWidth, smallMapHeight));
                 smallMapBase->setColor(cocos2d::Color3B::ORANGE);
                 smallMapBase->setAnchorPoint(Vec2(0, 0));
-                smallMapBase->setPosition(origin.x + visibleSize.width - padding - smallMapWidth, origin.y + visibleSize.height - padding - smallMapHeight);
+                smallMapBase->setPosition(origin.x + rect.size.width - padding - smallMapWidth, origin.y + rect.size.height - padding - smallMapHeight);
                 smallMapBase->setOpacity(150);
-                this->addChild(smallMapBase, 1);
+                this->addChild(smallMapBase, 2);
 
                 //小地图表示屏幕视野的矩形
                 auto smallMapRect = Sprite::create("white.png");
-                double smallMapRectWidth = smallMapWidth / map->getContentSize().width * (visibleSize.width - mapBasicX);
-                double smallMapRectHeight = smallMapHeight / map->getContentSize().height * (visibleSize.height - mapBasicY);
-                //auto smallMapRect = (Sprite*)smallMapBase->getChildByName("smallMapRect");
+                double smallMapRectWidth = smallMapWidth / map->getContentSize().width * (rect.size.width - mapBasicX);
+                double smallMapRectHeight = smallMapHeight / map->getContentSize().height * (rect.size.height - mapBasicY);
                 smallMapRect->setContentSize(cocos2d::Size(smallMapRectWidth, smallMapRectHeight));
                 smallMapRect->setColor(cocos2d::Color3B::RED);
                 smallMapRect->setAnchorPoint(Vec2(0, 0));
                 smallMapRect->setPosition(Vec2::ZERO);
                 smallMapRect->setOpacity(200);
                 smallMapRect->setName("smallMapRect");
-                smallMapBase->addChild(smallMapRect, 1);
+                smallMapBase->addChild(smallMapRect, 2);
 
             }
             break;
@@ -331,4 +374,6 @@ void HelloWorld::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event) {
     double baseWidth = _smallMapBase->getContentSize().width;
     double baseHeight = _smallMapBase->getContentSize().height;
     _smallMapRect->setPosition(Vec2(baseWidth * (mapBasicX - currentX) / mapWidth, baseHeight * (mapBasicY - currentY) / mapHeight));
+    log("%f %f", _smallMapBase->getPosition().x, _smallMapBase->getPosition().y);
+    log("%f %f", _smallMapRect->getPosition().x, _smallMapRect->getPosition().y);
 }
