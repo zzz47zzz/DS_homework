@@ -119,152 +119,152 @@
 			[
 				{
 					"backtrace" : 7,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/cocos/editor-support"
+					"path" : "E:/DShomework/cocos2d/cocos/editor-support"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/recast/.."
+					"path" : "E:/DShomework/cocos2d/external/recast/.."
 				},
 				{
 					"backtrace" : 2,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/tinyxml2/."
+					"path" : "E:/DShomework/cocos2d/external/tinyxml2/."
 				},
 				{
 					"backtrace" : 2,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/xxhash/."
+					"path" : "E:/DShomework/cocos2d/external/xxhash/."
 				},
 				{
 					"backtrace" : 2,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/xxtea/."
+					"path" : "E:/DShomework/cocos2d/external/xxtea/."
 				},
 				{
 					"backtrace" : 2,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/clipper/."
+					"path" : "E:/DShomework/cocos2d/external/clipper/."
 				},
 				{
 					"backtrace" : 2,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/edtaa3func/."
+					"path" : "E:/DShomework/cocos2d/external/edtaa3func/."
 				},
 				{
 					"backtrace" : 2,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/ConvertUTF/."
+					"path" : "E:/DShomework/cocos2d/external/ConvertUTF/."
 				},
 				{
 					"backtrace" : 2,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/poly2tri/.."
+					"path" : "E:/DShomework/cocos2d/external/poly2tri/.."
 				},
 				{
 					"backtrace" : 2,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/md5/.."
+					"path" : "E:/DShomework/cocos2d/external/md5/.."
 				},
 				{
 					"backtrace" : 3,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/unzip/."
+					"path" : "E:/DShomework/cocos2d/external/unzip/."
 				},
 				{
 					"backtrace" : 2,
 					"isSystem" : true,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/Box2D/include"
+					"path" : "E:/DShomework/cocos2d/external/Box2D/include"
 				},
 				{
 					"backtrace" : 2,
 					"isSystem" : true,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/chipmunk/include"
+					"path" : "E:/DShomework/cocos2d/external/chipmunk/include"
 				},
 				{
 					"backtrace" : 2,
 					"isSystem" : true,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/freetype2/include/win32/freetype2"
+					"path" : "E:/DShomework/cocos2d/external/freetype2/include/win32/freetype2"
 				},
 				{
 					"backtrace" : 2,
 					"isSystem" : true,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/jpeg/include/win32"
+					"path" : "E:/DShomework/cocos2d/external/jpeg/include/win32"
 				},
 				{
 					"backtrace" : 2,
 					"isSystem" : true,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/uv/include"
+					"path" : "E:/DShomework/cocos2d/external/uv/include"
 				},
 				{
 					"backtrace" : 2,
 					"isSystem" : true,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/webp/include/win32"
+					"path" : "E:/DShomework/cocos2d/external/webp/include/win32"
 				},
 				{
 					"backtrace" : 2,
 					"isSystem" : true,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/bullet/include"
+					"path" : "E:/DShomework/cocos2d/external/bullet/include"
 				},
 				{
 					"backtrace" : 2,
 					"isSystem" : true,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/bullet/include/bullet"
+					"path" : "E:/DShomework/cocos2d/external/bullet/include/bullet"
 				},
 				{
 					"backtrace" : 2,
 					"isSystem" : true,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/openssl/include/win32"
+					"path" : "E:/DShomework/cocos2d/external/openssl/include/win32"
 				},
 				{
 					"backtrace" : 2,
 					"isSystem" : true,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/tiff/include/win32"
+					"path" : "E:/DShomework/cocos2d/external/tiff/include/win32"
 				},
 				{
 					"backtrace" : 2,
 					"isSystem" : true,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/websockets/include/win32"
+					"path" : "E:/DShomework/cocos2d/external/websockets/include/win32"
 				},
 				{
 					"backtrace" : 8,
 					"isSystem" : true,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/curl/include/win32"
+					"path" : "E:/DShomework/cocos2d/external/curl/include/win32"
 				},
 				{
 					"backtrace" : 8,
 					"isSystem" : true,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/png/include/win32"
+					"path" : "E:/DShomework/cocos2d/external/png/include/win32"
 				},
 				{
 					"backtrace" : 9,
 					"isSystem" : true,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/sqlite3/include"
+					"path" : "E:/DShomework/cocos2d/external/sqlite3/include"
 				},
 				{
 					"backtrace" : 9,
 					"isSystem" : true,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/win32-specific/gles/include/OGLES"
+					"path" : "E:/DShomework/cocos2d/external/win32-specific/gles/include/OGLES"
 				},
 				{
 					"backtrace" : 9,
 					"isSystem" : true,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/win32-specific/icon/include"
+					"path" : "E:/DShomework/cocos2d/external/win32-specific/icon/include"
 				},
 				{
 					"backtrace" : 9,
 					"isSystem" : true,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/win32-specific/MP3Decoder/include"
+					"path" : "E:/DShomework/cocos2d/external/win32-specific/MP3Decoder/include"
 				},
 				{
 					"backtrace" : 9,
 					"isSystem" : true,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/win32-specific/OggDecoder/include"
+					"path" : "E:/DShomework/cocos2d/external/win32-specific/OggDecoder/include"
 				},
 				{
 					"backtrace" : 9,
 					"isSystem" : true,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/win32-specific/OpenalSoft/include"
+					"path" : "E:/DShomework/cocos2d/external/win32-specific/OpenalSoft/include"
 				},
 				{
 					"backtrace" : 10,
 					"isSystem" : true,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/glfw3/include/win32"
+					"path" : "E:/DShomework/cocos2d/external/glfw3/include/win32"
 				},
 				{
 					"backtrace" : 11,
 					"isSystem" : true,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/zlib/../win32-specific/zlib/include"
+					"path" : "E:/DShomework/cocos2d/external/zlib/../win32-specific/zlib/include"
 				}
 			],
 			"language" : "CXX",
@@ -290,7 +290,11 @@
 		},
 		{
 			"backtrace" : 2,
-			"id" : "ext_clipper::@33abc919e86db66c28b8"
+			"id" : "ext_poly2tri::@ce0bfd23a4070be0c5de"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "ext_edtaa3func::@f3d42e550923b89477b0"
 		},
 		{
 			"backtrace" : 2,
@@ -298,19 +302,15 @@
 		},
 		{
 			"backtrace" : 2,
-			"id" : "ext_poly2tri::@ce0bfd23a4070be0c5de"
-		},
-		{
-			"backtrace" : 2,
 			"id" : "ext_md5::@82bef7d6fa8c2aa61808"
 		},
 		{
 			"backtrace" : 2,
-			"id" : "ext_convertUTF::@205c2f0e44a3b06b9b59"
+			"id" : "ext_clipper::@33abc919e86db66c28b8"
 		},
 		{
 			"backtrace" : 2,
-			"id" : "ext_edtaa3func::@f3d42e550923b89477b0"
+			"id" : "ext_convertUTF::@205c2f0e44a3b06b9b59"
 		},
 		{
 			"backtrace" : 3,

@@ -1,8 +1,8 @@
-# Install script for directory: E:/Projects/GitHub/DS_homework/cocos2d/cocos
+# Install script for directory: E:/DShomework/cocos2d/cocos
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "E:/Projects/GitHub/DS_homework/out/install/x64-Debug")
+  set(CMAKE_INSTALL_PREFIX "E:/DShomework/out/install/x64-Debug")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,7 +34,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("E:/Projects/GitHub/DS_homework/out/build/x64-Debug/engine/external/cmake_install.cmake")
+  include("E:/DShomework/out/build/x64-Debug/engine/external/cmake_install.cmake")
 
 endif()
 

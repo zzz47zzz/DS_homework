@@ -12,7 +12,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "lib/ext_unzip.lib"
+			"path" : "lib/ext_poly2tri.lib"
 		}
 	],
 	"backtrace" : 1,
@@ -27,7 +27,7 @@
 		],
 		"files" : 
 		[
-			"cocos2d/external/unzip/CMakeLists.txt",
+			"cocos2d/external/poly2tri/CMakeLists.txt",
 			"cocos2d/cocos/editor-support/spine/CMakeLists.txt",
 			"cocos2d/cocos/CMakeLists.txt"
 		],
@@ -39,7 +39,7 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 14,
+				"line" : 16,
 				"parent" : 0
 			},
 			{
@@ -64,13 +64,7 @@
 			{
 				"command" : 3,
 				"file" : 0,
-				"line" : 18,
-				"parent" : 0
-			},
-			{
-				"command" : 3,
-				"file" : 0,
-				"line" : 22,
+				"line" : 20,
 				"parent" : 0
 			}
 		]
@@ -88,15 +82,11 @@
 			[
 				{
 					"backtrace" : 5,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/cocos/editor-support"
+					"path" : "E:/DShomework/cocos2d/cocos/editor-support"
 				},
 				{
 					"backtrace" : 6,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/unzip/."
-				},
-				{
-					"backtrace" : 7,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/zlib/../win32-specific/zlib/include"
+					"path" : "E:/DShomework/cocos2d/external/poly2tri/.."
 				}
 			],
 			"language" : "CXX",
@@ -104,7 +94,9 @@
 			[
 				0,
 				1,
-				2
+				2,
+				3,
+				4
 			]
 		}
 	],
@@ -112,13 +104,13 @@
 	{
 		"name" : "External"
 	},
-	"id" : "ext_unzip::@05a8bf1aba81c1a16e64",
-	"name" : "ext_unzip",
-	"nameOnDisk" : "ext_unzip.lib",
+	"id" : "ext_poly2tri::@ce0bfd23a4070be0c5de",
+	"name" : "ext_poly2tri",
+	"nameOnDisk" : "ext_poly2tri.lib",
 	"paths" : 
 	{
-		"build" : "engine/external/unzip",
-		"source" : "cocos2d/external/unzip"
+		"build" : "engine/external/poly2tri",
+		"source" : "cocos2d/external/poly2tri"
 	},
 	"sourceGroups" : 
 	[
@@ -128,7 +120,9 @@
 			[
 				0,
 				1,
-				2
+				2,
+				3,
+				4
 			]
 		}
 	],
@@ -137,19 +131,31 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "cocos2d/external/unzip/ioapi.cpp",
+			"path" : "cocos2d/external/poly2tri/common/shapes.cc",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "cocos2d/external/unzip/unzip.cpp",
+			"path" : "cocos2d/external/poly2tri/sweep/sweep.cc",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "cocos2d/external/unzip/ioapi_mem.cpp",
+			"path" : "cocos2d/external/poly2tri/sweep/sweep_context.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "cocos2d/external/poly2tri/sweep/cdt.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "cocos2d/external/poly2tri/sweep/advancing_front.cc",
 			"sourceGroupIndex" : 0
 		}
 	],

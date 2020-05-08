@@ -778,91 +778,91 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "EcoSystem::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-EcoSystem-Debug-8c81216e66f3a7a2a09a.json",
+					"jsonFile" : "target-EcoSystem-Debug-955c3f4451e40c4e7ae7.json",
 					"name" : "EcoSystem",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 1,
 					"id" : "cocos2d::@b17589fc6237857a1771",
-					"jsonFile" : "target-cocos2d-Debug-7f9faa315c43b658b6c3.json",
+					"jsonFile" : "target-cocos2d-Debug-5a0434853a27bd89e585.json",
 					"name" : "cocos2d",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 17,
 					"id" : "ext_clipper::@33abc919e86db66c28b8",
-					"jsonFile" : "target-ext_clipper-Debug-6691c2d6bd9143cb6bfb.json",
+					"jsonFile" : "target-ext_clipper-Debug-804877aea864a21366fd.json",
 					"name" : "ext_clipper",
 					"projectIndex" : 16
 				},
 				{
 					"directoryIndex" : 19,
 					"id" : "ext_convertUTF::@205c2f0e44a3b06b9b59",
-					"jsonFile" : "target-ext_convertUTF-Debug-4e080e3207d8935807e7.json",
+					"jsonFile" : "target-ext_convertUTF-Debug-32dc622159fc77f611b0.json",
 					"name" : "ext_convertUTF",
 					"projectIndex" : 18
 				},
 				{
 					"directoryIndex" : 18,
 					"id" : "ext_edtaa3func::@f3d42e550923b89477b0",
-					"jsonFile" : "target-ext_edtaa3func-Debug-34cdab2134e92537a3d8.json",
+					"jsonFile" : "target-ext_edtaa3func-Debug-17304a909aa6585b0c6c.json",
 					"name" : "ext_edtaa3func",
 					"projectIndex" : 17
 				},
 				{
 					"directoryIndex" : 21,
 					"id" : "ext_md5::@82bef7d6fa8c2aa61808",
-					"jsonFile" : "target-ext_md5-Debug-c5d8b2a812b14c9182d4.json",
+					"jsonFile" : "target-ext_md5-Debug-5e330146ff1c00995318.json",
 					"name" : "ext_md5",
 					"projectIndex" : 20
 				},
 				{
 					"directoryIndex" : 20,
 					"id" : "ext_poly2tri::@ce0bfd23a4070be0c5de",
-					"jsonFile" : "target-ext_poly2tri-Debug-cc116519099d493432e0.json",
+					"jsonFile" : "target-ext_poly2tri-Debug-3908aec6ae6284eec17a.json",
 					"name" : "ext_poly2tri",
 					"projectIndex" : 19
 				},
 				{
 					"directoryIndex" : 6,
 					"id" : "ext_recast::@49aedbc985f97720d891",
-					"jsonFile" : "target-ext_recast-Debug-5fb883fa2535cc8f5c23.json",
+					"jsonFile" : "target-ext_recast-Debug-6d513a1268182b7418ee.json",
 					"name" : "ext_recast",
 					"projectIndex" : 5
 				},
 				{
 					"directoryIndex" : 14,
 					"id" : "ext_tinyxml2::@fd6ab661f4ee25a21ef0",
-					"jsonFile" : "target-ext_tinyxml2-Debug-0405a9acc3369ba2a1a0.json",
+					"jsonFile" : "target-ext_tinyxml2-Debug-31d4bd5fed70f472d806.json",
 					"name" : "ext_tinyxml2",
 					"projectIndex" : 13
 				},
 				{
 					"directoryIndex" : 32,
 					"id" : "ext_unzip::@05a8bf1aba81c1a16e64",
-					"jsonFile" : "target-ext_unzip-Debug-324f33528d2fc655d69c.json",
+					"jsonFile" : "target-ext_unzip-Debug-d7a7ac3cee453279193e.json",
 					"name" : "ext_unzip",
 					"projectIndex" : 31
 				},
 				{
 					"directoryIndex" : 15,
 					"id" : "ext_xxhash::@11e20b8b9139209a045a",
-					"jsonFile" : "target-ext_xxhash-Debug-a00ef7a92f07fe86016a.json",
+					"jsonFile" : "target-ext_xxhash-Debug-e7d959ec5149808a6d64.json",
 					"name" : "ext_xxhash",
 					"projectIndex" : 14
 				},
 				{
 					"directoryIndex" : 16,
 					"id" : "ext_xxtea::@95546a4b2abc077b0042",
-					"jsonFile" : "target-ext_xxtea-Debug-cd36a1fea48294e4df6f.json",
+					"jsonFile" : "target-ext_xxtea-Debug-1778556100da09b75593.json",
 					"name" : "ext_xxtea",
 					"projectIndex" : 15
 				},
 				{
 					"directoryIndex" : 2,
 					"id" : "external::@62470bbe2074d04a1904",
-					"jsonFile" : "target-external-Debug-8cc1ddf2e453b8c86b55.json",
+					"jsonFile" : "target-external-Debug-b4cef111ea94c943025a.json",
 					"name" : "external",
 					"projectIndex" : 1
 				}
@@ -872,8 +872,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "E:/Projects/GitHub/DS_homework/out/build/x64-Debug",
-		"source" : "E:/Projects/GitHub/DS_homework"
+		"build" : "E:/DShomework/out/build/x64-Debug",
+		"source" : "E:/DShomework"
 	},
 	"version" : 
 	{

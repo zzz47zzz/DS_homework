@@ -82,11 +82,11 @@
 			[
 				{
 					"backtrace" : 5,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/cocos/editor-support"
+					"path" : "E:/DShomework/cocos2d/cocos/editor-support"
 				},
 				{
 					"backtrace" : 6,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/recast/.."
+					"path" : "E:/DShomework/cocos2d/external/recast/.."
 				}
 			],
 			"language" : "CXX",
@@ -121,11 +121,11 @@
 			[
 				{
 					"backtrace" : 5,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/cocos/editor-support"
+					"path" : "E:/DShomework/cocos2d/cocos/editor-support"
 				},
 				{
 					"backtrace" : 6,
-					"path" : "E:/Projects/GitHub/DS_homework/cocos2d/external/recast/.."
+					"path" : "E:/DShomework/cocos2d/external/recast/.."
 				}
 			],
 			"language" : "C",
