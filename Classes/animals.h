@@ -64,6 +64,7 @@ public:
 	Wolf* wolf;
 	bool eaten = false;
 	void disappear();
+	cocos2d::Vec2 find_grass(cocos2d::Vec2 pos, MAP* m, int vision);
 };
 
 

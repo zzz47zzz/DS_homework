@@ -11,12 +11,12 @@ using namespace cocos2d::ui;
 class MAP : Ref {
 public:
     MAP(int mapBasicX, int mapBasicY, Scene *PScene, int size_x, int size_y, int nSheep, int nWolf);
-    std::vector<Barren> BarrenGroup;
-    std::vector<Fertile> FertileGroup;
+    std::vector<Barren*> BarrenGroup;
+    std::vector<Fertile*> FertileGroup;
     TMXTiledMap *map = nullptr;
     TMXLayer *landLayer;
     TMXLayer *grassLayer;
-    
+    Land* geo_info[100][100];
 
     Size mapSize;
     void update(float t);
@@ -24,5 +24,7 @@ public:
 
     void start();
     void update2(float t);
+    int get_number_of_grass();
+    bool sheep_eat_grass(cocos2d::Vec2 pos);
 
 };

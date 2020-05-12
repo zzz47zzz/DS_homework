@@ -201,3 +201,65 @@ void Sheep::disappear()
 	CCActionInterval* fadeout = CCFadeOut::create(1);
 	player->runAction(fadeout);
 }
+
+cocos2d::Vec2 Sheep::find_grass(cocos2d::Vec2 pos, MAP* m, int vision)
+{
+	bool rec[101][101];
+	memset(rec, 0, sizeof rec);
+	int moves[3] = { 1, -1, 0 };
+	queue<cocos2d::Vec2> q = queue<cocos2d::Vec2>();
+	q.push(pos);
+	cocos2d::Vec2 tmp;
+	int step = 0;
+	while (!q.empty())
+	{
+		if (step > vision) break;
+		tmp = q.front();
+		q.pop();
+		rec[int(tmp.x)][int(tmp.y)] = true; 
+		int tmp_type = m->geo_info[int(tmp.x)][int(tmp.y)]->type;
+		if (tmp_type == Land::TYPE_BARREN || tmp_type == Land::TYPE_FERTILE)
+		{
+			if (tmp_type == Land::TYPE_BARREN)
+			{
+				Barren* tmp_of_Barren = static_cast<Barren*>(m->geo_info[int(tmp.x)][int(tmp.y)]);
+				if (tmp_of_Barren != nullptr)
+				{
+					if (tmp_of_Barren->currentStatus == Land::HAS_GRASS)
+					{
+						return tmp;
+					}
+				}
+			}
+			else
+			{
+				if (tmp_type == Land::TYPE_FERTILE)
+				{
+					Fertile* tmp_of_Fertile = static_cast<Fertile*>(m->geo_info[int(tmp.x)][int(tmp.y)]);
+					if (tmp_of_Fertile != nullptr)
+					{
+						if (tmp_of_Fertile->currentStatus == Land::HAS_GRASS)
+						{
+							return tmp;
+						}
+					}
+				}
+			}
+		}
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				int newx = tmp.x + moves[i];
+				int newy = tmp.y + moves[i];
+				if (newx >= 0 && newx < 100 && newy >= 0 && newy < 100 && rec[newx][newy] == false)
+				{
+					cocos2d::Vec2 new_pos = cocos2d::Vec2(newx, newy);
+					q.push(new_pos);
+				}
+			}
+		}
+		step ++;
+	}
+	return cocos2d::Vec2(-1, -1);// ËÑË÷Ê§°Ü·µ»Ø-1,-1
+}
