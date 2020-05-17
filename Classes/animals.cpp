@@ -1,7 +1,7 @@
 #include"animals.h"
 #include<iostream>
 
-
+MAP* Animal::map = NULL;
 vector<Sheep*> Wolf::li{};
 int Wolf::sum = 0;
 
@@ -73,21 +73,37 @@ void Sheep::RandomMove()
 void Sheep::funCallback()
 {
 	hp--;
+	bool get_grass = false;
+	Vec2 grass;
 	pos.x = des2.x;
 	pos.y = des2.y;
+	int t1 = int(pos.x) / 25;
+	int t2 = int(pos.y) / 25;
+	if ((t1>0)&&(t1<100)&&(t2>0)&&(t2<100)) {
+		get_grass = map->sheep_eat_grass(Vec2(t1,t2));
+	}
+	if (get_grass) hp += 3;
 	if (hp <= 0) {
 		if (!eaten)
 		{
 			CCActionInterval* fadeout = CCFadeOut::create(1);
-		if (player == NULL) return;
-		if (player != NULL) player->runAction(fadeout);
-		life = false;
-		return;
+			if (player == NULL) return;
+			player->runAction(fadeout);
+			life = false;
+			return;
 		}
 	}
-	RandomMove();
-	return;
+	if ((t1 > 0) && (t1 < 100) && (t2 > 0) && (t2 < 100))
+	{
+		grass = find_grass(Vec2(t1, t2), map, sight);
+		Pos temp;
+		temp.x = grass.x * 25;
+		temp.y = grass.y * 25;
+		if ((grass.x != -1 || grass.y != -1)) Move(temp); else RandomMove();
+	}
+	else RandomMove();
 }
+
 
 Wolf::Wolf(int ahp, double asight, double aspeed)
 {
@@ -101,8 +117,8 @@ Wolf::Wolf(int ahp, double asight, double aspeed)
 	auto glView = Director::getInstance()->getOpenGLView();
 	auto frameSize = glView->getFrameSize();
 
-	pos.x = abs(rand() % 3000);
-	pos.y = abs(rand() % 3000);
+	pos.x = abs(rand() % 2500);
+	pos.y = abs(rand() % 2500);
 
 	des2.x = pos.x;
 	des2.y = pos.y;
@@ -179,15 +195,15 @@ Sheep::Sheep(int ahp, double asight, double aspeed)
 	sight = asight;
 	speed = aspeed;
 	degree = 0;
-	//prey = NULL;
 	auto glView = Director::getInstance()->getOpenGLView();
 	auto frameSize = glView->getFrameSize();
-	pos.x = abs(rand() % 4000);
-	pos.y = abs(rand() % 4000);
+	pos.x = abs(rand() % 2500);
+	pos.y = abs(rand() % 2500);
 	des2.x = pos.x;
 	des2.y = pos.y;
 	player = CCSprite::create("sheep.png");
 	player->setPosition(Vec2(pos.x, pos.y));
+
 }
 Sheep::~Sheep()
 {
@@ -227,6 +243,7 @@ cocos2d::Vec2 Sheep::find_grass(cocos2d::Vec2 pos, MAP* m, int vision)
 				{
 					if (tmp_of_Barren->currentStatus == Land::HAS_GRASS)
 					{
+						if (tmp==pos) return cocos2d::Vec2(-1, -1); else
 						return tmp;
 					}
 				}
@@ -240,6 +257,7 @@ cocos2d::Vec2 Sheep::find_grass(cocos2d::Vec2 pos, MAP* m, int vision)
 					{
 						if (tmp_of_Fertile->currentStatus == Land::HAS_GRASS)
 						{
+							if (tmp == pos) return cocos2d::Vec2(-1, -1); else
 							return tmp;
 						}
 					}

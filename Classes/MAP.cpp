@@ -3,6 +3,9 @@
 #include "animals.h"
 
 MAP::MAP(int mapBasicX, int mapBasicY, Scene *PScene, int size_x, int size_y, int nSheep, int nWolf) {
+    Animal::map = this;
+    nsheep = nSheep;
+    nwolf = nWolf;
     map = TMXTiledMap::create("newMap.tmx");
     map->setName("bgmap");
     map->setPosition(Vec2(mapBasicX, mapBasicY));
@@ -38,12 +41,11 @@ MAP::MAP(int mapBasicX, int mapBasicY, Scene *PScene, int size_x, int size_y, in
             }  
         }
     }
-  
-    start();
+ 
     
-    PScene->getScheduler()->schedule(CC_SCHEDULE_SELECTOR(MAP::update), this, 1.0f, false);
+    PScene->getScheduler()->schedule(CC_SCHEDULE_SELECTOR(MAP::update), this,1.0f, false);
+    start(nSheep, nWolf);
     PScene->getScheduler()->schedule(CC_SCHEDULE_SELECTOR(MAP::update2), this, 5.0f, false);
-
 }
 
 void MAP::update(float t) {
@@ -137,43 +139,44 @@ int MAP::getType(Vec2 pos) {
     }
 }
 
-void MAP::start() {
-    Wolf* a[1000];
-    Sheep* b[1000];
-    for (int i = 0; i <= 50; i++) {
+void MAP::start(int nsheep, int nwolf) {
+    Wolf* a[10000];
+    Sheep* b[10000];
+    for (int i = 0; i < nwolf; i++) {
         a[i] = new Wolf();
         map->addChild(a[i]->player);
     }
-    for (int i = 0; i <= 100; i++) {
+   for (int i = 0; i <nsheep; i++) {
         b[i] = new Sheep();
         Wolf::li.push_back(b[i]);
         map->addChild(b[i]->player);
     }
-    for (int i = 0; i <= 50; i++) {
+   for (int i = 0; i <nwolf; i++) {
         a[i]->funCallback();
     }
-    for (int i = 0; i <= 100; i++) {
+   for (int i = 0; i <nsheep; i++) {
         b[i]->funCallback();
-    }
-
+   }
 }
 
 void MAP::update2(float t) {
     Wolf* a[1000];
     Sheep* b[1000];
-    for (int i = 0; i <= 10; i++) {
+
+    for (int i = 0; i < nwolf / 5; i++) {
         a[i] = new Wolf();
         map->addChild(a[i]->player);
     }
-    for (int i = 0; i <= 50; i++) {
+    for (int i = 0; i < nsheep / 5; i++) {
         b[i] = new Sheep();
         Wolf::li.push_back(b[i]);
         map->addChild(b[i]->player);
     }
-    for (int i = 0; i <= 10; i++) {
+
+    for (int i = 0; i < nwolf / 5; i++) {
         a[i]->funCallback();
     }
-    for (int i = 0; i <= 50; i++) {
+    for (int i = 0; i < nsheep / 5; i++) {
         b[i]->funCallback();
     }
 }

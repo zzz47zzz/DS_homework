@@ -17,12 +17,13 @@ public:
     TMXLayer *landLayer;
     TMXLayer *grassLayer;
     Land* geo_info[100][100];
-
+    int nsheep;
+    int nwolf;
     Size mapSize;
     void update(float t);
     int getType(Vec2 pos);
 
-    void start();
+    void start(int nsheep, int nwolf);
     void update2(float t);
     int get_number_of_grass();
     bool sheep_eat_grass(cocos2d::Vec2 pos);
