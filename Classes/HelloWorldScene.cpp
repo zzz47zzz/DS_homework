@@ -194,7 +194,7 @@ bool HelloWorld::init() {
     textField1->setMaxLength(6);
     panelbg->addChild(textField1);
 
-    auto textField2 = TextField::create("initial sheep number", "Arial", 25);
+    auto textField2 = TextField::create("initial wolf number", "Arial", 25);
     textField2->setName("textField2");
     textField2->setPosition(cocos2d::Vec2(720, 90));
     textField2->setColor(cocos2d::Color3B::WHITE);

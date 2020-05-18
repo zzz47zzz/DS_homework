@@ -4,6 +4,17 @@
 MAP* Animal::map = NULL;
 vector<Sheep*> Wolf::li{};
 int Wolf::sum = 0;
+bool Animal::CheckRiver(Pos pos)
+{
+	int x, y;
+	x = pos.x / 32;
+	y = 99 - pos.y / 32;
+	if (x < 0 || y < 0 || x>99 || y>99) return false;
+	if	(map->geo_info[x][y]->type == Land::TYPE_RIVER) {
+		hp = 0;  return false;
+	}
+	else return true;
+}
 
 void Wolf::funCallback()
 {
@@ -44,10 +55,14 @@ void Wolf::RandomMove()
 {
 	Pos des;
 	int temp, symbolx, symboly;
-	symbolx = rand() % 2 ? 1 : -1;
-	symboly = rand() % 2 ? 1 : -1;
-	des.x = pos.x + rand() % 150 * symbolx;
-	des.y = pos.y + rand() % 150 * symboly;
+	bool tmp = false;
+	while (!tmp) {
+		symbolx = rand() % 2 ? 1 : -1;
+		symboly = rand() % 2 ? 1 : -1;
+		des.x = pos.x + rand() % 150 * symbolx;
+		des.y = pos.y + rand() % 150 * symboly;
+		tmp = CheckRiver(des);
+	}
 	Move(des);
 }
 void Sheep::Move(Pos des)
@@ -64,10 +79,14 @@ void Sheep::RandomMove()
 {
 	Pos des;
 	int temp, symbolx, symboly;
-	symbolx = rand() % 2 ? 1 : -1;
-	symboly = rand() % 2 ? 1 : -1;
-	des.x = pos.x + rand() % 150 * symbolx;
-	des.y = pos.y + rand() % 150 * symboly;
+	bool tmp = false;
+	while (!tmp) {
+		symbolx = rand() % 2 ? 1 : -1;
+		symboly = rand() % 2 ? 1 : -1;
+		des.x = pos.x + rand() % 150 * symbolx;
+		des.y = pos.y + rand() % 150 * symboly;
+		tmp = CheckRiver(des);
+	}
 	Move(des);
 }
 void Sheep::funCallback()
@@ -77,12 +96,15 @@ void Sheep::funCallback()
 	Vec2 grass;
 	pos.x = des2.x;
 	pos.y = des2.y;
-	int t1 = int(pos.x) / 25;
-	int t2 = int(pos.y) / 25;
+	int t1 = int(pos.x) / 32;
+	int t2 = 99 - int(pos.y) / 32;
 	if ((t1>0)&&(t1<100)&&(t2>0)&&(t2<100)) {
 		get_grass = map->sheep_eat_grass(Vec2(t1,t2));
 	}
 	if (get_grass) hp += 3;
+	if (!CheckRiver(pos)) {
+		hp = 0;
+	}
 	if (hp <= 0) {
 		if (!eaten)
 		{
@@ -97,8 +119,8 @@ void Sheep::funCallback()
 	{
 		grass = find_grass(Vec2(t1, t2), map, sight);
 		Pos temp;
-		temp.x = grass.x * 25;
-		temp.y = grass.y * 25;
+		temp.x = grass.x * 32;
+		temp.y = (99 - grass.y) * 32;
 		if ((grass.x != -1 || grass.y != -1)) Move(temp); else RandomMove();
 	}
 	else RandomMove();
@@ -116,10 +138,12 @@ Wolf::Wolf(int ahp, double asight, double aspeed)
 
 	auto glView = Director::getInstance()->getOpenGLView();
 	auto frameSize = glView->getFrameSize();
-
-	pos.x = abs(rand() % 2500);
-	pos.y = abs(rand() % 2500);
-
+	bool tmp = false;
+	while (!tmp) {
+		pos.x = abs(rand() % 3200);
+		pos.y = abs(rand() % 3200);
+		tmp = CheckRiver(pos);
+	}
 	des2.x = pos.x;
 	des2.y = pos.y;
 	player = CCSprite::create("wolf.png");
@@ -197,8 +221,12 @@ Sheep::Sheep(int ahp, double asight, double aspeed)
 	degree = 0;
 	auto glView = Director::getInstance()->getOpenGLView();
 	auto frameSize = glView->getFrameSize();
-	pos.x = abs(rand() % 2500);
-	pos.y = abs(rand() % 2500);
+	bool tmp = false;
+	while (!tmp) {
+		pos.x = abs(rand() % 3200);
+		pos.y = abs(rand() % 3200);
+		tmp = CheckRiver(pos);
+	}
 	des2.x = pos.x;
 	des2.y = pos.y;
 	player = CCSprite::create("sheep.png");

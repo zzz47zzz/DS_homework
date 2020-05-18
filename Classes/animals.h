@@ -42,7 +42,7 @@ public:
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	bool life = true;
 	static MAP* map;
-
+	bool CheckRiver(Pos);
 protected:
 	Pos pos; //位置
 	Pos des2; //当前动作目标
