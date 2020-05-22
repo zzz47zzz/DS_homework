@@ -6,9 +6,10 @@ Land::Land(cocos2d::Vec2 pos, int type): pos(pos), type(type)
 
 Barren::Barren(cocos2d::Vec2 pos):Land(pos, TYPE_BARREN)
 {
-	currentStatus = NO_GRASS;
-	life = 0;
-	gap = GapOfBarrenGrass;
+	currentStatus = rand() % 2;
+	if (currentStatus == 0) gap = rand() % (GapOfBarrenGrass + 1);
+	if (currentStatus == 1) life = rand() % (lifeOfBarrenGrass + 1);
+	
 }
 
 int Barren::lifePass()
@@ -33,16 +34,16 @@ void Barren::change()
 	else
 	{
 		currentStatus = HAS_GRASS;
-		
 	}
 	
 }
 
 Fertile::Fertile(cocos2d::Vec2 pos):Land(pos, TYPE_FERTILE)
 {
-	life = lifeOfFertileGrass;
-	gap = GapOfFertileGrass;
-	currentStatus = NO_GRASS;
+	currentStatus = rand() % 2;
+	if (currentStatus == 0) gap = rand() % (GapOfFertileGrass + 1);
+	if (currentStatus == 1) life = rand() % (lifeOfFertileGrass + 1);
+	
 }
 
 int Fertile::lifePass()
@@ -77,4 +78,5 @@ River::River(cocos2d::Vec2 pos):Land(pos, TYPE_RIVER)
 
 Dessert::Dessert(cocos2d::Vec2 pos):Land(pos, TYPE_DESSERT)
 {
+
 }

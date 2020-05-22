@@ -1,6 +1,7 @@
 #pragma once
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
+
 class Land
 {
 public:
@@ -14,12 +15,10 @@ public:
 	const static int HAS_GRASS = 1;
 	const static int NO_GRASS = 0;
 	// life circle of barren and fertile
-	const static int GapOfBarrenGrass = 3;
-	const static int lifeOfBarrenGrass = 5;
-	const static int GapOfFertileGrass = 2;
-	const static int lifeOfFertileGrass = 7;
-	// total number of grass 
-	static int totalNumOfGrass;
+	const static int GapOfBarrenGrass = 6;
+	const static int lifeOfBarrenGrass = 10;
+	const static int GapOfFertileGrass = 4;
+	const static int lifeOfFertileGrass = 14;
 	// type of land
 	int type;
 	// position of this land

@@ -39,7 +39,10 @@ public:
 		return degree;
 	}
 	CCSprite* player; //精灵
-
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	bool life = true;
+	static MAP* map;
+	bool CheckRiver(Pos);
 protected:
 	Pos pos; //位置
 	Pos des2; //当前动作目标
@@ -54,7 +57,7 @@ class Wolf;
 class Sheep:public Animal
 {
 public:
-	Sheep(int ahp = 5, double asight =110, double aspeed = 15);//后两个单位：像素；像素/秒
+	Sheep(int ahp = 6, double asight =110, double aspeed = 15);//后两个单位：像素；像素/秒
 	void Move(Pos);//移动及显示
 	void RandomMove(); //未发现猎物前随机移动
 	~Sheep();
@@ -62,13 +65,14 @@ public:
 	Wolf* wolf;
 	bool eaten = false;
 	void disappear();
+	cocos2d::Vec2 find_grass(cocos2d::Vec2 pos, MAP* m, int vision);
 };
 
 
 class Wolf:public Animal
 {
 public:
-	Wolf(int ahp = 15, double asight = 200, double aspeed = 50);//后两个单位：像素；像素/秒
+	Wolf(int ahp = 3, double asight = 200, double aspeed = 55);//后两个单位：像素；像素/秒
 	~Wolf();
 	bool Catch(); //获取食物成功与否
 	bool Check(); //检查是否有追捕猎物及当前追捕的猎物是否仍在视野之内
@@ -79,6 +83,9 @@ public:
 	void funCallback();
     static vector<Sheep*> li;
 	int num;
+	static int sum;
+	static int GetWolfSum() { return sum; } //返回狼的数量
+	static int GetSheepSum();
 };
 
 #endif 

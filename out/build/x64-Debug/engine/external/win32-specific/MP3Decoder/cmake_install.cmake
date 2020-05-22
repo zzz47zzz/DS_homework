@@ -1,8 +1,8 @@
-# Install script for directory: E:/Projects/GitHub/DS_homework/cocos2d/external/win32-specific/MP3Decoder
+# Install script for directory: E:/DShomework/cocos2d/external/win32-specific/MP3Decoder
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "E:/Projects/GitHub/DS_homework/out/install/x64-Debug")
+  set(CMAKE_INSTALL_PREFIX "E:/DShomework/out/install/x64-Debug")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 

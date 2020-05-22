@@ -42,9 +42,11 @@ public:
     void menuCloseCallback(cocos2d::Ref *pSender);
     void sliderEvent(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType type);
     void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
-
+   
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
+
+    void start();
 };
 
 #endif // __HELLOWORLD_SCENE_H__
