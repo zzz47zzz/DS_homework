@@ -21,7 +21,7 @@ void Wolf::funCallback()
 	hp--;
 	pos.x = des2.x;
 	pos.y = des2.y;
-	bool s = Catch();
+	const bool s = Catch();
 	if (hp <= 0) {
 		CCActionInterval* fadeout = CCFadeOut::create(1);
 		player->runAction(fadeout);
@@ -32,7 +32,7 @@ void Wolf::funCallback()
 		return;
 	}
 	if (!Check()) {
-		Pos target = FindPrey(li);
+		const Pos target = FindPrey(li);
 		if ((target.x == pos.x) && (target.y == pos.y))
 			RandomMove();
 		else

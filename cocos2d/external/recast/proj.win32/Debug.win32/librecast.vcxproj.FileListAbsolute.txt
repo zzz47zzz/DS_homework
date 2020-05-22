@@ -1,3 +1,5 @@
 E:\DShomework\cocos2d\build\Debug.win32\librecast.pdb
 E:\DShomework\cocos2d\external\recast\proj.win32\Debug.win32\librecast.pdb
 E:\DShomework\proj.win32\Debug.win32\librecast.pdb
+E:\Projects\GitHub\DS_homework\proj.win32\Debug.win32\librecast.pdb
+E:\Projects\GitHub\DS_homework\cocos2d\external\recast\proj.win32\Debug.win32\librecast.pdb

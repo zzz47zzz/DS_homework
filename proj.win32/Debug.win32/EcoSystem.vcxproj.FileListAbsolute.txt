@@ -1,2 +1,4 @@
 E:\DShomework\proj.win32\Debug.win32\EcoSystem.exe
 E:\DShomework\proj.win32\Debug.win32\EcoSystem.pdb
+E:\Projects\GitHub\DS_homework\proj.win32\Debug.win32\EcoSystem.exe
+E:\Projects\GitHub\DS_homework\proj.win32\Debug.win32\EcoSystem.pdb
