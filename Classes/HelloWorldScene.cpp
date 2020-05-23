@@ -49,7 +49,7 @@ bool HelloWorld::init() {
         return false;
     }
 
-    auto visibleSize = Director::getInstance()->getVisibleSize();
+    const auto VISIBLE_SIZE = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     /////////////////////////////
@@ -68,8 +68,8 @@ bool HelloWorld::init() {
         problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
     }
     else {
-        float x = origin.x + visibleSize.width - closeItem->getContentSize().width / 2;
-        float y = origin.y + closeItem->getContentSize().height / 2;
+        const float x = origin.x + VISIBLE_SIZE.width - closeItem->getContentSize().width / 2;
+        const float y = origin.y + closeItem->getContentSize().height / 2;
         closeItem->setPosition(Vec2(x, y));
     }
 
@@ -80,13 +80,13 @@ bool HelloWorld::init() {
 
     ////////////////////////////
     // 3. add your codes below...
-    //地图
 
+    //地图
 
     //面板背景
     auto panelbg = Sprite::create("panelbg.png");
     panelbg->setName("panelbg");
-    panelbg->setContentSize(cocos2d::Size(visibleSize.width, mapBasicY));
+    panelbg->setContentSize(cocos2d::Size(VISIBLE_SIZE.width, mapBasicY));
     panelbg->setAnchorPoint(Vec2(0, 0));
     panelbg->setPosition(Vec2(0, 0));
     this->addChild(panelbg, 1);
@@ -97,7 +97,7 @@ bool HelloWorld::init() {
     slider1->loadBarTexture("Slider_Back.png"); // what the slider looks like
     slider1->loadSlidBallTextures("SliderNode_Normal.png", "SliderNode_Press.png", "SliderNode_Disable.png");
     slider1->loadProgressBarTexture("Slider_PressBar.png");
-    slider1->setPosition(Vec2(300, 50));
+    slider1->setPosition(Vec2(335, 50));
     slider1->setPercent(50);
     slider1->setContentSize(cocos2d::Size(300, 20));
     slider1->addEventListener(CC_CALLBACK_2(HelloWorld::sliderEvent, this));
@@ -108,7 +108,7 @@ bool HelloWorld::init() {
     slider2->loadBarTexture("Slider_Back.png"); // what the slider looks like
     slider2->loadSlidBallTextures("SliderNode_Normal.png", "SliderNode_Press.png", "SliderNode_Disable.png");
     slider2->loadProgressBarTexture("Slider_PressBar.png");
-    slider2->setPosition(Vec2(300, 90));
+    slider2->setPosition(Vec2(335, 90));
     slider2->setPercent(50);
     slider2->setContentSize(cocos2d::Size(300, 20));
     slider2->addEventListener(CC_CALLBACK_2(HelloWorld::sliderEvent, this));
@@ -119,62 +119,63 @@ bool HelloWorld::init() {
     slider3->loadBarTexture("Slider_Back.png"); // what the slider looks like
     slider3->loadSlidBallTextures("SliderNode_Normal.png", "SliderNode_Press.png", "SliderNode_Disable.png");
     slider3->loadProgressBarTexture("Slider_PressBar.png");
-    slider3->setPosition(Vec2(300, 130));
+    slider3->setPosition(Vec2(335, 130));
     slider3->setPercent(50);
     slider3->setContentSize(cocos2d::Size(300, 20));
     slider3->addEventListener(CC_CALLBACK_2(HelloWorld::sliderEvent, this));
     panelbg->addChild(slider3, 1);
 
     //三个百分比标签
-    const std::string FONT_FN = "fonts/Marker Felt.ttf";
-    auto label1 = Label::createWithTTF("50%", FONT_FN, 22);
+    const std::string FONT_MARKFELT = "fonts/Marker Felt.ttf";
+    const std::string FONT_ARIAL = "fonts/arial.ttf";
+    auto label1 = Label::createWithTTF("50%", FONT_MARKFELT, 22);
     label1->setName("label1");
-    label1->setPosition(450, 50);
+    label1->setPosition(475, 50);
     label1->setTextColor(cocos2d::Color4B::WHITE);
     panelbg->addChild(label1, 1);
 
-    auto label2 = Label::createWithTTF("50%", FONT_FN, 22);
+    auto label2 = Label::createWithTTF("50%", FONT_MARKFELT, 22);
     label2->setName("label2");
-    label2->setPosition(450, 90);
+    label2->setPosition(475, 90);
     label2->setTextColor(cocos2d::Color4B::WHITE);
     panelbg->addChild(label2, 1);
 
-    auto label3 = Label::createWithTTF("50%", FONT_FN, 22);
+    auto label3 = Label::createWithTTF("50%", FONT_MARKFELT, 22);
     label3->setName("label3");
-    label3->setPosition(450, 130);
+    label3->setPosition(475, 130);
     label3->setTextColor(cocos2d::Color4B::WHITE);
     panelbg->addChild(label3, 1);
 
     //五个名称标签
-    auto label1_1 = Label::createWithTTF("Grass Growth Rate", FONT_FN, 22);
+    auto label1_1 = Label::createWithTTF("Grass Growth Rate", FONT_MARKFELT, 22);
     label1_1->setName("label1_1");
-    label1_1->setPosition(90, 50);
+    label1_1->setPosition(120, 50);
     label1_1->setTextColor(cocos2d::Color4B::WHITE);
     label1_1->enableBold();
     panelbg->addChild(label1_1, 1);
 
-    auto label2_1 = Label::createWithTTF("Wolf Growth Rate", FONT_FN, 22);
+    auto label2_1 = Label::createWithTTF("Wolf Growth Rate", FONT_MARKFELT, 22);
     label2_1->setName("label2_1");
-    label2_1->setPosition(90, 90);
+    label2_1->setPosition(120, 90);
     label2_1->setTextColor(cocos2d::Color4B::WHITE);
     label2_1->enableBold();
     panelbg->addChild(label2_1, 1);
 
-    auto label3_1 = Label::createWithTTF("Sheep Growth Rate", FONT_FN, 22);
+    auto label3_1 = Label::createWithTTF("Sheep Growth Rate", FONT_MARKFELT, 22);
     label3_1->setName("label3_1");
-    label3_1->setPosition(90, 130);
+    label3_1->setPosition(120, 130);
     label3_1->setTextColor(cocos2d::Color4B::WHITE);
     label3_1->enableBold();
     panelbg->addChild(label3_1, 1);
 
-    auto label4 = Label::createWithTTF("Initial Wolf Num", FONT_FN, 22);
+    auto label4 = Label::createWithTTF("Initial Wolf Num", FONT_MARKFELT, 22);
     label4->setName("label4");
     label4->setPosition(630, 90);
     label4->setTextColor(cocos2d::Color4B::WHITE);
     label4->enableBold();
     panelbg->addChild(label4, 1);
 
-    auto label5 = Label::createWithTTF("Initial Sheep Num", FONT_FN, 22);
+    auto label5 = Label::createWithTTF("Initial Sheep Num", FONT_MARKFELT, 22);
     label5->setName("label5");
     label5->setPosition(630, 130);
     label5->setTextColor(cocos2d::Color4B::WHITE);
@@ -182,9 +183,9 @@ bool HelloWorld::init() {
     panelbg->addChild(label5, 1);
 
     //警告标签
-    auto labelAlert = Label::createWithTTF("", FONT_FN, 23);
+    auto labelAlert = Label::createWithTTF("", FONT_MARKFELT, 23);
     labelAlert->setName("labelAlert");
-    labelAlert->setPosition(1100, 90);
+    labelAlert->setPosition(1000, 90);
     labelAlert->setTextColor(cocos2d::Color4B::RED);
     labelAlert->enableShadow();
     panelbg->addChild(labelAlert, 1);
@@ -195,27 +196,27 @@ bool HelloWorld::init() {
     start_btn->setTitleText("START!");
     start_btn->setTitleFontSize(30);
     start_btn->setTitleColor(cocos2d::Color3B::RED);
-    start_btn->setPosition(cocos2d::Vec2(1100, 130));
+    start_btn->setPosition(cocos2d::Vec2(1000, 130));
     panelbg->addChild(start_btn, 1);
 
     //输入文本框
-    auto textField1 = TextField::create("e.g. 500", "Arial", 25);
+    auto textField1 = TextField::create("e.g. 500", FONT_ARIAL, 25);
     textField1->setName("textField1");
     textField1->setPosition(cocos2d::Vec2(800, 130));
     textField1->setColor(cocos2d::Color3B::WHITE);
     textField1->setTextColor(cocos2d::Color4B::WHITE);
-    textField1->setSize(cocos2d::Size(100, 80));
+    //textField1->setSize(cocos2d::Size(100, 80));
     textField1->setMaxLengthEnabled(true);
     textField1->setMaxLength(6);
     textField1->setCursorEnabled(true);
     panelbg->addChild(textField1);
 
-    auto textField2 = TextField::create("e.g. 250", "Arial", 25);
+    auto textField2 = TextField::create("e.g. 250", FONT_ARIAL, 25);
     textField2->setName("textField2");
     textField2->setPosition(cocos2d::Vec2(800, 90));
     textField2->setColor(cocos2d::Color3B::WHITE);
     textField2->setTextColor(cocos2d::Color4B::WHITE);
-    textField2->setSize(cocos2d::Size(100, 80));
+    //textField2->setSize(cocos2d::Size(100, 80));
     textField2->setMaxLengthEnabled(true);
     textField2->setMaxLength(6);
     textField2->setCursorEnabled(true);
@@ -225,6 +226,35 @@ bool HelloWorld::init() {
     auto listener = EventListenerKeyboard::create();
     listener->onKeyPressed = CC_CALLBACK_2(HelloWorld::onKeyPressed, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+
+    // 显示数量信息
+    auto infoArea = Sprite::create("white.png");
+    infoArea->setName("infoArea");
+    infoArea->setAnchorPoint(Vec2(0, 1));
+    infoArea->setOpacity(150);
+    infoArea->setPosition(Vec2(start_btn->getRightBoundary() + 100,
+        start_btn->getTopBoundary()));
+    infoArea->setContentSize(cocos2d::Size::ZERO);
+    infoArea->setVisible(false);
+    panelbg->addChild(infoArea, 1);
+
+    auto wolfNumLbl = Label::createWithTTF("No. of Wolves:", FONT_MARKFELT, 22);
+    wolfNumLbl->setName("wolfNumLbl");
+    wolfNumLbl->setAnchorPoint(Vec2(0, 1));
+    infoArea->addChild(wolfNumLbl);
+
+    const auto LABEL_HEIGHT = wolfNumLbl->getContentSize().height;
+    auto sheepNumLbl = Label::createWithTTF("No. of Sheep:", FONT_MARKFELT, 22);
+    sheepNumLbl->setName("sheepNumLbl");
+    sheepNumLbl->setAnchorPoint(Vec2(0, 1));
+    sheepNumLbl->setPosition(Vec2(0, -(LABEL_HEIGHT + 10)));
+    infoArea->addChild(sheepNumLbl);
+
+    auto grassNumLbl = Label::createWithTTF("No. of Grass:", FONT_MARKFELT, 22);
+    grassNumLbl->setName("grassNumLbl");
+    grassNumLbl->setAnchorPoint(Vec2(0, 1));
+    grassNumLbl->setPosition(Vec2(0, -2 * (LABEL_HEIGHT + 10)));
+    infoArea->addChild(grassNumLbl);
 
     start_btn->addTouchEventListener([&](Ref *sender, Widget::TouchEventType type) {
 
@@ -237,7 +267,7 @@ bool HelloWorld::init() {
         auto input_sheep = _textField1->getString();
         auto input_wolf = _textField2->getString();
         auto _labelAlert = (Label *)_panelbg->getChildByName("labelAlert");
-        int nSheep, nWolf;
+        int nSheep = 1, nWolf = 1;
         try {
             nSheep = std::stoi(input_sheep);
             nWolf = std::stoi(input_wolf);
@@ -254,6 +284,10 @@ bool HelloWorld::init() {
             _labelAlert->setString("Please input within 1-100000 !");
             return;
         }
+        catch (...) {
+            _labelAlert->setString("Unknown error...");
+            return;
+        }
         _labelAlert->setString("Loading...");
 
         switch (type) {
@@ -264,31 +298,36 @@ bool HelloWorld::init() {
                     MAP *m = new MAP(mapBasicX, mapBasicY, this, 100, 100, nSheep, nWolf);
                     TMXTiledMap *map = m->map;
                     //小地图
-                    constexpr double padding = 5;
+                    const constexpr double PADDING = 5;
                     const Rect rect = Director::getInstance()->getOpenGLView()->getVisibleRect();
+                    const auto RECT_WIDTH = rect.size.width;
+                    const auto RECT_HEIGHT = rect.size.height;
                     //小地图背景
                     auto smallMapBase = Sprite::create("white.png");
                     smallMapBase->setName("smallMapBase");
-                    constexpr double smallMapWidth = 140;
-                    constexpr double smallMapHeight = 140;
+                    const constexpr double smallMapWidth = 140;
+                    const constexpr double smallMapHeight = 140;
                     smallMapBase->setContentSize(cocos2d::Size(smallMapWidth, smallMapHeight));
                     smallMapBase->setColor(cocos2d::Color3B::ORANGE);
-                    smallMapBase->setAnchorPoint(Vec2(0, 0));
-                    smallMapBase->setPosition(origin.x + rect.size.width - padding - smallMapWidth, origin.y + rect.size.height - padding - smallMapHeight);
+                    smallMapBase->setAnchorPoint(Vec2::ZERO);
+                    smallMapBase->setPosition(origin.x + RECT_WIDTH - PADDING - smallMapWidth, origin.y + RECT_HEIGHT - PADDING - smallMapHeight);
                     smallMapBase->setOpacity(150);
                     this->addChild(smallMapBase, 2);
 
                     //小地图表示屏幕视野的矩形
                     auto smallMapRect = Sprite::create("white.png");
-                    double smallMapRectWidth = smallMapWidth / map->getContentSize().width * (rect.size.width - mapBasicX);
-                    double smallMapRectHeight = smallMapHeight / map->getContentSize().height * (rect.size.height - mapBasicY);
+                    double smallMapRectWidth = smallMapWidth / map->getContentSize().width * (RECT_WIDTH - mapBasicX);
+                    double smallMapRectHeight = smallMapHeight / map->getContentSize().height * (RECT_HEIGHT - mapBasicY);
                     smallMapRect->setContentSize(cocos2d::Size(smallMapRectWidth, smallMapRectHeight));
                     smallMapRect->setColor(cocos2d::Color3B::RED);
-                    smallMapRect->setAnchorPoint(Vec2(0, 0));
+                    smallMapRect->setAnchorPoint(Vec2::ZERO);
                     smallMapRect->setPosition(Vec2::ZERO);
                     smallMapRect->setOpacity(200);
                     smallMapRect->setName("smallMapRect");
                     smallMapBase->addChild(smallMapRect, 2);
+
+                    const auto _infoArea = (Sprite*)_panelbg->getChildByName("infoArea");
+                    _infoArea->setVisible(true);
                 }
                 break;
         }
@@ -315,8 +354,8 @@ void HelloWorld::menuCloseCallback(Ref *pSender) {
 
 void HelloWorld::sliderEvent(Ref *pSender, Slider::EventType type) {
     switch (type) {
-        case Slider::EventType::ON_PERCENTAGE_CHANGED :
-            {
+        case Slider::EventType::ON_PERCENTAGE_CHANGED:
+        {
             auto _slider = dynamic_cast<Slider *>(pSender);
             auto _panelbg = (Sprite *)this->getChildByName("panelbg");
 
@@ -327,8 +366,8 @@ void HelloWorld::sliderEvent(Ref *pSender, Slider::EventType type) {
             _label->setString(StringUtils::format("%d%%", percent));
 
             log("%s --> %d %%", _sliderName.c_str(), percent);
-            }
-            break;
+        }
+        break;
     }
 }
 // Implementation of the keyboard event callback function prototype

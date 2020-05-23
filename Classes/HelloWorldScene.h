@@ -36,7 +36,7 @@ public:
     static cocos2d::Scene *createScene();
     MAP *m = nullptr;
 
-    bool init();
+    bool init() override;
 
     // a selector callback
     void menuCloseCallback(cocos2d::Ref *pSender);
