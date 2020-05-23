@@ -40,7 +40,7 @@ public:
 
     // a selector callback
     void menuCloseCallback(cocos2d::Ref *pSender);
-    void sliderEvent(Ref *pSender, SliderEventType type);
+    void sliderEvent(Ref *pSender, Slider::EventType type);
     void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
    
     // implement the "static create()" method manually

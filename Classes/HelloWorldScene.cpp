@@ -100,7 +100,7 @@ bool HelloWorld::init() {
     slider1->setPosition(Vec2(300, 50));
     slider1->setPercent(50);
     slider1->setContentSize(cocos2d::Size(300, 20));
-    slider1->addEventListenerSlider(this, sliderpercentchangedselector(HelloWorld::sliderEvent));
+    slider1->addEventListener(CC_CALLBACK_2(HelloWorld::sliderEvent, this));
     panelbg->addChild(slider1, 1);
 
     auto slider2 = Slider::create();
@@ -111,7 +111,7 @@ bool HelloWorld::init() {
     slider2->setPosition(Vec2(300, 90));
     slider2->setPercent(50);
     slider2->setContentSize(cocos2d::Size(300, 20));
-    slider2->addEventListenerSlider(this, sliderpercentchangedselector(HelloWorld::sliderEvent));
+    slider2->addEventListener(CC_CALLBACK_2(HelloWorld::sliderEvent, this));
     panelbg->addChild(slider2, 1);
 
     auto slider3 = Slider::create();
@@ -122,7 +122,7 @@ bool HelloWorld::init() {
     slider3->setPosition(Vec2(300, 130));
     slider3->setPercent(50);
     slider3->setContentSize(cocos2d::Size(300, 20));
-    slider3->addEventListenerSlider(this, sliderpercentchangedselector(HelloWorld::sliderEvent));
+    slider3->addEventListener(CC_CALLBACK_2(HelloWorld::sliderEvent, this));
     panelbg->addChild(slider3, 1);
 
     //三个百分比标签
@@ -169,14 +169,14 @@ bool HelloWorld::init() {
 
     auto label4 = Label::createWithTTF("Initial Wolf Num", FONT_FN, 22);
     label4->setName("label4");
-    label4->setPosition(650, 90);
+    label4->setPosition(630, 90);
     label4->setTextColor(cocos2d::Color4B::WHITE);
     label4->enableBold();
     panelbg->addChild(label4, 1);
 
     auto label5 = Label::createWithTTF("Initial Sheep Num", FONT_FN, 22);
     label5->setName("label5");
-    label5->setPosition(650, 130);
+    label5->setPosition(630, 130);
     label5->setTextColor(cocos2d::Color4B::WHITE);
     label5->enableBold();
     panelbg->addChild(label5, 1);
@@ -184,7 +184,7 @@ bool HelloWorld::init() {
     //警告标签
     auto labelAlert = Label::createWithTTF("", FONT_FN, 23);
     labelAlert->setName("labelAlert");
-    labelAlert->setPosition(1000, 90);
+    labelAlert->setPosition(1100, 90);
     labelAlert->setTextColor(cocos2d::Color4B::RED);
     labelAlert->enableShadow();
     panelbg->addChild(labelAlert, 1);
@@ -195,26 +195,30 @@ bool HelloWorld::init() {
     start_btn->setTitleText("START!");
     start_btn->setTitleFontSize(30);
     start_btn->setTitleColor(cocos2d::Color3B::RED);
-    start_btn->setPosition(cocos2d::Vec2(1000, 130));
+    start_btn->setPosition(cocos2d::Vec2(1100, 130));
     panelbg->addChild(start_btn, 1);
 
     //输入文本框
     auto textField1 = TextField::create("e.g. 500", "Arial", 25);
     textField1->setName("textField1");
-    textField1->setPosition(cocos2d::Vec2(820, 130));
+    textField1->setPosition(cocos2d::Vec2(800, 130));
     textField1->setColor(cocos2d::Color3B::WHITE);
     textField1->setTextColor(cocos2d::Color4B::WHITE);
     textField1->setSize(cocos2d::Size(100, 80));
+    textField1->setMaxLengthEnabled(true);
     textField1->setMaxLength(6);
+    textField1->setCursorEnabled(true);
     panelbg->addChild(textField1);
 
     auto textField2 = TextField::create("e.g. 250", "Arial", 25);
     textField2->setName("textField2");
-    textField2->setPosition(cocos2d::Vec2(820, 90));
+    textField2->setPosition(cocos2d::Vec2(800, 90));
     textField2->setColor(cocos2d::Color3B::WHITE);
     textField2->setTextColor(cocos2d::Color4B::WHITE);
     textField2->setSize(cocos2d::Size(100, 80));
+    textField2->setMaxLengthEnabled(true);
     textField2->setMaxLength(6);
+    textField2->setCursorEnabled(true);
     panelbg->addChild(textField2);
 
     //4.Listener
@@ -230,8 +234,8 @@ bool HelloWorld::init() {
         auto _textField2 = (TextField *)_panelbg->getChildByName("textField2");
         //log("%s", _textField1->getString().c_str());
         //log("%s", _textField2->getString().c_str());
-        const std::string input_sheep = _textField1->getString();
-        const std::string input_wolf = _textField2->getString();
+        auto input_sheep = _textField1->getString();
+        auto input_wolf = _textField2->getString();
         auto _labelAlert = (Label *)_panelbg->getChildByName("labelAlert");
         int nSheep, nWolf;
         try {
@@ -242,11 +246,11 @@ bool HelloWorld::init() {
             if (nSheep <= 0 || nSheep > 100000 || nWolf <= 0 || nWolf > 100000)
                 throw std::out_of_range("");
         }
-        catch (const std::invalid_argument &e) {
+        catch (const std::invalid_argument &) {
             _labelAlert->setString("Input is NOT NUMERAL!");
             return;
         }
-        catch (const std::out_of_range &e) {
+        catch (const std::out_of_range &) {
             _labelAlert->setString("Please input within 1-100000 !");
             return;
         }
@@ -261,7 +265,7 @@ bool HelloWorld::init() {
                     TMXTiledMap *map = m->map;
                     //小地图
                     constexpr double padding = 5;
-                    Rect rect = Director::getInstance()->getOpenGLView()->getVisibleRect();
+                    const Rect rect = Director::getInstance()->getOpenGLView()->getVisibleRect();
                     //小地图背景
                     auto smallMapBase = Sprite::create("white.png");
                     smallMapBase->setName("smallMapBase");
@@ -309,11 +313,11 @@ void HelloWorld::menuCloseCallback(Ref *pSender) {
 
 }
 
-void HelloWorld::sliderEvent(Ref *pSender, SliderEventType type) {
+void HelloWorld::sliderEvent(Ref *pSender, Slider::EventType type) {
     switch (type) {
-        case SLIDER_PERCENTCHANGED:
+        case Slider::EventType::ON_PERCENTAGE_CHANGED :
             {
-            cocos2d::ui::Slider *_slider = dynamic_cast<Slider *>(pSender);
+            auto _slider = dynamic_cast<Slider *>(pSender);
             auto _panelbg = (Sprite *)this->getChildByName("panelbg");
 
             const std::string _sliderName = _slider->getName();
