@@ -20,7 +20,7 @@ void Wolf::funCallback() {
     hp--;
     pos.x = des2.x;
     pos.y = des2.y;
-    //const bool s = Catch();
+    const bool s = Catch();
     if (hp <= 0) {
         CCActionInterval *fadeout = CCFadeOut::create(1);
         player->runAction(fadeout);
@@ -69,7 +69,7 @@ void Wolf::RandomMove() {
 void Sheep::Move(Pos des) {
     des2.x = des.x;
     des2.y = des.y;
-    CCMoveTo *move = CCMoveTo::create((GetDistance(des) / speed), Vec2(des.x, des.y));
+    CCMoveTo *move = CCMoveTo::create((GetDistance(des) / (hp/100.f * speed)), Vec2(des.x, des.y));
     CallFunc *func = CallFunc::create(CC_CALLBACK_0(Sheep::funCallback, this));
     Sequence *sequence = Sequence::create(move, func, NULL);
     if (!eaten)	player->runAction(sequence);
@@ -99,7 +99,7 @@ void Sheep::funCallback() {
     if ((t1 > 0) && (t1 < 100) && (t2 > 0) && (t2 < 100)) {
         get_grass = map->sheep_eat_grass(Vec2(t1, t2));
     }
-    if (get_grass) hp += 3;
+    if (get_grass) hp += 3; // Ò»¿Ã²Ý¼Ó3 HP
     if (!CheckRiver(pos)) {
         hp = 0;
     }
@@ -128,12 +128,12 @@ Wolf::Wolf(int ahp, double asight, double aspeed):prey(nullptr){
     speed = aspeed;
     degree = 0;
 
-    auto glView = Director::getInstance()->getOpenGLView();
-    auto frameSize = glView->getFrameSize();
+    //auto glView = Director::getInstance()->getOpenGLView();
+    //auto frameSize = glView->getFrameSize();
     bool tmp = false;
     while (!tmp) {
-        pos.x = abs(rand() % 3200);
-        pos.y = abs(rand() % 3200);
+        pos.x = rand() % 3200;
+        pos.y = rand() % 3200;
         tmp = CheckRiver(pos);
     }
     des2.x = pos.x;
@@ -204,7 +204,7 @@ Sheep::Sheep(int ahp, double asight, double aspeed) {
     sight = asight;
     speed = aspeed;
     degree = 0;
-    auto frameSize = Director::getInstance()->getOpenGLView()->getFrameSize();
+    //auto frameSize = Director::getInstance()->getOpenGLView()->getFrameSize();
     bool tmp = false;
     while (!tmp) {
         pos.x = abs(rand() % 3200);

@@ -36,9 +36,9 @@ MAP::MAP(int mapBasicX, int mapBasicY, Scene *PScene, int size_x, int size_y, in
         }
     }
 
-    PScene->getScheduler()->schedule(std::bind(&MAP::update, this, std::placeholders::_1), this, 1.0f, false, "updateGround");
+    PScene->getScheduler()->schedule(CC_SCHEDULE_SELECTOR(MAP::update), this, 1.0f, false);
     start(nSheep, nWolf);
-    PScene->getScheduler()->schedule(std::bind(&MAP::update2, this, std::placeholders::_1), this, 5.0f, false, "updateAnimal");
+    PScene->getScheduler()->schedule(CC_SCHEDULE_SELECTOR(MAP::update2), this, 5.0f, false);
 }
 
 void MAP::update(float t) {
