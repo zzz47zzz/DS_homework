@@ -2,11 +2,9 @@
 #include <iostream>
 #include "animals.h"
 
-MAP::MAP(int mapBasicX, int mapBasicY, Scene *PScene, int size_x, int size_y, int nSheep, int nWolf) {
+MAP::MAP(int mapBasicX, int mapBasicY, Scene *PScene, int size_x, int size_y, int nSheep, int nWolf)
+    :nsheep(nSheep), nwolf(nWolf), map(TMXTiledMap::create("newMap.tmx")) {
     Animal::map = this;
-    nsheep = nSheep;
-    nwolf = nWolf;
-    map = TMXTiledMap::create("newMap.tmx");
     map->setName("bgmap");
     map->setPosition(Vec2(mapBasicX, mapBasicY));
     map->setAnchorPoint(Vec2(0, 0));
@@ -17,85 +15,82 @@ MAP::MAP(int mapBasicX, int mapBasicY, Scene *PScene, int size_x, int size_y, in
     for (int i = 0; i < size_x; ++i) {
         for (int j = 0; j < size_y; ++j) {
             const int type = getType(Vec2(i, j));
-            if (type == Land::TYPE_BARREN)
-            {
-                Barren* tmp = new Barren(Vec2(i, j));
+            if (type == Land::TYPE_BARREN) {
+                Barren *tmp = new Barren(Vec2(i, j));
                 BarrenGroup.push_back(tmp);
                 geo_info[i][j] = tmp;
             }
-            else if (type == Land::TYPE_FERTILE)
-            {
-                Fertile* tmp = new Fertile(Vec2(i, j));
+            else if (type == Land::TYPE_FERTILE) {
+                Fertile *tmp = new Fertile(Vec2(i, j));
                 FertileGroup.push_back(tmp);
                 geo_info[i][j] = tmp;
             }
-            else if (type == Land::TYPE_RIVER)
-            {
-                River* tmp = new River(Vec2(i, j));
+            else if (type == Land::TYPE_RIVER) {
+                River *tmp = new River(Vec2(i, j));
                 geo_info[i][j] = tmp;
             }
-            else if (type == Land::TYPE_DESSERT)
-            {
-                Dessert* tmp = new Dessert(Vec2(i, j));
+            else if (type == Land::TYPE_DESSERT) {
+                Dessert *tmp = new Dessert(Vec2(i, j));
                 geo_info[i][j] = tmp;
-            }  
+            }
         }
     }
- 
-    
-    PScene->getScheduler()->schedule(CC_SCHEDULE_SELECTOR(MAP::update), this,1.0f, false);
+
+    PScene->getScheduler()->schedule(CC_SCHEDULE_SELECTOR(MAP::update), this, 1.0f, false);
     start(nSheep, nWolf);
     PScene->getScheduler()->schedule(CC_SCHEDULE_SELECTOR(MAP::update2), this, 5.0f, false);
 }
 
 void MAP::update(float t) {
     for (auto p = BarrenGroup.begin(); p != BarrenGroup.end(); ++p) {
-        if ((*p)->currentStatus == Land::HAS_GRASS) {
-            if ((*p)->life == 0) {
+        Barren *const bp = *p;
+        if (bp->currentStatus == Land::HAS_GRASS) {
+            if (bp->life == 0) {
                 // turn grass into invisible
-                (*p)->change();
-                landLayer->setTileGID(2, (*p)->pos);
-                (*p)->gap = Land::GapOfBarrenGrass;
+                bp->change();
+                landLayer->setTileGID(2, bp->pos);
+                bp->gap = Land::GapOfBarrenGrass;
             }
             else {
-                (*p)->lifePass();
+                bp->lifePass();
             }
         }
         else {
-            if ((*p)->gap == 0) {
+            if (bp->gap == 0) {
                 // turn grass into visible
-                (*p)->change();
-                landLayer->setTileGID(18, (*p)->pos);
-                (*p)->life = Land::lifeOfBarrenGrass;
+                bp->change();
+                landLayer->setTileGID(18, bp->pos);
+                bp->life = Land::lifeOfBarrenGrass;
             }
             else {
-                (*p)->gapPass();
+                bp->gapPass();
             }
 
         }
     }
 
     for (auto p = FertileGroup.begin(); p != FertileGroup.end(); ++p) {
-        if ((*p)->currentStatus == Land::HAS_GRASS) {
-            if ((*p)->life == 0) {
+        Fertile *const fp = *p;
+        if (fp->currentStatus == Land::HAS_GRASS) {
+            if (fp->life == 0) {
                 // turn grass into invisible
-                (*p)->change();
-                landLayer->setTileGID(10, (*p)->pos);
-                (*p)->gap = Land::GapOfFertileGrass;
+                fp->change();
+                landLayer->setTileGID(10, fp->pos);
+                fp->gap = Land::GapOfFertileGrass;
             }
             else {
-                (*p)->lifePass();
+                fp->lifePass();
             }
         }
         else {
-            if ((*p)->gap == 0) {
+            if (fp->gap == 0) {
                 // turn grass into visible
-                (*p)->change();
-                landLayer->setTileGID(18, (*p)->pos);
-                (*p)->life = Land::lifeOfFertileGrass;
+                fp->change();
+                landLayer->setTileGID(18, fp->pos);
+                fp->life = Land::lifeOfFertileGrass;
             }
             else {
-                (*p)->gapPass();
+                fp->gapPass();
             }
 
         }
@@ -133,35 +128,33 @@ int MAP::getType(Vec2 pos) {
         case 15:
             return Land::TYPE_RIVER;
             break;
-        default:
-            return -1;
-            break;
     }
+    return -1;
 }
 
 void MAP::start(int nsheep, int nwolf) {
-    Wolf* a[10000];
-    Sheep* b[10000];
+    Wolf *a[10000];
+    Sheep *b[10000];
     for (int i = 0; i < nwolf; i++) {
         a[i] = new Wolf();
         map->addChild(a[i]->player);
     }
-   for (int i = 0; i <nsheep; i++) {
+    for (int i = 0; i < nsheep; i++) {
         b[i] = new Sheep();
         Wolf::li.push_back(b[i]);
         map->addChild(b[i]->player);
     }
-   for (int i = 0; i <nwolf; i++) {
+    for (int i = 0; i < nwolf; i++) {
         a[i]->funCallback();
     }
-   for (int i = 0; i <nsheep; i++) {
+    for (int i = 0; i < nsheep; i++) {
         b[i]->funCallback();
-   }
+    }
 }
 
 void MAP::update2(float t) {
-    Wolf* a[1000];
-    Sheep* b[1000];
+    Wolf *a[1000];
+    Sheep *b[1000];
 
     for (int i = 0; i < nwolf / 5; i++) {
         a[i] = new Wolf();
@@ -181,49 +174,37 @@ void MAP::update2(float t) {
     }
 }
 
-int MAP::get_number_of_grass()
-{
+int MAP::get_number_of_grass() {
     int num = 0;
-    for (auto p = BarrenGroup.begin(); p != BarrenGroup.end(); ++p)
-    {
+    for (auto p = BarrenGroup.begin(); p != BarrenGroup.end(); ++p) {
         if ((*p)->currentStatus == Land::HAS_GRASS) num++;
     }
-    for (auto p = FertileGroup.begin(); p != FertileGroup.end(); ++p)
-    {
+    for (auto p = FertileGroup.begin(); p != FertileGroup.end(); ++p) {
         if ((*p)->currentStatus == Land::HAS_GRASS) num++;
     }
     return num;
 }
 
-bool MAP::sheep_eat_grass(cocos2d::Vec2 pos)
-{
+bool MAP::sheep_eat_grass(cocos2d::Vec2 pos) {
     // 羊吃掉pos处的草，返回bool代表吃草成功与否，若该地没有草则失败，若成功吃草，则草在下一个update中会消失
-    int x = pos.x;
-    int y = pos.y;
-    Land* tmp = geo_info[x][y];
-    if (tmp->type == Land::TYPE_BARREN || tmp->type == Land::TYPE_FERTILE)
-    {
-        if (tmp->type == Land::TYPE_BARREN)
-        {
-            Barren* tmp_of_Barren = static_cast<Barren*>(tmp);
-            if (tmp_of_Barren != nullptr)
-            {
-                if (tmp_of_Barren->currentStatus == Land::HAS_GRASS)
-                {
+    const int x = pos.x;
+    const int y = pos.y;
+    Land *tmp = geo_info[x][y];
+    if (tmp->type == Land::TYPE_BARREN || tmp->type == Land::TYPE_FERTILE) {
+        if (tmp->type == Land::TYPE_BARREN) {
+            Barren *tmp_of_Barren = static_cast<Barren *>(tmp);
+            if (tmp_of_Barren) {
+                if (tmp_of_Barren->currentStatus == Land::HAS_GRASS) {
                     tmp_of_Barren->life = 0;
                     return true;
                 }
             }
         }
-        else
-        {
-            if (tmp->type == Land::TYPE_FERTILE)
-            {
-                Fertile* tmp_of_Fertile = static_cast<Fertile*>(tmp);
-                if (tmp_of_Fertile != nullptr)
-                {
-                    if (tmp_of_Fertile->currentStatus == Land::HAS_GRASS)
-                    {
+        else {
+            if (tmp->type == Land::TYPE_FERTILE) {
+                Fertile *tmp_of_Fertile = static_cast<Fertile *>(tmp);
+                if (tmp_of_Fertile) {
+                    if (tmp_of_Fertile->currentStatus == Land::HAS_GRASS) {
                         tmp_of_Fertile->life = 0;
                         return true;
                     }
