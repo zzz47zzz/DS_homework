@@ -73,7 +73,7 @@ public:
     ~Wolf();
     bool Catch(); //获取食物成功与否
     bool Check(); //检查是否有追捕猎物及当前追捕的猎物是否仍在视野之内
-    Pos FindPrey(vector<Sheep *> li); //寻找猎物 当前使用stl，后续应采用列表或其他自己完成的数据结构
+    Pos FindPrey(vector<Sheep*> li); //寻找猎物 当前使用stl，后续应采用列表或其他自己完成的数据结构
     Sheep *prey; //当前锁定的猎物
     void Move(Pos);//移动及显示
     void RandomMove(); //未发现猎物前随机移动
