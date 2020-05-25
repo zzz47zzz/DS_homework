@@ -34,7 +34,12 @@ public:
     static double mapXasicX;
     static double mapXasicY;
     static cocos2d::Scene *createScene();
+
     MAP *m = nullptr;
+    Label *wolfNumLbl, *sheepNumLbl, *grassNumLbl;
+    void updateWolf(const int n);
+    void updateSheep(const int n);
+    void updateGrass(const int n);
 
     bool init() override;
 
@@ -46,7 +51,7 @@ public:
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 
-    void start();
+    //void start();
 };
 
 #endif // __HELLOWORLD_SCENE_H__

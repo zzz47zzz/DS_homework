@@ -32,6 +32,15 @@ using namespace cocos2d::ui;
 Scene *HelloWorld::createScene() {
     return HelloWorld::create();
 }
+void HelloWorld::updateWolf(const int n) {
+    wolfNumLbl->setString(StringUtils::format("No. of Wolves: %d", n));
+}
+void HelloWorld::updateSheep(const int n) {
+    sheepNumLbl->setString(StringUtils::format("No. of Sheep: %d", n));
+}
+void HelloWorld::updateGrass(const int n) {
+    grassNumLbl->setString(StringUtils::format("No. of Grass: %d", n));
+}
 static double mapBasicX = 0;
 static double mapBasicY = 180;
 
@@ -238,19 +247,19 @@ bool HelloWorld::init() {
     infoArea->setVisible(false);
     panelbg->addChild(infoArea, 1);
 
-    auto wolfNumLbl = Label::createWithTTF("No. of Wolves:", FONT_MARKFELT, 22);
+    wolfNumLbl = Label::createWithTTF("No. of Wolves:", FONT_MARKFELT, 22);
     wolfNumLbl->setName("wolfNumLbl");
     wolfNumLbl->setAnchorPoint(Vec2(0, 1));
     infoArea->addChild(wolfNumLbl);
 
     const auto LABEL_HEIGHT = wolfNumLbl->getContentSize().height;
-    auto sheepNumLbl = Label::createWithTTF("No. of Sheep:", FONT_MARKFELT, 22);
+    sheepNumLbl = Label::createWithTTF("No. of Sheep:", FONT_MARKFELT, 22);
     sheepNumLbl->setName("sheepNumLbl");
     sheepNumLbl->setAnchorPoint(Vec2(0, 1));
     sheepNumLbl->setPosition(Vec2(0, -(LABEL_HEIGHT + 10)));
     infoArea->addChild(sheepNumLbl);
 
-    auto grassNumLbl = Label::createWithTTF("No. of Grass:", FONT_MARKFELT, 22);
+    grassNumLbl = Label::createWithTTF("No. of Grass:", FONT_MARKFELT, 22);
     grassNumLbl->setName("grassNumLbl");
     grassNumLbl->setAnchorPoint(Vec2(0, 1));
     grassNumLbl->setPosition(Vec2(0, -2 * (LABEL_HEIGHT + 10)));

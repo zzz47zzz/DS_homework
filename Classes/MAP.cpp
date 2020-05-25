@@ -3,7 +3,7 @@
 #include "animals.h"
 
 MAP::MAP(int mapBasicX, int mapBasicY, Scene *PScene, int size_x, int size_y, int nSheep, int nWolf)
-    :nsheep(nSheep), nwolf(nWolf), map(TMXTiledMap::create("newMap.tmx")) {
+    :nsheep(nSheep), nwolf(nWolf), map(TMXTiledMap::create("newMap.tmx")), scene((HelloWorld *)PScene) {
     Animal::map = this;
     map->setName("bgmap");
     map->setPosition(Vec2(mapBasicX, mapBasicY));
@@ -95,6 +95,7 @@ void MAP::update(float t) {
 
         }
     }
+    scene->updateGrass(get_number_of_grass());
   //  for (int i = 0; i <= 50; i++) {
   //     if (!a[i]->life) delete(a[i]);
   //  }
@@ -150,37 +151,33 @@ void MAP::start(int nsheep, int nwolf) {
     for (int i = 0; i < nsheep; i++) {
         b[i]->funCallback();
     }
+    scene->updateWolf(Wolf::GetWolfSum());
+    scene->updateSheep(Wolf::getSheepSum());
 }
 
 void MAP::update2(float t) {
-    Wolf *a[1000];
-    Sheep *b[1000];
-
-    for (int i = 0; i < nwolf / 5; i++) {
-        a[i] = new Wolf();
-        map->addChild(a[i]->player);
+    for (int i = 0, _nwolf=Wolf::GetWolfSum(); i < _nwolf / 5; i++) {
+        auto w = new Wolf();
+        map->addChild(w->player);
+        w->funCallback();
     }
-    for (int i = 0; i < nsheep / 5; i++) {
-        b[i] = new Sheep();
-        Wolf::li.push_back(b[i]);
-        map->addChild(b[i]->player);
+    for (int i = 0,_nsheep=Wolf::getSheepSum(); i < _nsheep / 5; i++) {
+        auto s = new Sheep();
+        Wolf::li.push_back(s);
+        map->addChild(s->player);
+        s->funCallback();
     }
-
-    for (int i = 0; i < nwolf / 5; i++) {
-        a[i]->funCallback();
-    }
-    for (int i = 0; i < nsheep / 5; i++) {
-        b[i]->funCallback();
-    }
+    scene->updateWolf(Wolf::GetWolfSum());
+    scene->updateSheep(Wolf::getSheepSum());
 }
 
 int MAP::get_number_of_grass() {
     int num = 0;
     for (auto p = BarrenGroup.begin(); p != BarrenGroup.end(); ++p) {
-        if ((*p)->currentStatus == Land::HAS_GRASS) num++;
+        if ((*p)->currentStatus == Land::HAS_GRASS) ++num;
     }
     for (auto p = FertileGroup.begin(); p != FertileGroup.end(); ++p) {
-        if ((*p)->currentStatus == Land::HAS_GRASS) num++;
+        if ((*p)->currentStatus == Land::HAS_GRASS) ++num;
     }
     return num;
 }

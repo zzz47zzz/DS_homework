@@ -1,7 +1,7 @@
 #ifndef ANI_H
 #define ANI_H
 
-#include<vector>
+#include <vector>
 #include <stdlib.h>
 #include "HelloWorldScene.h"
 USING_NS_CC;
@@ -14,7 +14,7 @@ struct Pos // 位置
 };
 class Animal {
 public:
-    inline Pos getPos() //返回位置
+    Pos getPos() //返回位置
     {
         return pos;
     }
@@ -22,18 +22,18 @@ public:
     {
         degree += t;
     }
-    inline void HpDecline(int t = 1) // 寿命减少
+    void HpDecline(int t = 1) // 寿命减少
     {
         hp -= t;
     }
-    inline double GetDistance(Pos temp) {
+    double GetDistance(Pos temp) {
         return sqrt((temp.x - pos.x) * (temp.x - pos.x) + (temp.y - pos.y) * (temp.y - pos.y));
     }
-    inline int ReturnHP() //返回hp值
+    int ReturnHP() //返回hp值
     {
         return hp;
     }
-    inline int ReturnDegree() //返回饥饿值
+    int ReturnDegree() //返回饥饿值
     {
         return degree;
     }
@@ -81,7 +81,7 @@ public:
     int num;
     static int sum;
     static int GetWolfSum() { return sum; } //返回狼的数量
-    static int GetSheepSum();
+    static int getSheepSum();
 };
 
 #endif 

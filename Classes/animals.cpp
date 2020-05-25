@@ -3,7 +3,7 @@
 
 MAP *Animal::map = NULL;
 vector<Sheep *> Wolf::li {};
-int Wolf::sum = 0;
+int Wolf::sum = 0; // static
 bool Animal::CheckRiver(Pos pos) {
     const int x = pos.x / 32, y = 99 - pos.y / 32;
     if (x < 0 || y < 0 || x>99 || y>99) return false;
@@ -23,7 +23,7 @@ void Wolf::funCallback() {
         player->runAction(fadeout);
         //if (prey != NULL) delete prey;
         prey = NULL;
-        sum--;
+        map->scene->updateWolf(--sum);
         life = false;
         return;
     }
@@ -100,8 +100,9 @@ void Sheep::funCallback() {
     if (hp <= 0) {
         if (!eaten) {
             CCActionInterval *fadeout = CCFadeOut::create(1);
-            if (player == NULL) return;
+            if (!player) return;
             player->runAction(fadeout);
+            map->scene->updateSheep(Wolf::getSheepSum());
             life = false;
             return;
         }
@@ -158,7 +159,7 @@ Pos Wolf::FindPrey(vector<Sheep *> li) {
     return res;
 }
 bool Wolf::Catch() {
-    if (prey == NULL) return false;
+    if (!prey) return false;
     if (GetDistance(prey->getPos()) <= 100) {
         prey->eaten = true;
         prey->disappear();
@@ -183,15 +184,16 @@ bool Wolf::Check() {
     else
         return true;
 }
-int Wolf::GetSheepSum() {
+int Wolf::getSheepSum() {
     int ssum = 0;
     for (size_t i = 0; i < li.size(); i++)
-        if (li[i] != NULL) ssum++;
+        if (li[i]) ++ssum;
     return ssum;
 }
 Wolf::~Wolf() {
     CCActionInterval *fadeout = CCFadeOut::create(1);
     player->runAction(fadeout);
+    map->scene->updateWolf(sum);
     prey = NULL;
 }
 
@@ -215,14 +217,14 @@ Sheep::Sheep(int ahp, double asight, double aspeed) {
 
 }
 Sheep::~Sheep() {
-    CCActionInterval *fadeout = CCFadeOut::create(1);
-    player->runAction(fadeout);
+    disappear();
     player = NULL;
 }
 
 void Sheep::disappear() {
     CCActionInterval *fadeout = CCFadeOut::create(1);
     player->runAction(fadeout);
+    map->scene->updateSheep(Wolf::getSheepSum());
 }
 
 cocos2d::Vec2 Sheep::find_grass(cocos2d::Vec2 pos, MAP *m, int vision) {
