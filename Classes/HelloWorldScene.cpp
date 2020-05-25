@@ -209,7 +209,7 @@ bool HelloWorld::init() {
     panelbg->addChild(start_btn, 1);
 
     //ÊäÈëÎÄ±¾¿ò
-    auto textField1 = TextField::create("e.g. 500", FONT_ARIAL, 25);
+    auto textField1 = TextField::create("e.g. 1000", FONT_ARIAL, 25);
     textField1->setName("textField1");
     textField1->setPosition(cocos2d::Vec2(800, 130));
     textField1->setColor(cocos2d::Color3B::WHITE);
@@ -220,7 +220,7 @@ bool HelloWorld::init() {
     textField1->setCursorEnabled(true);
     panelbg->addChild(textField1);
 
-    auto textField2 = TextField::create("e.g. 250", FONT_ARIAL, 25);
+    auto textField2 = TextField::create("e.g. 100", FONT_ARIAL, 25);
     textField2->setName("textField2");
     textField2->setPosition(cocos2d::Vec2(800, 90));
     textField2->setColor(cocos2d::Color3B::WHITE);
@@ -247,17 +247,17 @@ bool HelloWorld::init() {
     infoArea->setVisible(false);
     panelbg->addChild(infoArea, 1);
 
-    wolfNumLbl = Label::createWithTTF("No. of Wolves:", FONT_MARKFELT, 22);
-    wolfNumLbl->setName("wolfNumLbl");
-    wolfNumLbl->setAnchorPoint(Vec2(0, 1));
-    infoArea->addChild(wolfNumLbl);
-
-    const auto LABEL_HEIGHT = wolfNumLbl->getContentSize().height;
     sheepNumLbl = Label::createWithTTF("No. of Sheep:", FONT_MARKFELT, 22);
     sheepNumLbl->setName("sheepNumLbl");
     sheepNumLbl->setAnchorPoint(Vec2(0, 1));
-    sheepNumLbl->setPosition(Vec2(0, -(LABEL_HEIGHT + 10)));
     infoArea->addChild(sheepNumLbl);
+
+    const auto LABEL_HEIGHT = sheepNumLbl->getContentSize().height;
+    wolfNumLbl = Label::createWithTTF("No. of Wolves:", FONT_MARKFELT, 22);
+    wolfNumLbl->setName("wolfNumLbl");
+    wolfNumLbl->setAnchorPoint(Vec2(0, 1));
+    wolfNumLbl->setPosition(Vec2(0, -(LABEL_HEIGHT + 10)));
+    infoArea->addChild(wolfNumLbl);
 
     grassNumLbl = Label::createWithTTF("No. of Grass:", FONT_MARKFELT, 22);
     grassNumLbl->setName("grassNumLbl");

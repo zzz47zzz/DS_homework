@@ -36,9 +36,9 @@ MAP::MAP(int mapBasicX, int mapBasicY, Scene *PScene, int size_x, int size_y, in
         }
     }
 
-    PScene->getScheduler()->schedule(CC_SCHEDULE_SELECTOR(MAP::update), this, 1.0f, false);
+    PScene->getScheduler()->schedule(std::bind(&MAP::update, this, std::placeholders::_1), this, 1.0f, false, "updateGround");
     start(nSheep, nWolf);
-    PScene->getScheduler()->schedule(CC_SCHEDULE_SELECTOR(MAP::update2), this, 5.0f, false);
+    PScene->getScheduler()->schedule(std::bind(&MAP::update2, this, std::placeholders::_1), this, 5.0f, false, "updateAnimal");
 }
 
 void MAP::update(float t) {
@@ -151,23 +151,32 @@ void MAP::start(int nsheep, int nwolf) {
     for (int i = 0; i < nsheep; i++) {
         b[i]->funCallback();
     }
-    scene->updateWolf(Wolf::GetWolfSum());
+    scene->updateWolf(Wolf::getWolfSum());
     scene->updateSheep(Wolf::getSheepSum());
 }
 
+inline int raise(const int a0, const float k) {
+    if (a0) {
+        const int a1 = a0 * k;
+        return a1>0 ? a1 : 1;
+    }
+    else return 0;
+}
 void MAP::update2(float t) {
-    for (int i = 0, _nwolf=Wolf::GetWolfSum(); i < _nwolf / 5; i++) {
+    const int newWolfN = raise(Wolf::getWolfSum(), 0.27f);
+    const int newSheepN = raise(Wolf::getSheepSum(), 0.13f);
+    for (int i = 0; i < newWolfN; i++) {
         auto w = new Wolf();
         map->addChild(w->player);
         w->funCallback();
     }
-    for (int i = 0,_nsheep=Wolf::getSheepSum(); i < _nsheep / 5; i++) {
+    for (int i = 0; i < newSheepN; i++) {
         auto s = new Sheep();
         Wolf::li.push_back(s);
         map->addChild(s->player);
         s->funCallback();
     }
-    scene->updateWolf(Wolf::GetWolfSum());
+    scene->updateWolf(Wolf::getWolfSum());
     scene->updateSheep(Wolf::getSheepSum());
 }
 

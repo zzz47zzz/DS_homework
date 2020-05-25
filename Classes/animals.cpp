@@ -13,6 +13,9 @@ bool Animal::CheckRiver(Pos pos) {
     else return true;
 }
 
+inline bool randByHP(const int hp) {
+    return hp >= 90 - log((float)(RAND_MAX) / rand() - 1);
+}
 void Wolf::funCallback() {
     hp--;
     pos.x = des2.x;
@@ -27,7 +30,9 @@ void Wolf::funCallback() {
         life = false;
         return;
     }
-    if (!Check()) {
+    else if (randByHP(hp)) //根据hp以一定概率吃羊
+        RandomMove();
+    else if (!Check()) {
         const Pos target = FindPrey(li);
         if ((target.x == pos.x) && (target.y == pos.y))
             RandomMove();
@@ -41,7 +46,8 @@ void Wolf::funCallback() {
 void Wolf::Move(Pos des) {
     des2.x = des.x;
     des2.y = des.y;
-    CCMoveTo *move = CCMoveTo::create((GetDistance(des) / speed), Vec2(des.x, des.y));
+    log("%d", hp);
+    CCMoveTo *move = CCMoveTo::create((GetDistance(des)  / (hp/100.f * speed)), Vec2(des.x, des.y));
     CallFunc *func = CallFunc::create(CC_CALLBACK_0(Wolf::funCallback, this));
     Sequence *sequence = Sequence::create(move, func, NULL);
     player->runAction(sequence);
@@ -147,7 +153,7 @@ Pos Wolf::FindPrey(vector<Sheep *> li) {
     res.y = pos.y;
     double dis, min = DBL_MAX;
     for (size_t i = 0; i < li.size(); i++)
-        if (li[i] != NULL) {
+        if (li[i]) {
             temp = li[i]->getPos();
             dis = GetDistance(temp);
             if ((dis <= sight) && (dis < min)) {
@@ -163,7 +169,7 @@ bool Wolf::Catch() {
     if (GetDistance(prey->getPos()) <= 100) {
         prey->eaten = true;
         prey->disappear();
-        hp = hp + 3;
+        hp = hp + 100; //每只羊增加100体力
         for (size_t i = 0; i < li.size(); i++)
             if (li[i] == prey) {
                 li[i] = NULL;
@@ -176,7 +182,7 @@ bool Wolf::Catch() {
         return false;
 }
 bool Wolf::Check() {
-    if (prey == NULL) return false;
+    if (!prey) return false;
     if (GetDistance(prey->getPos()) > sight) {
         prey = NULL;
         return false;
