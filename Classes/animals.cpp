@@ -14,13 +14,13 @@ bool Animal::CheckRiver(Pos pos) {
 }
 
 inline bool randByHP(const int hp) {
-    return hp >= 90 - log((float)(RAND_MAX) / rand() - 1);
+    return hp + log((float)(RAND_MAX) / rand() - 1) >= 90;
 }
 void Wolf::funCallback() {
     hp--;
     pos.x = des2.x;
     pos.y = des2.y;
-    const bool s = Catch();
+    //const bool s = Catch();
     if (hp <= 0) {
         CCActionInterval *fadeout = CCFadeOut::create(1);
         player->runAction(fadeout);
@@ -46,7 +46,7 @@ void Wolf::funCallback() {
 void Wolf::Move(Pos des) {
     des2.x = des.x;
     des2.y = des.y;
-    log("%d", hp);
+    //log("%d", hp);
     CCMoveTo *move = CCMoveTo::create((GetDistance(des)  / (hp/100.f * speed)), Vec2(des.x, des.y));
     CallFunc *func = CallFunc::create(CC_CALLBACK_0(Wolf::funCallback, this));
     Sequence *sequence = Sequence::create(move, func, NULL);
@@ -105,10 +105,8 @@ void Sheep::funCallback() {
     }
     if (hp <= 0) {
         if (!eaten) {
-            CCActionInterval *fadeout = CCFadeOut::create(1);
             if (!player) return;
-            player->runAction(fadeout);
-            map->scene->updateSheep(Wolf::getSheepSum());
+            disappear();
             life = false;
             return;
         }
@@ -118,19 +116,17 @@ void Sheep::funCallback() {
         Pos temp;
         temp.x = grass.x * 32;
         temp.y = (99 - grass.y) * 32;
-        if ((grass.x != -1 || grass.y != -1)) Move(temp); else RandomMove();
+        if (grass.x != -1 || grass.y != -1) Move(temp); else RandomMove();
     }
     else RandomMove();
 }
 
 
-Wolf::Wolf(int ahp, double asight, double aspeed) {
-
+Wolf::Wolf(int ahp, double asight, double aspeed):prey(nullptr){
     hp = ahp;
     sight = asight;
     speed = aspeed;
     degree = 0;
-    prey = NULL;
 
     auto glView = Director::getInstance()->getOpenGLView();
     auto frameSize = glView->getFrameSize();
@@ -208,8 +204,7 @@ Sheep::Sheep(int ahp, double asight, double aspeed) {
     sight = asight;
     speed = aspeed;
     degree = 0;
-    auto glView = Director::getInstance()->getOpenGLView();
-    auto frameSize = glView->getFrameSize();
+    auto frameSize = Director::getInstance()->getOpenGLView()->getFrameSize();
     bool tmp = false;
     while (!tmp) {
         pos.x = abs(rand() % 3200);
@@ -220,7 +215,6 @@ Sheep::Sheep(int ahp, double asight, double aspeed) {
     des2.y = pos.y;
     player = CCSprite::create("sheep.png");
     player->setPosition(Vec2(pos.x, pos.y));
-
 }
 Sheep::~Sheep() {
     disappear();
@@ -250,7 +244,7 @@ cocos2d::Vec2 Sheep::find_grass(cocos2d::Vec2 pos, MAP *m, int vision) {
         if (tmp_type == Land::TYPE_BARREN || tmp_type == Land::TYPE_FERTILE) {
             if (tmp_type == Land::TYPE_BARREN) {
                 Barren *tmp_of_Barren = static_cast<Barren *>(m->geo_info[int(tmp.x)][int(tmp.y)]);
-                if (tmp_of_Barren != nullptr) {
+                if (tmp_of_Barren) {
                     if (tmp_of_Barren->currentStatus == Land::HAS_GRASS) {
                         if (tmp == pos) return cocos2d::Vec2(-1, -1); else
                             return tmp;
@@ -260,7 +254,7 @@ cocos2d::Vec2 Sheep::find_grass(cocos2d::Vec2 pos, MAP *m, int vision) {
             else {
                 if (tmp_type == Land::TYPE_FERTILE) {
                     Fertile *tmp_of_Fertile = static_cast<Fertile *>(m->geo_info[int(tmp.x)][int(tmp.y)]);
-                    if (tmp_of_Fertile != nullptr) {
+                    if (tmp_of_Fertile) {
                         if (tmp_of_Fertile->currentStatus == Land::HAS_GRASS) {
                             if (tmp == pos) return cocos2d::Vec2(-1, -1); else
                                 return tmp;
@@ -271,10 +265,10 @@ cocos2d::Vec2 Sheep::find_grass(cocos2d::Vec2 pos, MAP *m, int vision) {
         }
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                int newx = tmp.x + moves[i];
-                int newy = tmp.y + moves[i];
-                if (newx >= 0 && newx < 100 && newy >= 0 && newy < 100 && rec[newx][newy] == false) {
-                    cocos2d::Vec2 new_pos = cocos2d::Vec2(newx, newy);
+                const int newx = tmp.x + moves[i];
+                const int newy = tmp.y + moves[i];
+                if (newx >= 0 && newx < 100 && newy >= 0 && newy < 100 && !rec[newx][newy]) {
+                    const cocos2d::Vec2 new_pos = cocos2d::Vec2(newx, newy);
                     q.push(new_pos);
                 }
             }

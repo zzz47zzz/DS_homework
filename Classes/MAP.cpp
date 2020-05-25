@@ -163,8 +163,8 @@ inline int raise(const int a0, const float k) {
     else return 0;
 }
 void MAP::update2(float t) {
-    const int newWolfN = raise(Wolf::getWolfSum(), 0.27f);
-    const int newSheepN = raise(Wolf::getSheepSum(), 0.13f);
+    const int newWolfN = raise(Wolf::getWolfSum(), scene->wolfRate / 185.f);
+    const int newSheepN = raise(Wolf::getSheepSum(), scene->sheepRate / 385.f);
     for (int i = 0; i < newWolfN; i++) {
         auto w = new Wolf();
         map->addChild(w->player);

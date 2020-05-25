@@ -14,11 +14,17 @@ struct Pos // 位置
 };
 class Animal {
 public:
+    CCSprite *player; //精灵
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    bool life = true;
+    static MAP *map;
+
+    bool CheckRiver(Pos);
     Pos getPos() //返回位置
     {
         return pos;
     }
-    inline void DegreeIncrease(int t = 1)//饥饿度增加
+    void DegreeIncrease(int t = 1)//饥饿度增加
     {
         degree += t;
     }
@@ -37,11 +43,6 @@ public:
     {
         return degree;
     }
-    CCSprite *player; //精灵
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    bool life = true;
-    static MAP *map;
-    bool CheckRiver(Pos);
 protected:
     Pos pos; //位置
     Pos des2; //当前动作目标

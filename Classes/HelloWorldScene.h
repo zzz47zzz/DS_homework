@@ -36,10 +36,12 @@ public:
     static cocos2d::Scene *createScene();
 
     MAP *m = nullptr;
+    int wolfRate = 50, sheepRate=50, grassRate = 50;
     Label *wolfNumLbl, *sheepNumLbl, *grassNumLbl;
     void updateWolf(const int n);
     void updateSheep(const int n);
     void updateGrass(const int n);
+    bool started = false;
 
     bool init() override;
 

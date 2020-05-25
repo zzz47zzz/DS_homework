@@ -337,6 +337,7 @@ bool HelloWorld::init() {
 
                     const auto _infoArea = (Sprite*)_panelbg->getChildByName("infoArea");
                     _infoArea->setVisible(true);
+                    started = true;
                 }
                 break;
         }
@@ -369,12 +370,24 @@ void HelloWorld::sliderEvent(Ref *pSender, Slider::EventType type) {
             auto _panelbg = (Sprite *)this->getChildByName("panelbg");
 
             const std::string _sliderName = _slider->getName();
-            auto _label = (Label *)_panelbg->getChildByName(StringUtils::format("label%c", _sliderName.back()));
+            const char _sliderNo = _sliderName.back();
+            auto _label = (Label *)_panelbg->getChildByName(StringUtils::format("label%c", _sliderNo));
 
             const int percent = _slider->getPercent();
+            switch (_sliderNo) {
+                case '1':
+                    grassRate = percent;
+                    break;
+                case '2':
+                    wolfRate = percent;
+                    break;
+                case '3':
+                    sheepRate = percent;
+                    break;
+            }
             _label->setString(StringUtils::format("%d%%", percent));
 
-            log("%s --> %d %%", _sliderName.c_str(), percent);
+            //log("%s --> %d %%", _sliderName.c_str(), percent);
         }
         break;
     }
