@@ -5,7 +5,7 @@ MAP *Animal::map = NULL;
 vector<Sheep *> Wolf::li {};
 int Wolf::sum = 0; // static
 bool Animal::CheckRiver(Pos pos) {
-    const int x = pos.x / 32, y = 99 - pos.y / 32;
+    const int x = pos.x / 25, y = 99 - pos.y / 25;
     if (x < 0 || y < 0 || x>99 || y>99) return false;
     if (map->geo_info[x][y]->type == Land::TYPE_RIVER) {
         hp = 0;  return false;
@@ -94,8 +94,8 @@ void Sheep::funCallback() {
     Vec2 grass;
     pos.x = des2.x;
     pos.y = des2.y;
-    const int t1 = int(pos.x) / 32;
-    const int t2 = 99 - int(pos.y) / 32;
+    const int t1 = int(pos.x) / 25;
+    const int t2 = 99 - int(pos.y) / 25;
     if ((t1 > 0) && (t1 < 100) && (t2 > 0) && (t2 < 100)) {
         get_grass = map->sheep_eat_grass(Vec2(t1, t2));
     }
@@ -114,8 +114,8 @@ void Sheep::funCallback() {
     if ((t1 > 0) && (t1 < 100) && (t2 > 0) && (t2 < 100)) {
         grass = find_grass(Vec2(t1, t2), map, sight);
         Pos temp;
-        temp.x = grass.x * 32;
-        temp.y = (99 - grass.y) * 32;
+        temp.x = grass.x * 25;
+        temp.y = (99 - grass.y) * 25;
         if (grass.x != -1 || grass.y != -1) Move(temp); else RandomMove();
     }
     else RandomMove();
@@ -132,8 +132,8 @@ Wolf::Wolf(int ahp, double asight, double aspeed):prey(nullptr){
     //auto frameSize = glView->getFrameSize();
     bool tmp = false;
     while (!tmp) {
-        pos.x = rand() % 3200;
-        pos.y = rand() % 3200;
+        pos.x = rand() % 2500;
+        pos.y = rand() % 2500;
         tmp = CheckRiver(pos);
     }
     des2.x = pos.x;
@@ -207,8 +207,8 @@ Sheep::Sheep(int ahp, double asight, double aspeed) {
     //auto frameSize = Director::getInstance()->getOpenGLView()->getFrameSize();
     bool tmp = false;
     while (!tmp) {
-        pos.x = abs(rand() % 3200);
-        pos.y = abs(rand() % 3200);
+        pos.x = abs(rand() % 2500);
+        pos.y = abs(rand() % 2500);
         tmp = CheckRiver(pos);
     }
     des2.x = pos.x;
