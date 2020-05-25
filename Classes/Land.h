@@ -15,14 +15,16 @@ public:
 	const static int HAS_GRASS = 1;
 	const static int NO_GRASS = 0;
 	// life circle of barren and fertile
-	const static int GapOfBarrenGrass = 6;
-	const static int lifeOfBarrenGrass = 10;
-	const static int GapOfFertileGrass = 4;
-	const static int lifeOfFertileGrass = 14;
+	static int GapOfBarrenGrass;
+	static int lifeOfBarrenGrass;
+	static int GapOfFertileGrass;
+	static int lifeOfFertileGrass;
 	// type of land
 	int type;
 	// position of this land
 	cocos2d::Vec2 pos;
+	void set_BarrenGrass_gap(int x);
+	void set_FertileGrass_gap(int x);
 };
 
 class Barren : public Land

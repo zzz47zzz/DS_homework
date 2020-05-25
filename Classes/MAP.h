@@ -4,6 +4,7 @@
 #include "Land.h"
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
+#include <math.h>
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -24,7 +25,7 @@ public:
     Size mapSize;
     void update(float t);
     int getType(Vec2 pos);
-
+    void change_grass_gap(int x);
     void start(int nsheep, int nwolf);
     void update2(float t);
     int get_number_of_grass();

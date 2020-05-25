@@ -3,7 +3,10 @@
 Land::Land(cocos2d::Vec2 pos, int type): pos(pos), type(type)
 {
 }
-
+int Land::GapOfBarrenGrass = 6;
+int Land::lifeOfBarrenGrass = 200;
+int Land::GapOfFertileGrass = 4;
+int Land::lifeOfFertileGrass = 140;
 Barren::Barren(cocos2d::Vec2 pos):Land(pos, TYPE_BARREN)
 {
 	currentStatus = rand() % 2;

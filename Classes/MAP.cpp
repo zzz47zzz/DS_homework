@@ -133,6 +133,12 @@ int MAP::getType(Vec2 pos) {
     return -1;
 }
 
+void MAP::change_grass_gap(int x)
+{
+    Land::GapOfBarrenGrass = floor(double(Land::GapOfBarrenGrass) * 3 / 50 + 1);
+    Land::GapOfFertileGrass = floor(double(Land::GapOfFertileGrass) / 10 + 1);
+}
+
 void MAP::start(int nsheep, int nwolf) {
     Wolf *a[10000];
     Sheep *b[10000];
@@ -202,6 +208,9 @@ bool MAP::sheep_eat_grass(cocos2d::Vec2 pos) {
             if (tmp_of_Barren) {
                 if (tmp_of_Barren->currentStatus == Land::HAS_GRASS) {
                     tmp_of_Barren->life = 0;
+                    tmp_of_Barren->change();
+                    landLayer->setTileGID(10, tmp_of_Barren->pos);
+                    tmp_of_Barren->gap = Land::GapOfBarrenGrass;
                     return true;
                 }
             }
@@ -212,6 +221,10 @@ bool MAP::sheep_eat_grass(cocos2d::Vec2 pos) {
                 if (tmp_of_Fertile) {
                     if (tmp_of_Fertile->currentStatus == Land::HAS_GRASS) {
                         tmp_of_Fertile->life = 0;
+                        tmp_of_Fertile->change();
+                        landLayer->setTileGID(10, tmp_of_Fertile->pos);
+                        tmp_of_Fertile->gap = Land::GapOfFertileGrass;
+                        return true;
                         return true;
                     }
                 }
