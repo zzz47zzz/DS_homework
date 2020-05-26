@@ -109,7 +109,7 @@ void Sheep::funCallback() {
             if (!player) return;
             disappear();
             life = false;
-            --Wolf::ssum;
+            //--Wolf::ssum;
             return;
         }
     }
@@ -228,7 +228,8 @@ Sheep::~Sheep() {
 void Sheep::disappear() {
     CCActionInterval *fadeout = CCFadeOut::create(1);
     player->runAction(fadeout);
-    map->scene->updateSheep(Wolf::ssum);
+    map->scene->updateSheep(--Wolf::ssum);
+    hp = 0;
 }
 
 cocos2d::Vec2 Sheep::find_grass(cocos2d::Vec2 pos, MAP *m, int vision) {
