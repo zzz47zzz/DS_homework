@@ -303,20 +303,7 @@ bool HelloWorld::init() {
         switch (type) {
             case ui::Widget::TouchEventType::ENDED:
                 if (_start_btn->isEnabled()) { //TODO: 未enabled时怎么重新开始地图
-                    //_start_btn->setEnabled(false);
-                    if (m) {
-                        delete m;
-                        //for (auto &w : m->wolves) {
-                        //    w->hp = 0;
-                        //    delete w;
-                        //}
-                        //m->wolves.clear();
-                        //for (auto &s : Wolf::li) {
-                        //    s->hp = 0;
-                        //    delete s;
-                        //}
-                        //Wolf::li.clear();
-                    }
+                    _start_btn->setEnabled(false);
                     
                     //加载地图
                     m = new MAP(mapBasicX, mapBasicY, this, 100, 100, nSheep, nWolf);

@@ -85,7 +85,6 @@ public:
     static int sum/*, ssum*/;
     static int getWolfSum() { return sum; } //返回狼的数量
     static int getSheepSum();
-    void disappear();
     static int getActiveWolfSum() {}
 };
 

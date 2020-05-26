@@ -23,9 +23,12 @@ void Wolf::funCallback() {
     pos.y = des2.y;
     const bool s = Catch();
     if (hp <= 0) {
+        CCActionInterval *fadeout = CCFadeOut::create(1);
+        player->runAction(fadeout);
         //if (prey != NULL) delete prey;
+        prey = NULL;
+        map->scene->updateWolf(--sum);
         life = false;
-        delete this;
         return;
     }
     else if (randByHP(hp)) //根据hp以一定概率吃羊
@@ -104,7 +107,7 @@ void Sheep::funCallback() {
     if (hp <= 0) {
         if (!eaten) {
             if (!player) return;
-            delete this;
+            disappear();
             return;
         }
     }
@@ -190,14 +193,11 @@ int Wolf::getSheepSum() {
     //return ssum;
     return li.size();
 }
-void Wolf::disappear() {
+Wolf::~Wolf() {
     CCActionInterval *fadeout = CCFadeOut::create(1);
     player->runAction(fadeout);
-}
-Wolf::~Wolf() {
-    prey = nullptr;
-    player->removeFromParent();
-    map->scene->updateWolf(--sum);
+    map->scene->updateWolf(sum);
+    prey = NULL;
 }
 
 Sheep::Sheep(int ahp, double asight, double aspeed) {
@@ -219,8 +219,8 @@ Sheep::Sheep(int ahp, double asight, double aspeed) {
     //++Wolf::ssum;
 }
 Sheep::~Sheep() {
-    player->removeFromParent();
-    player = nullptr;
+    disappear();
+    player = NULL;
 }
 
 void Sheep::disappear() {
