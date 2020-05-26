@@ -14,6 +14,7 @@ class Wolf;
 class MAP : Ref {
 public:
     MAP(int mapBasicX, int mapBasicY, Scene *PScene, int size_x, int size_y, int nSheep, int nWolf);
+    ~MAP();
     std::vector<Barren *> BarrenGroup;
     std::vector<Fertile *> FertileGroup;
     HelloWorld *scene = nullptr;

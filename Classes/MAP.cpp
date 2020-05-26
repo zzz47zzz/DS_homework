@@ -3,7 +3,8 @@
 #include "animals.h"
 
 MAP::MAP(int mapBasicX, int mapBasicY, Scene *PScene, int size_x, int size_y, int nSheep, int nWolf)
-    :nsheep(nSheep), nwolf(nWolf), map(TMXTiledMap::create("newMap.tmx")), scene((HelloWorld *)PScene) {
+    :nsheep(nSheep), nwolf(nWolf), map(TMXTiledMap::create("newMap.tmx")), 
+     scene((HelloWorld *)PScene) {
     Animal::map = this;
     map->setName("bgmap");
     map->setPosition(Vec2(mapBasicX, mapBasicY));
@@ -39,6 +40,19 @@ MAP::MAP(int mapBasicX, int mapBasicY, Scene *PScene, int size_x, int size_y, in
     PScene->getScheduler()->schedule(CC_SCHEDULE_SELECTOR(MAP::update), this, 1.0f, false);
     start(nSheep, nWolf);
     PScene->getScheduler()->schedule(CC_SCHEDULE_SELECTOR(MAP::update2), this, 5.0f, false);
+}
+
+MAP::~MAP() {
+    scene->getScheduler()->unscheduleAllForTarget(this);
+    for (auto &b : BarrenGroup)
+        delete b;
+    for (auto &f : FertileGroup)
+        delete f;
+    for (auto &w : wolves)
+        delete w;
+    for (auto &s : Wolf::li)
+        delete s;
+    Wolf::li.clear();
 }
 
 void MAP::update(float t) {
