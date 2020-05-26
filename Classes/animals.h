@@ -43,7 +43,7 @@ public:
     {
         return degree;
     }
-protected:
+//protected:
     Pos pos; //位置
     Pos des2; //当前动作目标
     int hp; //血条（距离死亡的时间等,待定义）

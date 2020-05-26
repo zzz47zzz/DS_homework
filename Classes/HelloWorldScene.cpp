@@ -24,6 +24,7 @@
 
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
+#include "animals.h"
 
 
 USING_NS_CC;
@@ -303,8 +304,9 @@ bool HelloWorld::init() {
             case ui::Widget::TouchEventType::ENDED:
                 if (_start_btn->isEnabled()) { //TODO: 未enabled时怎么重新开始地图
                     _start_btn->setEnabled(false);
+                    
                     //加载地图
-                    MAP *m = new MAP(mapBasicX, mapBasicY, this, 100, 100, nSheep, nWolf);
+                    m = new MAP(mapBasicX, mapBasicY, this, 100, 100, nSheep, nWolf);
                     TMXTiledMap *map = m->map;
                     //小地图
                     const constexpr double PADDING = 5;
