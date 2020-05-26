@@ -6,7 +6,7 @@ vector<Sheep *> Wolf::li {};
 int Wolf::sum = 0;
 // int Wolf::ssum = 0; // static
 bool Animal::CheckRiver(Pos pos) {
-    const int x = pos.x / 25, y = 99 - pos.y / 25;
+    const int x = pos.x / 25+4, y = 99 - pos.y / 25-2;
     if (x < 0 || y < 0 || x>99 || y>99) return false;
     if (map->geo_info[x][y]->type == Land::TYPE_RIVER) {
         /*hp = 0;*/  return false;
@@ -95,8 +95,8 @@ void Sheep::funCallback() {
     Vec2 grass;
     pos.x = des2.x;
     pos.y = des2.y;
-    const int t1 = int(pos.x) / 25;
-    const int t2 = 99 - int(pos.y) / 25;
+    const int t1 = int(pos.x) / 25+4;
+    const int t2 = 99 - int(pos.y) / 25 - 2;
     if ((t1 > 0) && (t1 < 100) && (t2 > 0) && (t2 < 100)) {
         get_grass = map->sheep_eat_grass(Vec2(t1, t2));
     }
@@ -114,8 +114,8 @@ void Sheep::funCallback() {
     if ((t1 > 0) && (t1 < 100) && (t2 > 0) && (t2 < 100)) {
         grass = find_grass(Vec2(t1, t2), map, sight);
         Pos temp;
-        temp.x = grass.x * 25;
-        temp.y = (99 - grass.y) * 25;
+        temp.x = (grass.x-4) * 25;
+        temp.y = (99 - 2 - grass.y) * 25;
         if (grass.x != -1 || grass.y != -1) Move(temp); else RandomMove();
     }
     else RandomMove();
