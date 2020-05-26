@@ -15,7 +15,7 @@ bool Animal::CheckRiver(Pos pos) {
 }
 
 inline bool randByHP(const int hp) {
-    return hp + log((float)(RAND_MAX) / rand() - 1) >= 10;
+    return 2*hp + log((float)(RAND_MAX) / rand() - 1) >= 12;
 }
 void Wolf::funCallback() {
     hp--;
@@ -187,10 +187,11 @@ bool Wolf::Check() {
         return true;
 }
 int Wolf::getSheepSum() {
-    int ssum = 0;
-    for (size_t i = 0; i < li.size(); i++)
-        if (li[i]) ++ssum;
-    return ssum;
+    //int ssum = 0;
+    //for (size_t i = 0; i < li.size(); i++)
+    //    if (li[i]) ++ssum;
+    //return ssum;
+    return li.size();
 }
 Wolf::~Wolf() {
     CCActionInterval *fadeout = CCFadeOut::create(1);

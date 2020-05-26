@@ -135,8 +135,8 @@ int MAP::getType(Vec2 pos) {
 }
 
 void MAP::change_grass_gap(const int x) {
-    Land::GapOfBarrenGrass = floor(double(x) * 3 / 50 + 1);
-    Land::GapOfFertileGrass = floor(double(x) / 10 + 1);
+    Land::GapOfBarrenGrass = floor(-double(x) * 3 / 50 + 7);
+    Land::GapOfFertileGrass = floor(-double(x) / 10 + 11);
 }
 
 void MAP::start(int nsheep, int nwolf) {
@@ -165,10 +165,17 @@ inline int _raise(const int a0, const float k) {
 }
 void MAP::update2(float t) {
     int activeWolfN = 0;
-    for (auto &w : wolves) {
-        if (w->ReturnHP() >= 9)
-            ++activeWolfN;
+    for (auto it = wolves.begin(); it != wolves.end();) {
+        const int hp = (*it)->ReturnHP();
+        if (hp >= 9)
+            ++activeWolfN, ++it;
+        else if (hp <= 0)
+            it = wolves.erase(it);
+        else
+            ++it;
     }
+    log("size %d", wolves.size());
+    log("%d", activeWolfN);
     const int newWolfN = _raise(activeWolfN, scene->wolfRate / 185.f);
     const int newSheepN = _raise(Wolf::getSheepSum(), scene->sheepRate / 385.f);
     for (int i = 0; i < newWolfN; i++) {
