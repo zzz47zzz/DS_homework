@@ -3,12 +3,13 @@
 
 MAP *Animal::map = NULL;
 vector<Sheep *> Wolf::li {};
-int Wolf::sum = 0; // static
+int Wolf::sum = 0;
+int Wolf::ssum = 0; // static
 bool Animal::CheckRiver(Pos pos) {
     const int x = pos.x / 25, y = 99 - pos.y / 25;
     if (x < 0 || y < 0 || x>99 || y>99) return false;
     if (map->geo_info[x][y]->type == Land::TYPE_RIVER) {
-        hp = 0;  return false;
+        /*hp = 0;*/  return false;
     }
     else return true;
 }
@@ -100,7 +101,7 @@ void Sheep::funCallback() {
         get_grass = map->sheep_eat_grass(Vec2(t1, t2));
     }
     if (get_grass) hp += 3; // “ªø√≤›º”3 HP
-    if (!CheckRiver(pos)) {
+    if (!CheckRiver(pos)) { // —Ú…ÊÀÆº¥À¿
         hp = 0;
     }
     if (hp <= 0) {
@@ -108,6 +109,7 @@ void Sheep::funCallback() {
             if (!player) return;
             disappear();
             life = false;
+            --Wolf::ssum;
             return;
         }
     }
@@ -187,9 +189,10 @@ bool Wolf::Check() {
         return true;
 }
 int Wolf::getSheepSum() {
-    int ssum = 0;
-    for (size_t i = 0; i < li.size(); i++)
-        if (li[i]) ++ssum;
+    //int ssum = 0;
+    //for (size_t i = 0; i < li.size(); i++)
+    //    if (li[i]) ++ssum;
+    //return ssum;
     return ssum;
 }
 Wolf::~Wolf() {
@@ -207,14 +210,15 @@ Sheep::Sheep(int ahp, double asight, double aspeed) {
     //auto frameSize = Director::getInstance()->getOpenGLView()->getFrameSize();
     bool tmp = false;
     while (!tmp) {
-        pos.x = abs(rand() % 2500);
-        pos.y = abs(rand() % 2500);
+        pos.x = rand() % 2500;
+        pos.y = rand() % 2500;
         tmp = CheckRiver(pos);
     }
     des2.x = pos.x;
     des2.y = pos.y;
     player = CCSprite::create("sheep.png");
     player->setPosition(Vec2(pos.x, pos.y));
+    ++Wolf::ssum;
 }
 Sheep::~Sheep() {
     disappear();
@@ -224,7 +228,7 @@ Sheep::~Sheep() {
 void Sheep::disappear() {
     CCActionInterval *fadeout = CCFadeOut::create(1);
     player->runAction(fadeout);
-    map->scene->updateSheep(Wolf::getSheepSum());
+    map->scene->updateSheep(Wolf::ssum);
 }
 
 cocos2d::Vec2 Sheep::find_grass(cocos2d::Vec2 pos, MAP *m, int vision) {
@@ -240,29 +244,27 @@ cocos2d::Vec2 Sheep::find_grass(cocos2d::Vec2 pos, MAP *m, int vision) {
         tmp = q.front();
         q.pop();
         rec[int(tmp.x)][int(tmp.y)] = true;
-        int tmp_type = m->geo_info[int(tmp.x)][int(tmp.y)]->type;
+        Land *_geo = m->geo_info[int(tmp.x)][int(tmp.y)];
+        int tmp_type = _geo->type;
         if (tmp_type == Land::TYPE_BARREN || tmp_type == Land::TYPE_FERTILE) {
-            if (tmp_type == Land::TYPE_BARREN) {
-                Barren *tmp_of_Barren = static_cast<Barren *>(m->geo_info[int(tmp.x)][int(tmp.y)]);
-                if (tmp_of_Barren) {
-                    if (tmp_of_Barren->currentStatus == Land::HAS_GRASS) {
-                        if (tmp == pos) return cocos2d::Vec2(-1, -1); else
-                            return tmp;
-                    }
-                }
-            }
-            else {
-                if (tmp_type == Land::TYPE_FERTILE) {
-                    Fertile *tmp_of_Fertile = static_cast<Fertile *>(m->geo_info[int(tmp.x)][int(tmp.y)]);
-                    if (tmp_of_Fertile) {
-                        if (tmp_of_Fertile->currentStatus == Land::HAS_GRASS) {
-                            if (tmp == pos) return cocos2d::Vec2(-1, -1); else
-                                return tmp;
-                        }
-                    }
+            Barren *tmp_of_Barren = static_cast<Barren *>(_geo);
+            if (tmp_of_Barren) {
+                if (tmp_of_Barren->currentStatus == Land::HAS_GRASS) {
+                    if (tmp == pos) return cocos2d::Vec2(-1, -1);
+                    else return tmp;
                 }
             }
         }
+        else if (tmp_type == Land::TYPE_FERTILE) {
+            Fertile *tmp_of_Fertile = static_cast<Fertile *>(_geo);
+            if (tmp_of_Fertile) {
+                if (tmp_of_Fertile->currentStatus == Land::HAS_GRASS) {
+                    if (tmp == pos) return cocos2d::Vec2(-1, -1);
+                    else return tmp;
+                }
+            }
+        }
+        
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 const int newx = tmp.x + moves[i];

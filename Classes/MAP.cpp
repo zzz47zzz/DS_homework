@@ -42,6 +42,7 @@ MAP::MAP(int mapBasicX, int mapBasicY, Scene *PScene, int size_x, int size_y, in
 }
 
 void MAP::update(float t) {
+    change_grass_gap(scene->grassRate);
     for (auto p = BarrenGroup.begin(); p != BarrenGroup.end(); ++p) {
         Barren *const bp = *p;
         if (bp->currentStatus == Land::HAS_GRASS) {
@@ -140,28 +141,22 @@ void MAP::change_grass_gap(int x)
 }
 
 void MAP::start(int nsheep, int nwolf) {
-    Wolf *a[10000];
-    Sheep *b[10000];
     for (int i = 0; i < nwolf; i++) {
-        a[i] = new Wolf();
-        map->addChild(a[i]->player);
+        auto w = new Wolf();
+        map->addChild(w->player);
+        w->funCallback();
     }
     for (int i = 0; i < nsheep; i++) {
-        b[i] = new Sheep();
-        Wolf::li.push_back(b[i]);
-        map->addChild(b[i]->player);
+        auto s = new Sheep();
+        Wolf::li.push_back(s);
+        map->addChild(s->player);
+        s->funCallback();
     }
-    for (int i = 0; i < nwolf; i++) {
-        a[i]->funCallback();
-    }
-    for (int i = 0; i < nsheep; i++) {
-        b[i]->funCallback();
-    }
-    scene->updateWolf(Wolf::getWolfSum());
-    scene->updateSheep(Wolf::getSheepSum());
+    scene->updateWolf(nwolf);
+    scene->updateSheep(nsheep);
 }
 
-inline int raise(const int a0, const float k) {
+inline int _raise(const int a0, const float k) {
     if (a0) {
         const int a1 = a0 * k;
         return a1>0 ? a1 : 1;
@@ -169,8 +164,8 @@ inline int raise(const int a0, const float k) {
     else return 0;
 }
 void MAP::update2(float t) {
-    const int newWolfN = raise(Wolf::getWolfSum(), scene->wolfRate / 185.f);
-    const int newSheepN = raise(Wolf::getSheepSum(), scene->sheepRate / 385.f);
+    const int newWolfN = _raise(Wolf::getWolfSum(), scene->wolfRate / 185.f);
+    const int newSheepN = _raise(Wolf::getSheepSum(), scene->sheepRate / 385.f);
     for (int i = 0; i < newWolfN; i++) {
         auto w = new Wolf();
         map->addChild(w->player);
