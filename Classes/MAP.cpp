@@ -143,6 +143,7 @@ void MAP::change_grass_gap(const int x)
 void MAP::start(int nsheep, int nwolf) {
     for (int i = 0; i < nwolf; i++) {
         auto w = new Wolf();
+        wolves.push_back(w);
         map->addChild(w->player);
         w->funCallback();
     }
@@ -164,10 +165,16 @@ inline int _raise(const int a0, const float k) {
     else return 0;
 }
 void MAP::update2(float t) {
-    const int newWolfN = _raise(Wolf::getWolfSum(), scene->wolfRate / 185.f);
+    int activeWolfN = 0;
+    for (auto &w : wolves) {
+        if (w->ReturnHP() >= 7)
+            ++activeWolfN;
+    }
+    const int newWolfN = _raise(activeWolfN, scene->wolfRate / 185.f);
     const int newSheepN = _raise(Wolf::getSheepSum(), scene->sheepRate / 385.f);
     for (int i = 0; i < newWolfN; i++) {
         auto w = new Wolf();
+        wolves.push_back(w);
         map->addChild(w->player);
         w->funCallback();
     }

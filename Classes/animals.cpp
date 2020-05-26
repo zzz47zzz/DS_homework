@@ -4,7 +4,7 @@
 MAP *Animal::map = NULL;
 vector<Sheep *> Wolf::li {};
 int Wolf::sum = 0;
-int Wolf::ssum = 0; // static
+// int Wolf::ssum = 0; // static
 bool Animal::CheckRiver(Pos pos) {
     const int x = pos.x / 25, y = 99 - pos.y / 25;
     if (x < 0 || y < 0 || x>99 || y>99) return false;
@@ -15,7 +15,7 @@ bool Animal::CheckRiver(Pos pos) {
 }
 
 inline bool randByHP(const int hp) {
-    return hp + log((float)(RAND_MAX) / rand() - 1) >= 90;
+    return hp + log((float)(RAND_MAX) / rand() - 1) >= 10;
 }
 void Wolf::funCallback() {
     hp--;
@@ -48,7 +48,7 @@ void Wolf::Move(Pos des) {
     des2.x = des.x;
     des2.y = des.y;
     //log("%d", hp);
-    CCMoveTo *move = CCMoveTo::create((GetDistance(des)  / (hp/100.f * speed)), Vec2(des.x, des.y));
+    CCMoveTo *move = CCMoveTo::create((GetDistance(des)  / (min(hp/8.f,1.5f) * speed)), Vec2(des.x, des.y));
     CallFunc *func = CallFunc::create(CC_CALLBACK_0(Wolf::funCallback, this));
     Sequence *sequence = Sequence::create(move, func, NULL);
     player->runAction(sequence);
@@ -70,7 +70,7 @@ void Wolf::RandomMove() {
 void Sheep::Move(Pos des) {
     des2.x = des.x;
     des2.y = des.y;
-    CCMoveTo *move = CCMoveTo::create((GetDistance(des) / (hp/100.f * speed)), Vec2(des.x, des.y));
+    CCMoveTo *move = CCMoveTo::create((GetDistance(des) / (min(hp/5.f,1.5f) * speed)), Vec2(des.x, des.y));
     CallFunc *func = CallFunc::create(CC_CALLBACK_0(Sheep::funCallback, this));
     Sequence *sequence = Sequence::create(move, func, NULL);
     if (!eaten)	player->runAction(sequence);
@@ -100,7 +100,7 @@ void Sheep::funCallback() {
     if ((t1 > 0) && (t1 < 100) && (t2 > 0) && (t2 < 100)) {
         get_grass = map->sheep_eat_grass(Vec2(t1, t2));
     }
-    if (get_grass) hp += 3; // 一棵草加3 HP
+    if (get_grass) hp += 2; // 一棵草加2 HP
     if (!CheckRiver(pos)) { // 羊涉水即死
         hp = 0;
     }
@@ -108,8 +108,6 @@ void Sheep::funCallback() {
         if (!eaten) {
             if (!player) return;
             disappear();
-            life = false;
-            //--Wolf::ssum;
             return;
         }
     }
@@ -167,7 +165,7 @@ bool Wolf::Catch() {
     if (GetDistance(prey->getPos()) <= 100) {
         prey->eaten = true;
         prey->disappear();
-        hp = hp + 100; //每只羊增加100体力
+        hp = hp + 3; //每只羊增加3体力
         for (size_t i = 0; i < li.size(); i++)
             if (li[i] == prey) {
                 li[i] = NULL;
@@ -189,10 +187,9 @@ bool Wolf::Check() {
         return true;
 }
 int Wolf::getSheepSum() {
-    //int ssum = 0;
-    //for (size_t i = 0; i < li.size(); i++)
-    //    if (li[i]) ++ssum;
-    //return ssum;
+    int ssum = 0;
+    for (size_t i = 0; i < li.size(); i++)
+        if (li[i]) ++ssum;
     return ssum;
 }
 Wolf::~Wolf() {
@@ -218,7 +215,7 @@ Sheep::Sheep(int ahp, double asight, double aspeed) {
     des2.y = pos.y;
     player = CCSprite::create("sheep.png");
     player->setPosition(Vec2(pos.x, pos.y));
-    ++Wolf::ssum;
+    //++Wolf::ssum;
 }
 Sheep::~Sheep() {
     disappear();
@@ -228,8 +225,10 @@ Sheep::~Sheep() {
 void Sheep::disappear() {
     CCActionInterval *fadeout = CCFadeOut::create(1);
     player->runAction(fadeout);
-    map->scene->updateSheep(--Wolf::ssum);
+    //map->scene->updateSheep(--Wolf::ssum);
+    map->scene->updateSheep(Wolf::getSheepSum());
     hp = 0;
+    life = false;
 }
 
 cocos2d::Vec2 Sheep::find_grass(cocos2d::Vec2 pos, MAP *m, int vision) {

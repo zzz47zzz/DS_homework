@@ -10,6 +10,7 @@ USING_NS_CC;
 using namespace cocos2d::ui;
 
 class HelloWorld;
+class Wolf;
 class MAP : Ref {
 public:
     MAP(int mapBasicX, int mapBasicY, Scene *PScene, int size_x, int size_y, int nSheep, int nWolf);
@@ -23,6 +24,8 @@ public:
     int nsheep;
     int nwolf;
     Size mapSize;
+    std::vector<Wolf *> wolves;
+
     void update(float t);
     int getType(Vec2 pos);
     void change_grass_gap(int x);
