@@ -134,10 +134,10 @@ int MAP::getType(Vec2 pos) {
     return -1;
 }
 
-void MAP::change_grass_gap(int x)
+void MAP::change_grass_gap(const int x)
 {
-    Land::GapOfBarrenGrass = floor(double(Land::GapOfBarrenGrass) * 3 / 50 + 1);
-    Land::GapOfFertileGrass = floor(double(Land::GapOfFertileGrass) / 10 + 1);
+    Land::GapOfBarrenGrass = floor(double(x) * 3 / 50 + 1);
+    Land::GapOfFertileGrass = floor(double(x) / 10 + 1);
 }
 
 void MAP::start(int nsheep, int nwolf) {

@@ -460,6 +460,6 @@ void HelloWorld::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
     double baseWidth = _smallMapBase->getContentSize().width;
     double baseHeight = _smallMapBase->getContentSize().height;
     _smallMapRect->setPosition(Vec2(baseWidth * (mapBasicX - currentX) / mapWidth, baseHeight * (mapBasicY - currentY) / mapHeight));
-    log("%f %f", _smallMapBase->getPosition().x, _smallMapBase->getPosition().y);
-    log("%f %f", _smallMapRect->getPosition().x, _smallMapRect->getPosition().y);
+    //log("%f %f", _smallMapBase->getPosition().x, _smallMapBase->getPosition().y);
+    //log("%f %f", _smallMapRect->getPosition().x, _smallMapRect->getPosition().y);
 }
