@@ -174,8 +174,7 @@ void MAP::update2(float t) {
         else
             ++it;
     }
-    log("size %d", wolves.size());
-    log("%d", activeWolfN);
+    log("Healthy wolves: %d", activeWolfN);
     const int newWolfN = _raise(activeWolfN, scene->wolfRate / 185.f);
     const int newSheepN = _raise(Wolf::getSheepSum(), scene->sheepRate / 385.f);
     for (int i = 0; i < newWolfN; i++) {
