@@ -3,3 +3,5 @@ E:\DShomework\cocos2d\cocos\editor-support\spine\proj.win32\Debug.win32\libSpine
 E:\DShomework\proj.win32\Debug.win32\libSpine.pdb
 E:\Projects\GitHub\DS_homework\proj.win32\Debug.win32\libSpine.pdb
 E:\Projects\GitHub\DS_homework\cocos2d\cocos\editor-support\spine\proj.win32\Debug.win32\libSpine.pdb
+E:\cs\repo\DS_homework\proj.win32\Debug.win32\libSpine.pdb
+E:\cs\repo\DS_homework\cocos2d\cocos\editor-support\spine\proj.win32\Debug.win32\libSpine.pdb
