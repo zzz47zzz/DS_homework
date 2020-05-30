@@ -6,16 +6,16 @@ vector<Sheep *> Wolf::li {};
 int Wolf::sum = 0;
 // int Wolf::ssum = 0; // static
 bool Animal::CheckRiver(Pos pos) {
-    const int x = pos.x / 25+4, y = 99 - pos.y / 25-2;
+    const int x = pos.x / 25 + 4, y = 99 - pos.y / 25 - 2;
     if (x < 0 || y < 0 || x>99 || y>99) return false;
     if (map->geo_info[x][y]->type == Land::TYPE_RIVER) {
-        /*hp = 0;*/  return false;
+        return false;
     }
     else return true;
 }
 
 inline bool randByHP(const int hp) {
-    return 2*hp + log((float)(RAND_MAX) / rand() - 1) >= 12;
+    return 2 * hp + log(float(RAND_MAX) / rand() - 1) >= 12;
 }
 void Wolf::funCallback() {
     hp--;
@@ -48,7 +48,7 @@ void Wolf::Move(Pos des) {
     des2.x = des.x;
     des2.y = des.y;
     //log("%d", hp);
-    CCMoveTo *move = CCMoveTo::create((GetDistance(des)  / (min(hp/8.f,1.5f) * speed)), Vec2(des.x, des.y));
+    CCMoveTo *move = CCMoveTo::create((GetDistance(des) / (min(hp / 8.f, 1.5f) * speed)), Vec2(des.x, des.y));
     CallFunc *func = CallFunc::create(CC_CALLBACK_0(Wolf::funCallback, this));
     Sequence *sequence = Sequence::create(move, func, NULL);
     player->runAction(sequence);
@@ -70,7 +70,7 @@ void Wolf::RandomMove() {
 void Sheep::Move(Pos des) {
     des2.x = des.x;
     des2.y = des.y;
-    CCMoveTo *move = CCMoveTo::create((GetDistance(des) / (min(hp/5.f,1.5f) * speed)), Vec2(des.x, des.y));
+    CCMoveTo *move = CCMoveTo::create((GetDistance(des) / (min(hp / 5.f, 1.5f) * speed)), Vec2(des.x, des.y));
     CallFunc *func = CallFunc::create(CC_CALLBACK_0(Sheep::funCallback, this));
     Sequence *sequence = Sequence::create(move, func, NULL);
     if (!eaten)	player->runAction(sequence);
@@ -90,12 +90,12 @@ void Sheep::RandomMove() {
     Move(des);
 }
 void Sheep::funCallback() {
-    hp--;
+    --hp;
     bool get_grass = false;
     Vec2 grass;
     pos.x = des2.x;
     pos.y = des2.y;
-    const int t1 = int(pos.x) / 25+4;
+    const int t1 = int(pos.x) / 25 + 4;
     const int t2 = 99 - int(pos.y) / 25 - 2;
     if ((t1 > 0) && (t1 < 100) && (t2 > 0) && (t2 < 100)) {
         get_grass = map->sheep_eat_grass(Vec2(t1, t2));
@@ -114,7 +114,7 @@ void Sheep::funCallback() {
     if ((t1 > 0) && (t1 < 100) && (t2 > 0) && (t2 < 100)) {
         grass = find_grass(Vec2(t1, t2), map, sight);
         Pos temp;
-        temp.x = (grass.x-4) * 25;
+        temp.x = (grass.x - 4) * 25;
         temp.y = (99 - 2 - grass.y) * 25;
         if (grass.x != -1 || grass.y != -1) Move(temp); else RandomMove();
     }
@@ -122,7 +122,7 @@ void Sheep::funCallback() {
 }
 
 
-Wolf::Wolf(int ahp, double asight, double aspeed):prey(nullptr){
+Wolf::Wolf(int ahp, double asight, double aspeed) :prey(nullptr) {
     hp = ahp;
     sight = asight;
     speed = aspeed;
@@ -144,21 +144,40 @@ Wolf::Wolf(int ahp, double asight, double aspeed):prey(nullptr){
     sum++;
 }
 Pos Wolf::FindPrey(vector<Sheep *> li) {
-    Pos res, temp;
-    res.x = pos.x;
-    res.y = pos.y;
-    double dis, min = DBL_MAX;
-    for (size_t i = 0; i < li.size(); i++)
-        if (li[i]) {
-            temp = li[i]->getPos();
-            dis = GetDistance(temp);
+    Pos res { pos.x,pos.y };
+    if (li.empty())return res;
+    double min = DBL_MAX;
+    const size_t n = li.size();
+    if (n < 500 || isVisible()) { // update when visible
+        for (size_t i = 0; i < n; ++i)
+            if (li[i]) {
+                const Pos temp = li[i]->getPos();
+                const double dis = GetDistance(temp);
+                if ((dis <= sight) && (dis < min)) {
+                    min = dis;
+                    res = temp;
+                    prey = li[i];
+                }
+            }
+        return res;
+    }
+    else {
+        size_t iMin = 0, m = 0;
+        { size_t _n = n; while (_n >>= 1)++m; }
+        for (size_t i = 0; i < m; ++i) {
+            size_t i2;
+            Sheep *p;
+            i2 = rand() % n; p = li[i2];
+            if (i2 == iMin || !p)continue;
+            const Pos tmp = p->getPos();
+            const double dis = GetDistance(tmp);
             if ((dis <= sight) && (dis < min)) {
+                iMin = i2;
                 min = dis;
-                res = temp;
-                prey = li[i];
             }
         }
-    return res;
+        return(prey = li[iMin])->getPos();
+    }
 }
 bool Wolf::Catch() {
     if (!prey) return false;
@@ -168,10 +187,10 @@ bool Wolf::Catch() {
         hp = hp + 3; //每只羊增加3体力
         for (size_t i = 0; i < li.size(); i++)
             if (li[i] == prey) {
-                li[i] = NULL;
                 li.erase(li.begin() + i);
+                break;
             }
-        prey = NULL;
+        prey = nullptr;
         return true;
     }
     else
@@ -180,7 +199,7 @@ bool Wolf::Catch() {
 bool Wolf::Check() {
     if (!prey) return false;
     if (GetDistance(prey->getPos()) > sight) {
-        prey = NULL;
+        prey = nullptr;
         return false;
     }
     else
@@ -265,7 +284,7 @@ cocos2d::Vec2 Sheep::find_grass(cocos2d::Vec2 pos, MAP *m, int vision) {
                 }
             }
         }
-        
+
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 const int newx = tmp.x + moves[i];

@@ -31,12 +31,12 @@
 
 class HelloWorld : public cocos2d::Scene {
 public:
-    static double mapXasicX;
-    static double mapXasicY;
+    static float mapXasicX;
+    static float mapXasicY;
     static cocos2d::Scene *createScene();
 
     MAP *m = nullptr;
-    int wolfRate = 50, sheepRate=50, grassRate = 50;
+    int wolfRate = 50, sheepRate = 50, grassRate = 50;
     Label *wolfNumLbl, *sheepNumLbl, *grassNumLbl;
     void updateWolf(const int n);
     void updateSheep(const int n);
@@ -49,7 +49,7 @@ public:
     void menuCloseCallback(cocos2d::Ref *pSender);
     void sliderEvent(Ref *pSender, Slider::EventType type);
     void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
-   
+
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 

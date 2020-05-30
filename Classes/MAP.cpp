@@ -43,6 +43,8 @@ MAP::MAP(int mapBasicX, int mapBasicY, Scene *PScene, int size_x, int size_y, in
 
 void MAP::update(float t) {
     change_grass_gap(scene->grassRate);
+    auto _map = (TMXTiledMap *)scene->getChildByName("bgmap");
+
     for (auto p = BarrenGroup.begin(); p != BarrenGroup.end(); ++p) {
         Barren *const bp = *p;
         if (bp->currentStatus == Land::HAS_GRASS) {
@@ -174,7 +176,7 @@ void MAP::update2(float t) {
         else
             ++it;
     }
-    log("Healthy wolves: %d", activeWolfN);
+    //log("Healthy wolves: %d", activeWolfN);
     const int newWolfN = _raise(activeWolfN, scene->wolfRate / 185.f);
     const int newSheepN = _raise(Wolf::getSheepSum(), scene->sheepRate / 385.f);
     for (int i = 0; i < newWolfN; i++) {

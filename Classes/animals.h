@@ -43,7 +43,14 @@ public:
     {
         return degree;
     }
-//protected:
+    bool isVisible() {
+        const float currentX = map->map->getPositionX();
+        const float currentY = map->map->getPositionY();
+        const float visibleWidth = Director::getInstance()->getVisibleSize().width;
+        const float visibleHeight = Director::getInstance()->getVisibleSize().height;
+        return Rect(0, 180, visibleWidth, visibleHeight - 180).containsPoint(Vec2(currentX + pos.x, currentY + pos.y));
+    }
+protected:
     Pos pos; //位置
     Pos des2; //当前动作目标
     int hp; //血条（距离死亡的时间等,待定义）
@@ -75,7 +82,7 @@ public:
     ~Wolf();
     bool Catch(); //获取食物成功与否
     bool Check(); //检查是否有追捕猎物及当前追捕的猎物是否仍在视野之内
-    Pos FindPrey(vector<Sheep *> li); //寻找猎物 当前使用stl，后续应采用列表或其他自己完成的数据结构
+    Pos FindPrey(vector<Sheep *> li); //寻找猎物
     Sheep *prey; //当前锁定的猎物
     void Move(Pos);//移动及显示
     void RandomMove(); //未发现猎物前随机移动

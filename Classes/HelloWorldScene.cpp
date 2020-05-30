@@ -42,8 +42,8 @@ void HelloWorld::updateSheep(const int n) {
 void HelloWorld::updateGrass(const int n) {
     grassNumLbl->setString(StringUtils::format("No. of Grass: %d", n));
 }
-static double mapBasicX = 0;
-static double mapBasicY = 180;
+static float mapBasicX = 0;
+static float mapBasicY = 180;
 
 // Print useful error message instead of segfaulting when files are not there.
 static void problemLoading(const char *filename) {
@@ -272,8 +272,6 @@ bool HelloWorld::init() {
         auto _panelbg = (Sprite *)this->getChildByName("panelbg");
         auto _textField1 = (TextField *)_panelbg->getChildByName("textField1");
         auto _textField2 = (TextField *)_panelbg->getChildByName("textField2");
-        //log("%s", _textField1->getString().c_str());
-        //log("%s", _textField2->getString().c_str());
         auto input_sheep = _textField1->getString();
         auto input_wolf = _textField2->getString();
         auto _labelAlert = (Label *)_panelbg->getChildByName("labelAlert");
@@ -281,8 +279,6 @@ bool HelloWorld::init() {
         try {
             nSheep = std::stoi(input_sheep);
             nWolf = std::stoi(input_wolf);
-            //log("%d", nSheep);
-            //log("%d", nWolf);
             if (nSheep <= 0 || nSheep > 100000 || nWolf <= 0 || nWolf > 100000)
                 throw std::out_of_range("");
         }
@@ -302,9 +298,9 @@ bool HelloWorld::init() {
 
         switch (type) {
             case ui::Widget::TouchEventType::ENDED:
-                if (_start_btn->isEnabled()) { //TODO: 未enabled时怎么重新开始地图
+                if (_start_btn->isEnabled()) {
                     _start_btn->setEnabled(false);
-                    
+
                     //加载地图
                     m = new MAP(mapBasicX, mapBasicY, this, 100, 100, nSheep, nWolf);
                     TMXTiledMap *map = m->map;
@@ -337,7 +333,7 @@ bool HelloWorld::init() {
                     smallMapRect->setName("smallMapRect");
                     smallMapBase->addChild(smallMapRect, 2);
 
-                    const auto _infoArea = (Sprite*)_panelbg->getChildByName("infoArea");
+                    const auto _infoArea = (Sprite *)_panelbg->getChildByName("infoArea");
                     _infoArea->setVisible(true);
                     started = true;
                 }
@@ -388,8 +384,6 @@ void HelloWorld::sliderEvent(Ref *pSender, Slider::EventType type) {
                     break;
             }
             _label->setString(StringUtils::format("%d%%", percent));
-
-            //log("%s --> %d %%", _sliderName.c_str(), percent);
         }
         break;
     }
@@ -404,17 +398,17 @@ void HelloWorld::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
     }
     auto _map = (TMXTiledMap *)getChildByName("bgmap");
 
-    double currentX = _map->getPosition().x;
-    double currentY = _map->getPosition().y;
+    float currentX = _map->getPositionX();
+    float currentY = _map->getPositionY();
 
-    double mapWidth = _map->getContentSize().width;
-    double mapHeight = _map->getContentSize().height;
+    const float mapWidth = _map->getContentSize().width;
+    const float mapHeight = _map->getContentSize().height;
 
-    double visibleWidth = Director::getInstance()->getVisibleSize().width;
-    double visibleHeight = Director::getInstance()->getVisibleSize().height;
+    const float visibleWidth = Director::getInstance()->getVisibleSize().width;
+    const float visibleHeight = Director::getInstance()->getVisibleSize().height;
 
-    double deltaX = _map->getTileSize().width * 5;
-    double deltaY = _map->getTileSize().height * 5;
+    const float deltaX = _map->getTileSize().width * 5;
+    const float deltaY = _map->getTileSize().height * 5;
 
 
     if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW || keyCode == EventKeyboard::KeyCode::KEY_W) {
@@ -459,9 +453,7 @@ void HelloWorld::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
     currentY = _map->getPosition().y;
     auto _smallMapBase = (Sprite *)getChildByName("smallMapBase");
     auto _smallMapRect = (Sprite *)_smallMapBase->getChildByName("smallMapRect");
-    double baseWidth = _smallMapBase->getContentSize().width;
-    double baseHeight = _smallMapBase->getContentSize().height;
+    const float baseWidth = _smallMapBase->getContentSize().width;
+    const float baseHeight = _smallMapBase->getContentSize().height;
     _smallMapRect->setPosition(Vec2(baseWidth * (mapBasicX - currentX) / mapWidth, baseHeight * (mapBasicY - currentY) / mapHeight));
-    //log("%f %f", _smallMapBase->getPosition().x, _smallMapBase->getPosition().y);
-    //log("%f %f", _smallMapRect->getPosition().x, _smallMapRect->getPosition().y);
 }
